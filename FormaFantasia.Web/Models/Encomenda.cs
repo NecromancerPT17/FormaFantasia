@@ -1,21 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+namespace FormaFantasia.Web.Models;
 
-namespace FormaFantasia.Web.Models
+public class Encomenda
 {
-    public class Encomenda
-    {
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
-        public DateTime DataEncomenda { get; set; } = DateTime.Now;
-
-        [Required]
-        [StringLength(100)]
-        public string NomeCliente { get; set; }
-
-        public string? Estado { get; set; } = "Pendente";
-
-        public ICollection<Produto>? Produtos { get; set; }
-    }
+    public int Id { get; set;}
+    public DateTime Data {get; set;}
+    public string Estado {get; set;}
+    public string UtilizadorId { get; set;}
+    public Utilizador Utilizador {get; set;}
 }

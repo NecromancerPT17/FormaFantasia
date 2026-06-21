@@ -1,16 +1,18 @@
-﻿using FormaFantasia.Web.Models;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameWorkCore;
+using Microsoft.EntityFrameWorkCore;
+using FormaFantasia.Web.Models;
 
-namespace FormaFantasia.Web.Data
+namespace FormaFantasia.Web.Data;
+
+public class ApplicationDbContext : IdentityDbContext<Utilizador>
 {
-    public class ApplicationDbContext : DbContext
+    public ApplicationDbContext(DbContextOPtions<ApplicationDbContext> options) : base(options)
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-        }
-
-        public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<Produto> Produtos { get; set; }
-        public DbSet<Encomenda> Encomendas { get; set; }
     }
+
+    public DbSet<Categoria> Categorias { get; set;}
+    public DbSet<Produto> Produtos { get; set;}
+    public DbSet<FotoProduto> FotosProduto { get; set;}
+    public DbSet<Encomenda> Encomendas { get; set;}
+    public DbSet<ItemEncomenda> ItensEncomenda { get; set;}
 }
