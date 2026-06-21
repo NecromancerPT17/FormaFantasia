@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Identity.EntityFrameWorkCore;
-using Microsoft.EntityFrameWorkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using FormaFantasia.Web.Models;
 
 namespace FormaFantasia.Web.Data;
 
 public class ApplicationDbContext : IdentityDbContext<Utilizador>
 {
-    public ApplicationDbContext(DbContextOPtions<ApplicationDbContext> options) : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
 
