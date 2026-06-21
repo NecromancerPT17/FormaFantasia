@@ -10,8 +10,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+
+var supportedCultures = new[] { "en-US" };
+var localizationOptions = new Microsoft.AspNetCore.Builder.RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+
 var app = builder.Build();
 
+app.UseRequestLocalization(localizationOptions);
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
