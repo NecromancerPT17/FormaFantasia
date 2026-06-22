@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FormaFantasia – Papel de Parede, Vinil e Tapeçarias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;
+  --navy-mid:#1a2e42;
+  --gold:#b8973a;
+  --gold-light:#d4af5a;
+  --gold-pale:#f5ead0;
+  --cream:#faf8f4;
+  --cream-dark:#f0ece2;
+  --text-primary:#1a1a1a;
+  --text-secondary:#5a5a5a;
+  --text-muted:#9a9a9a;
+  --green-cta:#2a7a4b;
+  --green-cta-hover:#235f3b;
+  --white:#ffffff;
+  --border:#e8e2d5;
+  --border-light:#f0ece2;
+  --shadow:0 2px 12px rgba(13,27,42,0.08);
+  --shadow-hover:0 6px 24px rgba(13,27,42,0.14);
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ── HEADER ── */
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.header-top{background:var(--navy);color:var(--white);font-size:12px;text-align:center;padding:7px 1rem;letter-spacing:.04em}
+.header-top a{color:var(--gold-light)}
+.header-main{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;gap:1rem}
+.logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.nav-primary{display:flex;gap:2rem;list-style:none}
+.nav-primary>li{position:relative}
+.nav-primary>li>a{font-size:14px;font-weight:500;color:var(--text-primary);letter-spacing:.03em;padding:.25rem 0;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:.25rem;white-space:nowrap}
+.nav-primary>li>a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-arrow{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;transition:transform .2s;flex-shrink:0}
+.nav-primary>li.dd-open>.nav-arrow{transform:rotate(180deg)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:0;background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(13,27,42,.13);min-width:220px;padding:.5rem 0;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .15s,visibility .15s;z-index:500}
+.nav-dropdown::before{content:'';position:absolute;top:-10px;left:0;right:0;height:10px}
+.nav-primary>li.dd-open>.nav-dropdown{visibility:visible;opacity:1;pointer-events:all}
+.nav-dropdown a{display:flex;align-items:center;justify-content:space-between;padding:.5rem 1rem;font-size:13px;font-weight:400;color:var(--text-primary);transition:all .2s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--gold)}
+.nav-dropdown-section{padding:.4rem 1rem .2rem;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-top:.25rem}
+.nav-dropdown hr{border:none;border-top:1px solid var(--border-light);margin:.3rem 0}
+.nav-dd-arrow{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;color:var(--text-muted)}
+.header-actions{display:flex;align-items:center;gap:.5rem}
+.search-wrapper{display:flex;align-items:center;background:var(--cream);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .2s}
+.search-wrapper:focus-within{border-color:var(--gold)}
+.search-wrapper input{border:none;background:none;padding:.4rem .75rem;font-size:14px;width:200px;outline:none;font-family:inherit;color:var(--text-primary)}
+.search-wrapper input::placeholder{color:var(--text-muted)}
+.search-wrapper button{padding:.4rem .6rem;color:var(--text-secondary);display:flex;align-items:center;transition:color .2s}
+.search-wrapper button:hover{color:var(--gold)}
+.icon-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;transition:background .2s;position:relative;color:var(--text-primary)}
+.icon-btn:hover{background:var(--cream-dark);color:var(--gold)}
+.icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+.badge{position:absolute;top:2px;right:2px;background:var(--gold);color:var(--white);font-size:10px;font-weight:600;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1}
+
+/* ── CART DRAWER ── */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;top:0;right:0;width:380px;max-width:100%;height:100%;background:var(--white);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.12)}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
+.cart-header h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
+.cart-close{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all .2s}
+.cart-close:hover{background:var(--cream);color:var(--text-primary)}
+.cart-close svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.cart-body{flex:1;overflow-y:auto;padding:1rem 1.5rem}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--text-muted)}
+.cart-empty svg{width:48px;height:48px;stroke:currentColor;fill:none;stroke-width:1.2;margin:0 auto 1rem}
+.cart-empty p{font-size:15px}
+.cart-item{display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border-light)}
+.cart-item-img{width:64px;height:64px;object-fit:cover;border-radius:6px;background:var(--cream-dark);flex-shrink:0}
+.cart-item-img-placeholder{width:64px;height:64px;border-radius:6px;background:var(--cream-dark);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:10px;text-align:center}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:13px;font-weight:500;line-height:1.4;margin-bottom:4px;color:var(--text-primary)}
+.cart-item-ref{font-size:11px;color:var(--text-muted);margin-bottom:8px}
+.cart-item-controls{display:flex;align-items:center;justify-content:space-between}
+.qty-control{display:flex;align-items:center;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.qty-control button{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-secondary);transition:all .2s;background:none;border:none}
+.qty-control button:hover{background:var(--cream);color:var(--text-primary)}
+.qty-control span{font-size:13px;font-weight:500;padding:0 8px;min-width:28px;text-align:center}
+.cart-item-price{font-size:14px;font-weight:600;color:var(--navy)}
+.cart-item-remove{background:none;border:none;color:var(--text-muted);font-size:11px;cursor:pointer;margin-left:.5rem;transition:color .2s;padding:2px 4px}
+.cart-item-remove:hover{color:#c0392b}
+.cart-footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:1rem}
+.cart-total-label{font-size:14px;color:var(--text-secondary)}
+.cart-total-value{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)}
+.cart-total-note{font-size:11px;color:var(--text-muted);margin-top:2px}
+.btn-checkout{display:block;width:100%;padding:.85rem;background:var(--green-cta);color:var(--white);font-size:15px;font-weight:600;text-align:center;border-radius:8px;letter-spacing:.02em;transition:background .2s;margin-bottom:.5rem}
+.btn-checkout:hover{background:var(--green-cta-hover)}
+.btn-continue{display:block;width:100%;padding:.7rem;background:none;color:var(--text-secondary);font-size:13px;text-align:center;border-radius:8px;border:1px solid var(--border);transition:all .2s}
+.btn-continue:hover{border-color:var(--navy);color:var(--navy)}
+
+/* ── WISHLIST DROPDOWN ── */
+.wishlist-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:320px;background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-hover);z-index:300;display:none;padding:1rem}
+.wishlist-dropdown.open{display:block}
+.wishlist-dropdown h3{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:.75rem;color:var(--navy)}
+.wishlist-item{display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid var(--border-light);font-size:13px}
+.wishlist-item:last-child{border-bottom:none}
+.wishlist-item-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.wishlist-empty-note{font-size:13px;color:var(--text-muted);text-align:center;padding:.5rem 0}
+
+/* ── HERO BANNER ── */
+.hero{background:var(--navy);color:var(--white);overflow:hidden;position:relative}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;min-height:480px}
+.hero-content{padding:4rem 3rem 4rem 4rem;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+.hero-eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1rem;font-weight:500}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:600;line-height:1.08;margin-bottom:1.25rem;color:var(--white)}
+.hero-title em{color:var(--gold-light);font-style:normal}
+.hero-subtitle{font-size:15px;color:rgba(255,255,255,.7);line-height:1.7;max-width:380px;margin-bottom:2rem}
+.hero-ctas{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn-primary{padding:.8rem 1.75rem;background:var(--gold);color:var(--navy);font-size:14px;font-weight:600;border-radius:6px;letter-spacing:.03em;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-secondary{padding:.8rem 1.75rem;background:transparent;color:var(--white);font-size:14px;font-weight:500;border-radius:6px;letter-spacing:.03em;border:1px solid rgba(255,255,255,.35);transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-secondary:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.6)}
+.hero-visual{position:relative;overflow:hidden;background:var(--navy-mid)}
+.hero-visual-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:100%;gap:2px}
+.hero-swatch{background:var(--navy-mid);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-swatch-label{position:absolute;bottom:.5rem;left:.5rem;background:rgba(0,0,0,.6);color:var(--white);font-size:10px;padding:2px 6px;border-radius:3px;letter-spacing:.05em}
+.hero-pattern{width:100%;height:100%;object-fit:cover;opacity:.8}
+.pattern-greek{background:repeating-linear-gradient(45deg,#1a2e42 0,#1a2e42 4px,#0d1b2a 4px,#0d1b2a 20px),repeating-linear-gradient(-45deg,#b8973a33 0,#b8973a33 2px,transparent 2px,transparent 20px)}
+.pattern-waves{background:repeating-radial-gradient(circle at 50% 50%,#1e3350 0,#1e3350 8px,#0d1b2a 8px,#0d1b2a 16px)}
+.pattern-damask{background:repeating-linear-gradient(0deg,#16263a 0,#16263a 2px,#0d1b2a 2px,#0d1b2a 24px),repeating-linear-gradient(90deg,#b8973a22 0,#b8973a22 2px,transparent 2px,transparent 24px)}
+.pattern-geometric{background:repeating-conic-gradient(#162540 0deg 25%,#0d1b2a 25deg 50%,#162540 50deg 75%,#0d1b2a 75deg 100%) 0 0/32px 32px}
+
+/* ── TRUST BAR ── */
+.trust-bar{background:var(--white);border-bottom:1px solid var(--border)}
+.trust-bar-inner{display:grid;grid-template-columns:repeat(3,1fr);max-width:1200px;margin:0 auto}
+.trust-item{display:flex;align-items:center;gap:.875rem;padding:1.25rem 2rem;border-right:1px solid var(--border)}
+.trust-item:last-child{border-right:none}
+.trust-icon{width:40px;height:40px;border-radius:10px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.trust-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.8}
+.trust-text-label{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px}
+.trust-text-sub{font-size:12px;color:var(--text-secondary)}
+
+/* ── SECTION COMMONS ── */
+.section{padding:3.5rem 2rem}
+.section-header{text-align:center;margin-bottom:2.5rem}
+.section-eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:.5rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--navy);line-height:1.2}
+.section-subtitle{font-size:15px;color:var(--text-secondary);max-width:520px;margin:0.6rem auto 0}
+.container{max-width:1200px;margin:0 auto}
+
+/* ── HIGHLIGHTS STRIP ── */
+.highlights-strip{background:var(--cream-dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.highlights-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:1200px;margin:0 auto}
+.highlight-card{padding:2.5rem 2rem;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .2s}
+.highlight-card:last-child{border-right:none}
+.highlight-card:hover{background:var(--cream)}
+.highlight-badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;margin-bottom:.75rem}
+.badge-new{background:var(--navy);color:var(--white)}
+.badge-promo{background:var(--gold);color:var(--navy)}
+.badge-dest{background:var(--green-cta);color:var(--white)}
+.highlight-card h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:.5rem;line-height:1.3}
+.highlight-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem}
+.highlight-price{font-size:18px;font-weight:600;color:var(--gold);margin-bottom:1rem}
+.highlight-price span{font-size:12px;color:var(--text-muted);font-weight:400;text-decoration:line-through;margin-left:.25rem}
+.highlight-link{font-size:13px;font-weight:500;color:var(--navy);display:inline-flex;align-items:center;gap:.3rem;border-bottom:1px solid var(--navy);transition:all .2s}
+.highlight-link:hover{color:var(--gold);border-color:var(--gold)}
+.highlight-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s}
+.highlight-link:hover svg{transform:translateX(3px)}
+.highlight-visual{width:100%;height:120px;border-radius:8px;margin-bottom:1.25rem;overflow:hidden}
+.hv-greek{background:repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 6px,#1a2e42 6px,#1a2e42 28px),repeating-linear-gradient(-45deg,#b8973a44 0,#b8973a44 3px,transparent 3px,transparent 28px)}
+.hv-floral{background:radial-gradient(ellipse at 30% 60%,#b8973a22 0%,transparent 50%),radial-gradient(ellipse at 70% 30%,#b8973a33 0%,transparent 40%),linear-gradient(135deg,#f0ece2,#e8e2d5)}
+.hv-marble{background:linear-gradient(115deg,#f5f0e8 0%,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df 100%)}
+
+/* ── PRODUCT GRID ── */
+.products-section{background:var(--white)}
+.products-filter{display:flex;gap:.5rem;justify-content:center;margin-bottom:2.5rem;flex-wrap:wrap}
+.filter-btn{padding:.45rem 1rem;border-radius:20px;border:1px solid var(--border);font-size:13px;font-weight:500;color:var(--text-secondary);transition:all .2s;background:var(--white)}
+.filter-btn:hover,.filter-btn.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
+.product-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .25s;position:relative}
+.product-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px)}
+.product-card-img{width:100%;height:200px;overflow:hidden;background:var(--cream-dark);position:relative}
+.product-card-img-el{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.product-card:hover .product-card-img-el{transform:scale(1.04)}
+.product-card-pattern{width:100%;height:100%}
+.product-wish{position:absolute;top:.625rem;right:.625rem;width:32px;height:32px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2}
+.product-wish:hover{background:var(--white);transform:scale(1.1)}
+.product-wish svg{width:16px;height:16px;stroke:#c0392b;fill:none;stroke-width:2;transition:fill .2s}
+.product-wish.liked svg{fill:#c0392b}
+.product-tag{position:absolute;top:.625rem;left:.625rem;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:3px;z-index:2}
+.tag-new{background:var(--navy);color:var(--white)}
+.tag-promo{background:#c0392b;color:var(--white)}
+.product-card-body{padding:1rem}
+.product-card-category{font-size:11px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.25rem}
+.product-card-name{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:.5rem;line-height:1.4}
+.product-card-ref{font-size:11px;color:var(--text-muted);margin-bottom:.75rem}
+.product-card-footer{display:flex;align-items:center;justify-content:space-between}
+.product-card-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
+.product-card-price small{font-family:'Inter',sans-serif;font-size:11px;color:var(--text-muted);font-weight:400}
+.btn-add-cart{padding:.45rem .875rem;background:var(--green-cta);color:var(--white);font-size:12px;font-weight:600;border-radius:6px;letter-spacing:.03em;transition:background .2s;display:flex;align-items:center;gap:.3rem;border:none}
+.btn-add-cart:hover{background:var(--green-cta-hover)}
+.btn-add-cart svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ── PERSONALIZAÇÃO BANNERS ── */
+.personalization-section{background:var(--cream-dark)}
+.pers-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.pers-card{border-radius:14px;overflow:hidden;position:relative;min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
+.pers-card-bg{position:absolute;inset:0;z-index:0}
+.pers-card-bg-papel{background:linear-gradient(160deg,#0d1b2a 0%,#1a2e42 40%,#243d56 100%)}
+.pers-card-bg-tapete{background:linear-gradient(160deg,#2a1f0d 0%,#3d2e10 40%,#4a3a18 100%)}
+.pers-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.1) 60%);z-index:1}
+.pers-card-pattern{position:absolute;inset:0;z-index:0;opacity:.25}
+.pc-pattern-greek{background:repeating-linear-gradient(45deg,#b8973a 0,#b8973a 2px,transparent 2px,transparent 18px),repeating-linear-gradient(-45deg,#b8973a 0,#b8973a 2px,transparent 2px,transparent 18px)}
+.pc-pattern-tapete{background:repeating-radial-gradient(circle at 50% 50%,#d4af5a 0,#d4af5a 2px,transparent 2px,transparent 18px)}
+.pers-card-content{position:relative;z-index:2;padding:2rem;color:var(--white)}
+.pers-card-eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.5rem;font-weight:500}
+.pers-card-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.2;margin-bottom:.75rem}
+.pers-card-desc{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1.25rem;max-width:320px}
+.pers-cta{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;background:var(--gold);color:var(--navy);font-size:13px;font-weight:600;border-radius:6px;letter-spacing:.02em;transition:all .2s}
+.pers-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+.pers-cta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* ── VALORES / FUNDAMENTOS ── */
+.values-section{background:var(--navy)}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.value-item{padding:3rem 2.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
+.value-item:last-child{border-right:none}
+.value-icon{width:56px;height:56px;border-radius:12px;background:rgba(184,151,58,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;border:1px solid rgba(184,151,58,.3)}
+.value-icon svg{width:26px;height:26px;stroke:var(--gold-light);fill:none;stroke-width:1.6}
+.value-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--white);margin-bottom:.625rem}
+.value-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;max-width:240px;margin:0 auto}
+
+/* ── SEARCH RESULTS TOAST ── */
+.search-toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);width:min(560px,90vw);background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-hover);z-index:150;display:none;padding:1rem}
+.search-toast.open{display:block;transform:translateX(-50%) translateY(0)}
+.search-toast-title{font-size:12px;color:var(--text-muted);letter-spacing:.05em;margin-bottom:.625rem}
+.search-result-item{display:flex;align-items:center;gap:.75rem;padding:.5rem;border-radius:8px;cursor:pointer;transition:background .2s}
+.search-result-item:hover{background:var(--cream)}
+.search-result-swatch{width:36px;height:36px;border-radius:6px;flex-shrink:0}
+.search-result-name{font-size:13px;font-weight:500;color:var(--text-primary)}
+.search-result-price{font-size:13px;color:var(--gold);font-weight:600;margin-left:auto}
+
+/* ── PROMO BANNER ── */
+.promo-banner{background:linear-gradient(90deg,var(--navy) 0%,#1e3a5f 100%);color:var(--white);text-align:center;padding:3.5rem 2rem;position:relative;overflow:hidden}
+.promo-banner::before{content:'';position:absolute;top:-50%;left:-20%;width:140%;height:200%;background:repeating-linear-gradient(45deg,rgba(184,151,58,.04) 0,rgba(184,151,58,.04) 1px,transparent 1px,transparent 40px);pointer-events:none}
+.promo-banner h2{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;margin-bottom:.5rem;color:var(--white)}
+.promo-banner h2 em{color:var(--gold-light);font-style:normal}
+.promo-banner>div>p{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:1.75rem}
+.newsletter-form{display:flex;align-items:center;justify-content:center;gap:.5rem;max-width:440px;margin:0 auto 1rem}
+.newsletter-form input{flex:1;padding:.75rem 1rem;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);border-radius:7px;font-size:14px;color:var(--white);outline:none;font-family:'Inter',sans-serif;transition:border-color .2s}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.5)}
+.newsletter-form input:focus{border-color:var(--gold-light);background:rgba(255,255,255,.15)}
+.newsletter-form button{padding:.75rem 1.5rem;background:var(--gold);color:var(--navy);font-size:14px;font-weight:600;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;white-space:nowrap;font-family:'Inter',sans-serif;transition:background .2s;flex-shrink:0}
+.newsletter-form button:hover{background:var(--gold-light)}
+.newsletter-note{font-size:12px;color:rgba(255,255,255,.4);margin-top:.5rem}
+
+/* ── FOOTER ── */
+footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
+.footer-main{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:3rem 2rem 2rem}
+.footer-col-title{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1rem}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:.5rem}
+.footer-col a{color:rgba(255,255,255,.65);transition:color .2s;font-size:13px}
+.footer-col a:hover{color:var(--gold-light)}
+.footer-contact p{color:rgba(255,255,255,.65);line-height:1.7;font-size:13px}
+.footer-contact a{color:var(--gold-light)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:1.5rem 2rem;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-bottom-left{font-size:12px;color:rgba(255,255,255,.45)}
+.payment-icons{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.payment-icon{background:rgba(255,255,255,.15);border-radius:5px;padding:4px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8);letter-spacing:.04em}
+.secure-badges{display:flex;gap:.5rem;align-items:center}
+.secure-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.6)}
+.footer-credits{border-top:1px solid rgba(255,255,255,.07);text-align:center;padding:.75rem 2rem;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.02em}
+
+/* ── NOTIFICATION TOAST ── */
+.notif-toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:var(--white);padding:.75rem 1.25rem;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-hover);z-index:400;transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:.5rem;max-width:300px}
+.notif-toast.show{transform:translateY(0);opacity:1}
+.notif-toast svg{width:16px;height:16px;stroke:var(--gold-light);fill:none;stroke-width:2;flex-shrink:0}
+
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .hero-content{padding:2.5rem 1.5rem}
+  .hero-title{font-size:36px}
+  .header-main{padding:.75rem 1rem}
+  nav ul{display:none}
+  .trust-bar-inner,.highlights-inner,.products-grid,.values-grid,.pers-grid,.footer-main{grid-template-columns:1fr}
+  .trust-item,.highlight-card,.value-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.08)}
+  .cart-drawer{width:100%}
+  .search-wrapper input{width:140px}
+}
+</style>
+</head>
+<body>
+
+<div class="sr-only"><h2>FormaFantasia – Loja de Papel de Parede, Vinil e Tapeçarias</h2></div>
+
+<div class="notif-toast" id="notifToast">
+  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+  <span id="notifMsg">Adicionado ao carrinho</span>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Carrinho de compras">
+  <div class="cart-header">
+    <h2>Carrinho</h2>
+    <button class="cart-close" onclick="toggleCart()" aria-label="Fechar carrinho">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total-row">
+      <div>
+        <div class="cart-total-label">Total</div>
+        <div class="cart-total-note">IVA incluído</div>
+      </div>
+      <div class="cart-total-value" id="cartTotal">0,00 €</div>
+    </div>
+    <a href="/checkout" class="btn-checkout">Finalizar Encomenda</a>
+    <button class="btn-continue" onclick="toggleCart()">Continuar a Comprar</button>
+  </div>
+</aside>
+
+<header>
+  <div class="header-top">
+    Envios internacionais disponíveis &mdash; <a href="/envios">Saiba mais</a> &nbsp;|&nbsp; Encomenda online 24/7 &nbsp;|&nbsp; Multibanco e PayPal aceites
+  </div>
+  <div class="header-main">
+    <a href="index.html" class="logo">Forma<span>Fantasia</span></a>
+    <nav aria-label="Navegação principal">
+      <ul class="nav-primary">
+        <li>
+          <a href="/papel">Papel
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Papel de Parede</div>
+            <a href="/papel/infantil">Infantil <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <a href="/papel/decoracao">Decoração <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <hr>
+            <div class="nav-dropdown-section">Destaques</div>
+            <a href="/papel/versace">Versace 4</a>
+            <a href="/papel/liberty">Liberty London</a>
+            <a href="/papel/botanica">Coleção Botânica</a>
+          </div>
+        </li>
+        <li>
+          <a href="/vinil">Vinil
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Vinil Decorativo</div>
+            <a href="/vinil/liso">Liso e Texturado</a>
+            <a href="/vinil/efeitos">Efeitos Especiais</a>
+            <a href="/vinil/impressao">Impressão Digital</a>
+            <hr>
+            <div class="nav-dropdown-section">Aplicações</div>
+            <a href="/aplicar/vinil">Como Aplicar Vinil</a>
+          </div>
+        </li>
+        <li>
+          <a href="/tapecarias">Tapeçarias
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Tapeçarias</div>
+            <a href="/tapecarias/classicas">Clássicas</a>
+            <a href="/tapecarias/modernas">Modernas</a>
+            <a href="/tapecarias/medida">À Medida</a>
+            <hr>
+            <div class="nav-dropdown-section">Tecidos</div>
+            <a href="/tecidos">Ver Tecidos</a>
+          </div>
+        </li>
+        <li>
+          <a href="/outros">Outros
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Categorias</div>
+            <a href="/paineis-decorativos">Painéis Decorativos <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <a href="/impressao-digital">Impressão Digital</a>
+            <a href="/calhas">Calhas</a>
+            <a href="/stock-off">Stock Off</a>
+            <a href="/varoes">Varões</a>
+            <a href="/tecidos">Tecidos</a>
+            <a href="/colas">Colas</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="search-wrapper">
+        <input type="search" placeholder="Buscar..." id="searchInput" autocomplete="off">
+        <button aria-label="Pesquisar" onclick="doSearch()">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <div style="position:relative">
+        <button class="icon-btn" id="wishBtn" onclick="toggleWishlist()" aria-label="Lista de desejos" title="Lista de desejos">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="badge" id="wishBadge" style="display:none">0</span>
+        </button>
+        <div class="wishlist-dropdown" id="wishlistDropdown">
+          <h3>Lista de Desejos</h3>
+          <div id="wishlistItems"><p class="wishlist-empty-note">Ainda não adicionou artigos à lista de desejos.</p></div>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="toggleCart()" aria-label="Carrinho de compras" title="Carrinho">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="badge" id="cartBadge" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="search-toast" id="searchToast">
+  <div class="search-toast-title">RESULTADOS DA PESQUISA</div>
+  <div id="searchResults"></div>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Coleção 2025</p>
+      <h1 class="hero-title">Transforma<br>as tuas <em>paredes</em><br>em arte</h1>
+      <p class="hero-subtitle">Papel de parede de luxo, vinil decorativo e tapeçarias exclusivas para cada ambiente. Mais de 2000 referências disponíveis.</p>
+      <div class="hero-ctas">
+        <a href="/produtos" class="btn-primary">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Ver Catálogo
+        </a>
+        <a href="/ambientes" class="btn-secondary">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Simulador de Ambiente
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-visual-grid">
+        <div class="hero-swatch pattern-greek"></div>
+        <div class="hero-swatch pattern-waves"></div>
+        <div class="hero-swatch pattern-damask"></div>
+        <div class="hero-swatch pattern-geometric"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      </div>
+      <div>
+        <div class="trust-text-label">Envios Internacionais</div>
+        <div class="trust-text-sub">Entregamos em toda a Europa</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      </div>
+      <div>
+        <div class="trust-text-label">Encomenda Online</div>
+        <div class="trust-text-sub">Disponível 24h por dia, 7 dias</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      </div>
+      <div>
+        <div class="trust-text-label">Multibanco &amp; PayPal</div>
+        <div class="trust-text-sub">Pagamento seguro e verificado</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="highlights-strip">
+  <div class="highlights-inner">
+    <article class="highlight-card">
+      <div class="highlight-visual hv-greek"></div>
+      <span class="highlight-badge badge-new">Novidade</span>
+      <h3>Versace 4 Clássico Grego</h3>
+      <p>Padrão navy &amp; dourado com motivos helénicos. Tecido não-tecido TNT de fácil aplicação.</p>
+      <div class="highlight-price">136,00 €</div>
+      <a href="/produto/37048-4" class="highlight-link">
+        Ver produto
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </article>
+    <article class="highlight-card">
+      <div class="highlight-visual hv-marble"></div>
+      <span class="highlight-badge badge-promo">Promoção</span>
+      <h3>Efeito Mármore Branco</h3>
+      <p>Coleção premium de vinil com efeito mármore. Resistente à humidade, ideal para casas de banho.</p>
+      <div class="highlight-price">89,00 € <span>118,00 €</span></div>
+      <a href="/vinil/marmore" class="highlight-link">
+        Ver produto
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </article>
+    <article class="highlight-card">
+      <div class="highlight-visual hv-floral"></div>
+      <span class="highlight-badge badge-dest">Destaque</span>
+      <h3>Coleção Botânica</h3>
+      <p>Padrões florais contemporâneos para ambientes modernos. Disponível em 6 colorações.</p>
+      <div class="highlight-price">112,00 €</div>
+      <a href="/papel/botanica" class="highlight-link">
+        Ver produto
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </article>
+  </div>
+</section>
+
+<section class="section products-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">Catálogo</p>
+      <h2 class="section-title">Produtos em Destaque</h2>
+      <p class="section-subtitle">Uma seleção dos nossos melhores artigos, com envio em 14 dias úteis.</p>
+    </div>
+    <div class="products-filter" role="group" aria-label="Filtrar produtos">
+      <button class="filter-btn active" onclick="filterProducts('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="filterProducts('papel',this)">Papel de Parede</button>
+      <button class="filter-btn" onclick="filterProducts('vinil',this)">Vinil</button>
+      <button class="filter-btn" onclick="filterProducts('tapecaria',this)">Tapeçarias</button>
+      <button class="filter-btn" onclick="filterProducts('paineis',this)">Painéis Decorativos</button>
+      <button class="filter-btn" onclick="filterProducts('impressao',this)">Impressão Digital</button>
+      <button class="filter-btn" onclick="filterProducts('calhas',this)">Calhas</button>
+      <button class="filter-btn" onclick="filterProducts('stockoff',this)">Stock Off</button>
+      <button class="filter-btn" onclick="filterProducts('varoes',this)">Varões</button>
+      <button class="filter-btn" onclick="filterProducts('tecidos',this)">Tecidos</button>
+      <button class="filter-btn" onclick="filterProducts('colas',this)">Colas</button>
+      <button class="filter-btn" onclick="filterProducts('acessorios',this)">Acessórios</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
+
+<section class="section personalization-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">Personalização</p>
+      <h2 class="section-title">Cria o teu espaço único</h2>
+      <p class="section-subtitle">Ferramentas de personalização para o teu papel de parede e tapete.</p>
+    </div>
+    <div class="pers-grid">
+      <a href="/personalizar/papel" class="pers-card">
+        <div class="pers-card-bg pers-card-bg-papel"></div>
+        <div class="pers-card-pattern pc-pattern-greek"></div>
+        <div class="pers-card-overlay"></div>
+        <div class="pers-card-content">
+          <p class="pers-card-eyebrow">Ferramenta exclusiva</p>
+          <h3 class="pers-card-title">Personaliza o teu Papel de Parede</h3>
+          <p class="pers-card-desc">Escolhe padrão, cor e dimensões. Visualiza em tempo real antes de encomendar.</p>
+          <span class="pers-cta">
+            Começar a personalizar
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+      <a href="/personalizar/tapete" class="pers-card">
+        <div class="pers-card-bg pers-card-bg-tapete"></div>
+        <div class="pers-card-pattern pc-pattern-tapete"></div>
+        <div class="pers-card-overlay"></div>
+        <div class="pers-card-content">
+          <p class="pers-card-eyebrow">Configurador 3D</p>
+          <h3 class="pers-card-title">Design de Tapetes à Medida</h3>
+          <p class="pers-card-desc">Configura tamanho, textura e padrão. Tapetes únicos para cada divisão.</p>
+          <span class="pers-cta">
+            Configurar tapete
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="values-section">
+  <div class="container">
+    <div class="values-grid">
+      <div class="value-item">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="value-title">Envios Internacionais</h3>
+        <p class="value-desc">Entregamos em toda a Europa com transportadora certificada. Embalagem reforçada para máxima proteção.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="value-title">Encomendas Online</h3>
+        <p class="value-desc">Catálogo completo disponível 24 horas, 7 dias por semana. Rastreio em tempo real da tua encomenda.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <h3 class="value-title">Multibanco Disponível</h3>
+        <p class="value-desc">Aceita Multibanco, MB Way, transferência bancária e PayPal. Pagamento 100% seguro e encriptado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="promo-banner">
+  <div class="container">
+    <h2>Subscreve a nossa <em>newsletter</em></h2>
+    <p>Recebe novidades, coleções exclusivas e ofertas especiais diretamente no teu email.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="O teu endereço de email" aria-label="Email para newsletter">
+      <button type="button" onclick="subscribeNewsletter(this)">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Subscrever
+      </button>
+    </div>
+    <p class="newsletter-note">Sem spam. Podes cancelar a qualquer momento.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-col">
+      <div class="footer-col-title">Aplicações</div>
+      <ul>
+        <li><a href="/aplicar/papel">Aplicar Papel De Parede</a></li>
+        <li><a href="/aplicar/paineis">Aplicar Painéis Decorativos</a></li>
+        <li><a href="/aplicar/vinil">Aplicar Vinil Decorativo</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Informação</div>
+      <ul>
+        <li><a href="/condicoes">Condições</a></li>
+        <li><a href="/condicoes-uso">Condições De Uso</a></li>
+        <li><a href="/sobre">Sobre Nós</a></li>
+        <li><a href="/pagamento">Pagamento Seguro</a></li>
+        <li><a href="/contactos">Contactos</a></li>
+        <li><a href="/devolucoes">Devoluções</a></li>
+        <li><a href="/reclamacoes">Livro De Reclamações</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Área De Cliente</div>
+      <ul>
+        <li><a href="/conta">Informação Pessoal</a></li>
+        <li><a href="/encomendas">Encomendas</a></li>
+        <li><a href="/creditos">Notas De Crédito</a></li>
+        <li><a href="/enderecos">Endereços</a></li>
+        <li><a href="/vales">Vales De Desconto</a></li>
+        <li><a href="/alertas">Meus Alertas</a></li>
+        <li><a href="/cookies">Política De Cookies</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-contact">
+      <div class="footer-col-title">Contacte-Nos</div>
+      <p>FormaFantasia<br>
+      Rua Calouste Gulbenkian, Loja 28 Rch/Dirt<br>
+      3080-084 Figueira Da Foz<br>
+      Portugal — Coimbra</p>
+      <p style="margin-top:.75rem">
+        <a href="tel:233429608">233 429 608</a> (Rede Fixa)<br>
+        <a href="tel:966092180">966 092 180</a> (Rede Móvel)<br>
+        <a href="mailto:Geral@Formafantasia.Pt">Geral@Formafantasia.Pt</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-bottom-left">&copy; 2025 FormaFantasia. Todos os direitos reservados.</span>
+    <div class="payment-icons">
+      <span class="payment-icon">MB WAY</span>
+      <span class="payment-icon">Multibanco</span>
+      <span class="payment-icon">Transf. Bancária</span>
+      <span class="payment-icon">PayPal</span>
+    </div>
+    <div class="secure-badges">
+      <span class="secure-badge">Loja Protegida SSL</span>
+      <span class="secure-badge">Comodo Secure</span>
+    </div>
+  </div>
+  <div class="footer-credits">
+    Website criado por Diogo Martins e Rafael Vieira
+  </div>
+</footer>
+
+<script>
+const products = [
+  {id:1,name:'Versace 4 | Clássico Grego | Navy & Dourado',ref:'37048-4',category:'papel',price:136,tag:'new',pattern:'greek'},
+  {id:2,name:'Liberty London | Flores Silvestres | Sage',ref:'LB-2241',category:'papel',price:118,tag:'',pattern:'floral'},
+  {id:3,name:'Efeito Mármore Premium | Branco Carrara',ref:'VM-8810',category:'vinil',price:89,tag:'promo',pattern:'marble'},
+  {id:4,name:'Tapete Berber | Geométrico | Ocre & Creme',ref:'TB-3301',category:'tapecaria',price:245,tag:'',pattern:'berber'},
+  {id:5,name:'Padrão Tropical | Folhagem Monstera',ref:'PT-6621',category:'papel',price:99,tag:'new',pattern:'tropical'},
+  {id:6,name:'Vinil Cimento Queimado | Cinza Industrial',ref:'VC-5503',category:'vinil',price:76,tag:'',pattern:'cement'},
+  {id:7,name:'Tapete Kilim | Tradicional Marroquino',ref:'TK-9920',category:'tapecaria',price:320,tag:'',pattern:'kilim'},
+  {id:8,name:'Régua Nível de Bolha | Profissional',ref:'ACC-001',category:'acessorios',price:14.90,tag:'',pattern:'tool'},
+];
+
+const patternStyles = {
+  greek:'repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 5px,#1a2e42 5px,#1a2e42 24px),repeating-linear-gradient(-45deg,#b8973a33 0,#b8973a33 2px,transparent 2px,transparent 24px)',
+  floral:'radial-gradient(ellipse at 30% 50%,#b8973a22,transparent 50%),radial-gradient(ellipse at 70% 30%,#b8973a33,transparent 40%),linear-gradient(135deg,#f0ece2,#e8e2d5)',
+  marble:'linear-gradient(115deg,#f5f0e8,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df)',
+  berber:'repeating-linear-gradient(0deg,#c9a84c22 0,#c9a84c22 2px,transparent 2px,transparent 16px),repeating-linear-gradient(90deg,#c9a84c22 0,#c9a84c22 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f5e8c8,#e8d5a0)',
+  tropical:'radial-gradient(circle at 20% 80%,#2d5a27 0%,transparent 40%),radial-gradient(circle at 80% 20%,#3a7a32 0%,transparent 40%),linear-gradient(135deg,#1a3d16,#2d5a27)',
+  cement:'repeating-linear-gradient(0deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),repeating-linear-gradient(90deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),linear-gradient(135deg,#d0cdc8,#b8b5b0)',
+  kilim:'repeating-linear-gradient(45deg,#8b1a1a 0,#8b1a1a 4px,#d4a017 4px,#d4a017 8px,#8b1a1a 8px,#8b1a1a 12px,#1a3d8b 12px,#1a3d8b 16px)',
+  tool:'linear-gradient(135deg,#e8e2d5,#d0cbc0)',
+};
+
+let cart = {};
+let wishlist = [];
+let currentFilter = 'todos';
+
+function renderProducts(filter){
+  const grid = document.getElementById('productsGrid');
+  const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
+  grid.innerHTML = filtered.map(p => `
+    <article class="product-card" data-id="${p.id}" data-category="${p.category}">
+      <div class="product-card-img">
+        <div class="product-card-pattern" style="background:${patternStyles[p.pattern]};width:100%;height:100%"></div>
+        ${p.tag ? `<span class="product-tag ${p.tag === 'new' ? 'tag-new' : 'tag-promo'}">${p.tag === 'new' ? 'Novo' : 'Promo'}</span>` : ''}
+        <button class="product-wish ${wishlist.includes(p.id) ? 'liked' : ''}" onclick="toggleWishItem(${p.id},event)" aria-label="Adicionar à lista de desejos">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-card-body">
+        <div class="product-card-category">${categoryLabel(p.category)}</div>
+        <div class="product-card-name">${p.name}</div>
+        <div class="product-card-ref">Ref. ${p.ref}</div>
+        <div class="product-card-footer">
+          <div>
+            <div class="product-card-price">${formatPrice(p.price)} <small>(IVA inc.)</small></div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(${p.id})">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            Adicionar
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function categoryLabel(cat){
+  const map = {papel:'Papel de Parede',vinil:'Vinil Decorativo',tapecaria:'Tapeçaria',acessorios:'Acessório'};
+  return map[cat] || cat;
+}
+
+function formatPrice(p){
+  return p.toFixed(2).replace('.',',') + ' €';
+}
+
+function filterProducts(cat, btn){
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+function addToCart(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  if(cart[id]){
+    cart[id].qty++;
+  } else {
+    cart[id] = {product:p, qty:1};
+  }
+  updateCartUI();
+  showNotif('Adicionado: ' + p.name.substring(0,35) + (p.name.length > 35 ? '…' : ''));
+}
+
+function removeFromCart(id){
+  delete cart[id];
+  updateCartUI();
+}
+
+function changeQty(id, delta){
+  if(!cart[id]) return;
+  cart[id].qty += delta;
+  if(cart[id].qty <= 0) delete cart[id];
+  updateCartUI();
+}
+
+function updateCartUI(){
+  const items = Object.values(cart);
+  const totalQty = items.reduce((s,i) => s + i.qty, 0);
+  const totalPrice = items.reduce((s,i) => s + i.product.price * i.qty, 0);
+  const badge = document.getElementById('cartBadge');
+  if(totalQty > 0){
+    badge.style.display = 'flex';
+    badge.textContent = totalQty;
+  } else {
+    badge.style.display = 'none';
+  }
+  const body = document.getElementById('cartBody');
+  const footer = document.getElementById('cartFooter');
+  if(items.length === 0){
+    body.innerHTML = `<div class="cart-empty"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg><p>O teu carrinho está vazio.</p></div>`;
+    footer.style.display = 'none';
+  } else {
+    body.innerHTML = items.map(i => `
+      <div class="cart-item">
+        <div class="cart-item-img-placeholder" style="background:${patternStyles[i.product.pattern]};background-size:cover"></div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${i.product.name}</div>
+          <div class="cart-item-ref">Ref. ${i.product.ref}</div>
+          <div class="cart-item-controls">
+            <div class="qty-control">
+              <button onclick="changeQty(${i.product.id},-1)" aria-label="Diminuir">−</button>
+              <span>${i.qty}</span>
+              <button onclick="changeQty(${i.product.id},1)" aria-label="Aumentar">+</button>
+            </div>
+            <div style="display:flex;align-items:center">
+              <span class="cart-item-price">${formatPrice(i.product.price * i.qty)}</span>
+              <button class="cart-item-remove" onclick="removeFromCart(${i.product.id})">remover</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    footer.style.display = 'block';
+    document.getElementById('cartTotal').textContent = formatPrice(totalPrice);
+  }
+}
+
+function toggleCart(){
+  const drawer = document.getElementById('cartDrawer');
+  const overlay = document.getElementById('cartOverlay');
+  const isOpen = drawer.classList.contains('open');
+  drawer.classList.toggle('open', !isOpen);
+  overlay.classList.toggle('open', !isOpen);
+  if(!isOpen) updateCartUI();
+}
+
+function toggleWishItem(id, e){
+  e.preventDefault();
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  const idx = wishlist.indexOf(id);
+  if(idx > -1){
+    wishlist.splice(idx,1);
+    showNotif('Removido da lista de desejos');
+  } else {
+    wishlist.push(id);
+    showNotif('Adicionado à lista de desejos ♥');
+  }
+  updateWishlistUI();
+  renderProducts(currentFilter);
+}
+
+function updateWishlistUI(){
+  const badge = document.getElementById('wishBadge');
+  badge.textContent = wishlist.length;
+  badge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+  const container = document.getElementById('wishlistItems');
+  if(wishlist.length === 0){
+    container.innerHTML = '<p class="wishlist-empty-note">Ainda não adicionou artigos à lista de desejos.</p>';
+  } else {
+    container.innerHTML = wishlist.map(id => {
+      const p = products.find(x => x.id === id);
+      return p ? `<div class="wishlist-item"><div class="wishlist-item-dot"></div><span style="flex:1">${p.name.substring(0,30)}${p.name.length>30?'…':''}</span><span style="color:var(--gold);font-size:12px;font-weight:600">${formatPrice(p.price)}</span></div>` : '';
+    }).join('');
+  }
+}
+
+function toggleWishlist(){
+  const dd = document.getElementById('wishlistDropdown');
+  dd.classList.toggle('open');
+}
+
+document.addEventListener('click', function(e){
+  const dd = document.getElementById('wishlistDropdown');
+  const btn = document.getElementById('wishBtn');
+  if(dd.classList.contains('open') && !dd.contains(e.target) && !btn.contains(e.target)){
+    dd.classList.remove('open');
+  }
+  const st = document.getElementById('searchToast');
+  const si = document.getElementById('searchInput');
+  if(st.classList.contains('open') && !st.contains(e.target) && !si.contains(e.target)){
+    st.classList.remove('open');
+  }
+});
+
+function doSearch(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const toast = document.getElementById('searchToast');
+  const results = document.getElementById('searchResults');
+  if(!q){ toast.classList.remove('open'); return; }
+  const found = products.filter(p => p.name.toLowerCase().includes(q) || p.ref.toLowerCase().includes(q) || categoryLabel(p.category).toLowerCase().includes(q));
+  if(found.length === 0){
+    results.innerHTML = '<p style="font-size:13px;color:var(--text-muted);padding:.25rem 0">Nenhum resultado encontrado para "' + q + '".</p>';
+  } else {
+    results.innerHTML = found.slice(0,5).map(p => `
+      <div class="search-result-item" onclick="addToCart(${p.id})">
+        <div class="search-result-swatch" style="background:${patternStyles[p.pattern]};background-size:cover"></div>
+        <div>
+          <div class="search-result-name">${p.name}</div>
+          <div style="font-size:11px;color:var(--text-muted)">Ref. ${p.ref}</div>
+        </div>
+        <span class="search-result-price">${formatPrice(p.price)}</span>
+      </div>
+    `).join('');
+  }
+  toast.classList.add('open');
+}
+
+document.getElementById('searchInput').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') doSearch();
+  if(e.key === 'Escape') document.getElementById('searchToast').classList.remove('open');
+});
+
+document.getElementById('searchInput').addEventListener('input', function(){
+  if(this.value.length > 1) doSearch();
+  else document.getElementById('searchToast').classList.remove('open');
+});
+
+let notifTimer;
+function showNotif(msg){
+  clearTimeout(notifTimer);
+  const toast = document.getElementById('notifToast');
+  document.getElementById('notifMsg').textContent = msg;
+  toast.classList.add('show');
+  notifTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+function subscribeNewsletter(btn){
+  const input = btn.parentElement.querySelector('input');
+  const val = input.value.trim();
+  if(!val || !val.includes('@')){
+    showNotif('Por favor introduz um email válido.');
+    return;
+  }
+  input.value = '';
+  showNotif('Subscrito com sucesso! Obrigado.');
+}
+
+renderProducts('todos');
+updateCartUI();
+
+(function(){
+  const ddTimers = new WeakMap();
+  document.querySelectorAll('.nav-primary > li').forEach(li => {
+    if(!li.querySelector('.nav-dropdown')) return;
+    function open(){
+      clearTimeout(ddTimers.get(li));
+      li.classList.add('dd-open');
+    }
+    function scheduleClose(){
+      ddTimers.set(li, setTimeout(() => li.classList.remove('dd-open'), 180));
+    }
+    li.addEventListener('mouseenter', open);
+    li.addEventListener('mouseleave', scheduleClose);
+  });
+})();
+</script>
+</body>
+</html>

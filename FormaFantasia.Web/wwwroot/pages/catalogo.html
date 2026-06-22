@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  TEMPLATE: PÁGINA DE CATÁLOGO / SUBCATEGORIA                ║
+  ║  Como usar:                                                  ║
+  ║  1. Duplica este ficheiro para a pasta da subcategoria       ║
+  ║     Ex: pages/papel/infantil.html                           ║
+  ║  2. Atualiza PAGE_CONFIG abaixo com os dados da página       ║
+  ║  3. Substitui o array PAGE_PRODUCTS pelos produtos reais     ║
+  ║  4. Ajusta os hrefs do breadcrumb e da navegação activa      ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<title>Infantil – Papel de Parede | FormaFantasia</title>
+<!-- INSTRUÇÃO: Altera o <title> para refletir a subcategoria -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy-mid:#1a2e42;--gold:#b8973a;--gold-light:#d4af5a;--gold-pale:#f5ead0;
+  --cream:#faf8f4;--cream-dark:#f0ece2;--text-primary:#1a1a1a;--text-secondary:#5a5a5a;
+  --text-muted:#9a9a9a;--green-cta:#2a7a4b;--green-cta-hover:#235f3b;--white:#ffffff;
+  --border:#e8e2d5;--border-light:#f0ece2;--shadow:0 2px 12px rgba(13,27,42,0.08);
+  --shadow-hover:0 6px 24px rgba(13,27,42,0.14);
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.header-top{background:var(--navy);color:var(--white);font-size:12px;text-align:center;padding:7px 1rem;letter-spacing:.04em}
+.header-top a{color:var(--gold-light)}
+.header-main{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;gap:1rem}
+.logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.nav-primary{display:flex;gap:2rem;list-style:none}
+.nav-primary>li{position:relative}
+.nav-primary>li>a{font-size:14px;font-weight:500;color:var(--text-primary);letter-spacing:.03em;padding:.25rem 0;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:.25rem;white-space:nowrap}
+.nav-primary>li>a:hover,.nav-primary>li>a.active{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-arrow{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;transition:transform .2s;flex-shrink:0}
+.nav-primary>li.dd-open>.nav-arrow{transform:rotate(180deg)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:0;background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(13,27,42,.13);min-width:220px;padding:.5rem 0;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .15s,visibility .15s;z-index:500}
+.nav-dropdown::before{content:'';position:absolute;top:-10px;left:0;right:0;height:10px}
+.nav-primary>li.dd-open>.nav-dropdown{visibility:visible;opacity:1;pointer-events:all}
+.nav-dropdown a{display:flex;align-items:center;justify-content:space-between;padding:.5rem 1rem;font-size:13px;color:var(--text-primary);transition:all .2s;white-space:nowrap}
+.nav-dropdown a:hover,.nav-dropdown a.active{background:var(--cream);color:var(--gold)}
+.nav-dropdown-section{padding:.4rem 1rem .2rem;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-top:.25rem}
+.nav-dropdown hr{border:none;border-top:1px solid var(--border-light);margin:.3rem 0}
+.nav-dd-arrow{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;color:var(--text-muted)}
+.header-actions{display:flex;align-items:center;gap:.5rem}
+.search-wrapper{display:flex;align-items:center;background:var(--cream);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .2s}
+.search-wrapper:focus-within{border-color:var(--gold)}
+.search-wrapper input{border:none;background:none;padding:.4rem .75rem;font-size:14px;width:200px;outline:none;font-family:inherit;color:var(--text-primary)}
+.search-wrapper input::placeholder{color:var(--text-muted)}
+.search-wrapper button{padding:.4rem .6rem;color:var(--text-secondary);display:flex;align-items:center}
+.search-wrapper button:hover{color:var(--gold)}
+.icon-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;transition:background .2s;position:relative;color:var(--text-primary)}
+.icon-btn:hover{background:var(--cream-dark);color:var(--gold)}
+.icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+.badge{position:absolute;top:2px;right:2px;background:var(--gold);color:var(--white);font-size:10px;font-weight:600;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1}
+
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;top:0;right:0;width:380px;max-width:100%;height:100%;background:var(--white);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.12)}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
+.cart-header h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
+.cart-close{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all .2s}
+.cart-close:hover{background:var(--cream);color:var(--text-primary)}
+.cart-close svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.cart-body{flex:1;overflow-y:auto;padding:1rem 1.5rem}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--text-muted)}
+.cart-empty svg{width:48px;height:48px;stroke:currentColor;fill:none;stroke-width:1.2;margin:0 auto 1rem}
+.cart-empty p{font-size:15px}
+.cart-item{display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border-light)}
+.cart-item-img-placeholder{width:64px;height:64px;border-radius:6px;background:var(--cream-dark);flex-shrink:0}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:13px;font-weight:500;line-height:1.4;margin-bottom:4px}
+.cart-item-ref{font-size:11px;color:var(--text-muted);margin-bottom:8px}
+.cart-item-controls{display:flex;align-items:center;justify-content:space-between}
+.qty-control{display:flex;align-items:center;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.qty-control button{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-secondary)}
+.qty-control button:hover{background:var(--cream)}
+.qty-control span{font-size:13px;font-weight:500;padding:0 8px;min-width:28px;text-align:center}
+.cart-item-price{font-size:14px;font-weight:600;color:var(--navy)}
+.cart-item-remove{color:var(--text-muted);font-size:11px;cursor:pointer;margin-left:.5rem;transition:color .2s;padding:2px 4px}
+.cart-item-remove:hover{color:#c0392b}
+.cart-footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:1rem}
+.cart-total-label{font-size:14px;color:var(--text-secondary)}
+.cart-total-note{font-size:11px;color:var(--text-muted);margin-top:2px}
+.cart-total-value{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)}
+.btn-checkout{display:block;width:100%;padding:.85rem;background:var(--green-cta);color:var(--white);font-size:15px;font-weight:600;text-align:center;border-radius:8px;margin-bottom:.5rem;transition:background .2s}
+.btn-checkout:hover{background:var(--green-cta-hover)}
+.btn-continue{display:block;width:100%;padding:.7rem;color:var(--text-secondary);font-size:13px;text-align:center;border-radius:8px;border:1px solid var(--border);transition:all .2s}
+.btn-continue:hover{border-color:var(--navy);color:var(--navy)}
+
+.wishlist-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:320px;background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-hover);z-index:300;display:none;padding:1rem}
+.wishlist-dropdown.open{display:block}
+.wishlist-dropdown h3{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:.75rem;color:var(--navy)}
+.wishlist-item{display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid var(--border-light);font-size:13px}
+.wishlist-item:last-child{border-bottom:none}
+.wishlist-item-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.wishlist-empty-note{font-size:13px;color:var(--text-muted);text-align:center;padding:.5rem 0}
+
+.search-toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);width:min(560px,90vw);background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-hover);z-index:150;display:none;padding:1rem}
+.search-toast.open{display:block;transform:translateX(-50%) translateY(0)}
+.search-toast-title{font-size:12px;color:var(--text-muted);letter-spacing:.05em;margin-bottom:.625rem}
+.search-result-item{display:flex;align-items:center;gap:.75rem;padding:.5rem;border-radius:8px;cursor:pointer;transition:background .2s}
+.search-result-item:hover{background:var(--cream)}
+.search-result-swatch{width:36px;height:36px;border-radius:6px;flex-shrink:0}
+.search-result-name{font-size:13px;font-weight:500}
+.search-result-price{font-size:13px;color:var(--gold);font-weight:600;margin-left:auto}
+
+.notif-toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:var(--white);padding:.75rem 1.25rem;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-hover);z-index:400;transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:.5rem;max-width:300px}
+.notif-toast.show{transform:translateY(0);opacity:1}
+.notif-toast svg{width:16px;height:16px;stroke:var(--gold-light);fill:none;stroke-width:2;flex-shrink:0}
+
+/* ── CATALOGUE PAGE LAYOUT ── */
+.cat-hero{background:var(--navy);padding:2.5rem 2rem 2rem;color:var(--white)}
+.cat-hero-inner{max-width:1200px;margin:0 auto}
+.breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:1rem;flex-wrap:wrap}
+.breadcrumb a{color:rgba(255,255,255,.5);transition:color .2s}
+.breadcrumb a:hover{color:var(--gold-light)}
+.breadcrumb-sep{color:rgba(255,255,255,.25)}
+.breadcrumb-current{color:var(--white)}
+.cat-hero h1{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;line-height:1.15;margin-bottom:.5rem}
+.cat-hero p{font-size:14px;color:rgba(255,255,255,.65);max-width:560px;line-height:1.7}
+.cat-hero-meta{display:flex;align-items:center;gap:1.5rem;margin-top:1.25rem;flex-wrap:wrap}
+.cat-hero-stat{font-size:13px;color:rgba(255,255,255,.5)}
+.cat-hero-stat strong{color:var(--gold-light);font-weight:600}
+
+.cat-body{max-width:1200px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start}
+
+/* Sidebar filters */
+.cat-sidebar{}
+.cat-sidebar-block{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem}
+.cat-sidebar-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.75rem}
+.sidebar-filter-list{list-style:none;display:flex;flex-direction:column;gap:.25rem}
+.sidebar-filter-list li a{display:flex;align-items:center;justify-content:space-between;padding:.4rem .5rem;border-radius:6px;font-size:13px;color:var(--text-secondary);transition:all .2s}
+.sidebar-filter-list li a:hover,.sidebar-filter-list li a.active{background:var(--gold-pale);color:var(--navy);font-weight:500}
+.sidebar-filter-count{font-size:11px;color:var(--text-muted);background:var(--cream-dark);padding:1px 6px;border-radius:10px}
+.sidebar-filter-list li a.active .sidebar-filter-count{background:var(--gold);color:var(--navy)}
+.price-range{display:flex;flex-direction:column;gap:.5rem}
+.price-range input[type=range]{width:100%;accent-color:var(--gold)}
+.price-range-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted)}
+.price-range-labels span{color:var(--navy);font-weight:500}
+
+/* Main grid area */
+.cat-main{}
+.cat-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap}
+.cat-count{font-size:13px;color:var(--text-secondary)}
+.cat-count strong{color:var(--text-primary)}
+.cat-sort{display:flex;align-items:center;gap:.5rem;font-size:13px;color:var(--text-secondary)}
+.cat-sort select{border:1px solid var(--border);border-radius:6px;padding:.35rem .75rem;font-size:13px;font-family:'Inter',sans-serif;background:var(--white);color:var(--text-primary);outline:none;cursor:pointer}
+.cat-sort select:focus{border-color:var(--gold)}
+.cat-view-toggle{display:flex;gap:.25rem}
+.view-btn{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .2s;background:var(--white)}
+.view-btn:hover,.view-btn.active{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.view-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem}
+.products-grid.list-view{grid-template-columns:1fr}
+.products-grid.list-view .product-card{display:grid;grid-template-columns:140px 1fr}
+.products-grid.list-view .product-card-img{height:140px}
+
+.product-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .25s;position:relative}
+.product-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px)}
+.product-card-img{width:100%;height:190px;overflow:hidden;background:var(--cream-dark);position:relative}
+.product-card-pattern{width:100%;height:100%}
+.product-wish{position:absolute;top:.625rem;right:.625rem;width:32px;height:32px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2}
+.product-wish:hover{background:var(--white);transform:scale(1.1)}
+.product-wish svg{width:16px;height:16px;stroke:#c0392b;fill:none;stroke-width:2;transition:fill .2s}
+.product-wish.liked svg{fill:#c0392b}
+.product-tag{position:absolute;top:.625rem;left:.625rem;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:3px;z-index:2}
+.tag-new{background:var(--navy);color:var(--white)}
+.tag-promo{background:#c0392b;color:var(--white)}
+.product-card-body{padding:1rem}
+.product-card-category{font-size:11px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.25rem}
+.product-card-name{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:.5rem;line-height:1.4}
+.product-card-ref{font-size:11px;color:var(--text-muted);margin-bottom:.75rem}
+.product-card-footer{display:flex;align-items:center;justify-content:space-between}
+.product-card-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
+.product-card-price small{font-family:'Inter',sans-serif;font-size:11px;color:var(--text-muted);font-weight:400}
+.btn-add-cart{padding:.45rem .875rem;background:var(--green-cta);color:var(--white);font-size:12px;font-weight:600;border-radius:6px;display:flex;align-items:center;gap:.3rem;border:none;transition:background .2s}
+.btn-add-cart:hover{background:var(--green-cta-hover)}
+.btn-add-cart svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--text-muted)}
+.empty-state svg{width:56px;height:56px;stroke:currentColor;fill:none;stroke-width:1.2;margin:0 auto 1rem;opacity:.4}
+.empty-state h3{font-size:18px;font-weight:500;color:var(--text-secondary);margin-bottom:.5rem}
+.empty-state p{font-size:14px}
+
+.pagination{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:2.5rem;flex-wrap:wrap}
+.page-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--text-secondary);transition:all .2s;background:var(--white)}
+.page-btn:hover{border-color:var(--navy);color:var(--navy)}
+.page-btn.active{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.page-btn.disabled{opacity:.35;pointer-events:none}
+.page-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
+.footer-main{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:3rem 2rem 2rem}
+.footer-col-title{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1rem}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:.5rem}
+.footer-col a{color:rgba(255,255,255,.65);transition:color .2s;font-size:13px}
+.footer-col a:hover{color:var(--gold-light)}
+.footer-contact p{color:rgba(255,255,255,.65);line-height:1.7;font-size:13px}
+.footer-contact a{color:var(--gold-light)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:1.5rem 2rem;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-bottom-left{font-size:12px;color:rgba(255,255,255,.45)}
+.payment-icons{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.payment-icon{background:rgba(255,255,255,.15);border-radius:5px;padding:4px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8);letter-spacing:.04em}
+.secure-badges{display:flex;gap:.5rem;align-items:center}
+.secure-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.6)}
+.footer-credits{border-top:1px solid rgba(255,255,255,.07);text-align:center;padding:.75rem 2rem;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.02em}
+
+@media(max-width:900px){
+  .cat-body{grid-template-columns:1fr}
+  .cat-sidebar{display:none}
+  .footer-main{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .header-main{padding:.75rem 1rem}
+  nav ul{display:none}
+  .footer-main{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sr-only"><h2>Catálogo de produtos – FormaFantasia</h2></div>
+
+<div class="notif-toast" id="notifToast">
+  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+  <span id="notifMsg">Adicionado ao carrinho</span>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Carrinho de compras">
+  <div class="cart-header">
+    <h2>Carrinho</h2>
+    <button class="cart-close" onclick="toggleCart()" aria-label="Fechar carrinho">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total-row">
+      <div><div class="cart-total-label">Total</div><div class="cart-total-note">IVA incluído</div></div>
+      <div class="cart-total-value" id="cartTotal">0,00 €</div>
+    </div>
+    <a href="/checkout" class="btn-checkout">Finalizar Encomenda</a>
+    <button class="btn-continue" onclick="toggleCart()">Continuar a Comprar</button>
+  </div>
+</aside>
+
+<header>
+  <div class="header-top">
+    Envios internacionais disponíveis &mdash; <a href="/envios">Saiba mais</a> &nbsp;|&nbsp; Encomenda online 24/7 &nbsp;|&nbsp; Multibanco e PayPal aceites
+  </div>
+  <div class="header-main">
+    <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
+    <!-- INSTRUÇÃO: Ajusta os hrefs e a classe .active conforme a secção desta página -->
+    <nav aria-label="Navegação principal">
+      <ul class="nav-primary">
+        <li>
+          <a href="/papel" class="active">Papel
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Papel de Parede</div>
+            <a href="/papel/infantil" class="active">Infantil <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <a href="/papel/decoracao">Decoração <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <hr>
+            <div class="nav-dropdown-section">Destaques</div>
+            <a href="/papel/versace">Versace 4</a>
+            <a href="/papel/liberty">Liberty London</a>
+            <a href="/papel/botanica">Coleção Botânica</a>
+          </div>
+        </li>
+        <li>
+          <a href="/vinil">Vinil
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Vinil Decorativo</div>
+            <a href="/vinil/liso">Liso e Texturado</a>
+            <a href="/vinil/efeitos">Efeitos Especiais</a>
+            <a href="/vinil/impressao">Impressão Digital</a>
+            <hr>
+            <div class="nav-dropdown-section">Aplicações</div>
+            <a href="/aplicar/vinil">Como Aplicar Vinil</a>
+          </div>
+        </li>
+        <li>
+          <a href="/tapecarias">Tapeçarias
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Tapeçarias</div>
+            <a href="/tapecarias/classicas">Clássicas</a>
+            <a href="/tapecarias/modernas">Modernas</a>
+            <a href="/tapecarias/medida">À Medida</a>
+            <hr>
+            <div class="nav-dropdown-section">Tecidos</div>
+            <a href="/tecidos">Ver Tecidos</a>
+          </div>
+        </li>
+        <li>
+          <a href="/outros">Outros
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Categorias</div>
+            <a href="/paineis-decorativos">Painéis Decorativos <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <a href="/impressao-digital">Impressão Digital</a>
+            <a href="/calhas">Calhas</a>
+            <a href="/stock-off">Stock Off</a>
+            <a href="/varoes">Varões</a>
+            <a href="/tecidos">Tecidos</a>
+            <a href="/colas">Colas</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="search-wrapper">
+        <input type="search" placeholder="Buscar..." id="searchInput" autocomplete="off">
+        <button aria-label="Pesquisar">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <div style="position:relative">
+        <button class="icon-btn" id="wishBtn" onclick="toggleWishlist()" aria-label="Lista de desejos">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="badge" id="wishBadge" style="display:none">0</span>
+        </button>
+        <div class="wishlist-dropdown" id="wishlistDropdown">
+          <h3>Lista de Desejos</h3>
+          <div id="wishlistItems"><p class="wishlist-empty-note">Ainda não adicionou artigos à lista de desejos.</p></div>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="toggleCart()" aria-label="Carrinho">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="badge" id="cartBadge" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="search-toast" id="searchToast">
+  <div class="search-toast-title">RESULTADOS DA PESQUISA</div>
+  <div id="searchResults"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HERO DA CATEGORIA
+     INSTRUÇÃO: Edita título, descrição e o breadcrumb abaixo
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="cat-hero">
+  <div class="cat-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Início</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/papel">Papel de Parede</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Infantil</span>
+      <!-- INSTRUÇÃO: Adiciona ou remove níveis conforme a profundidade da subcategoria -->
+    </nav>
+    <h1>Papel de Parede Infantil</h1>
+    <p>Padrões alegres e temáticos para quartos de criança. Materiais seguros, laváveis e de fácil aplicação.</p>
+    <div class="cat-hero-meta">
+      <span class="cat-hero-stat"><strong id="productCount">0</strong> produtos</span>
+      <span class="cat-hero-stat">Envio em <strong>14 dias</strong></span>
+      <span class="cat-hero-stat">IVA <strong>incluído</strong></span>
+    </div>
+  </div>
+</div>
+
+<div class="cat-body">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SIDEBAR DE FILTROS
+       INSTRUÇÃO: Adiciona/remove filtros conforme a categoria.
+       Os hrefs dos filtros devem apontar para variantes desta
+       mesma página com query string, ex: ?subcategoria=abracazoo
+       ═══════════════════════════════════════════════════════════ -->
+  <aside class="cat-sidebar" aria-label="Filtros">
+    <div class="cat-sidebar-block">
+      <div class="cat-sidebar-title">Subcoleções</div>
+      <ul class="sidebar-filter-list">
+        <li><a href="?sub=todos" class="active">Todas <span class="sidebar-filter-count">0</span></a></li>
+        <!-- INSTRUÇÃO: Adiciona aqui uma <li> por cada subcoleção real -->
+        <!-- Exemplo:
+        <li><a href="?sub=abracazoo">Abracazoo <span class="sidebar-filter-count">12</span></a></li>
+        <li><a href="?sub=guess-who">Guess Who? <span class="sidebar-filter-count">8</span></a></li>
+        -->
+      </ul>
+    </div>
+
+    <div class="cat-sidebar-block">
+      <div class="cat-sidebar-title">Preço</div>
+      <div class="price-range">
+        <input type="range" min="0" max="500" value="500" id="priceRange" oninput="updatePriceLabel(this.value)">
+        <div class="price-range-labels">
+          <span>0 €</span>
+          <span>até <span id="priceLabel">500</span> €</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-sidebar-block">
+      <div class="cat-sidebar-title">Características</div>
+      <ul class="sidebar-filter-list">
+        <li><a href="?feat=lavavel">Lavável</a></li>
+        <li><a href="?feat=removivel">Fácil Remoção</a></li>
+        <li><a href="?feat=tnt">Tecido TNT</a></li>
+        <li><a href="?feat=vinil">Vinil</a></li>
+        <!-- INSTRUÇÃO: Adapta as características conforme a categoria -->
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       ÁREA PRINCIPAL DE PRODUTOS
+       ═══════════════════════════════════════════════════════════ -->
+  <main class="cat-main">
+    <div class="cat-toolbar">
+      <span class="cat-count"><strong id="visibleCount">0</strong> produtos encontrados</span>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div class="cat-sort">
+          <label for="sortSelect">Ordenar:</label>
+          <select id="sortSelect" onchange="sortProducts(this.value)">
+            <option value="default">Em destaque</option>
+            <option value="price-asc">Preço: mais baixo</option>
+            <option value="price-desc">Preço: mais alto</option>
+            <option value="name-asc">Nome: A–Z</option>
+            <option value="name-desc">Nome: Z–A</option>
+          </select>
+        </div>
+        <div class="cat-view-toggle">
+          <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Vista em grelha" aria-label="Vista em grelha">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </button>
+          <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="Vista em lista" aria-label="Vista em lista">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="products-grid" id="productsGrid"></div>
+
+    <!-- ── PAGINATION ── -->
+    <!-- INSTRUÇÃO: Substitui por paginação real gerada pelo servidor quando integrares -->
+    <div class="pagination" id="pagination"></div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FOOTER (idêntico ao index.html — não editar aqui, sincronizar)
+     ═══════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-col">
+      <div class="footer-col-title">Aplicações</div>
+      <ul>
+        <li><a href="/aplicar/papel">Aplicar Papel De Parede</a></li>
+        <li><a href="/aplicar/paineis">Aplicar Painéis Decorativos</a></li>
+        <li><a href="/aplicar/vinil">Aplicar Vinil Decorativo</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Informação</div>
+      <ul>
+        <li><a href="/condicoes">Condições</a></li>
+        <li><a href="/condicoes-uso">Condições De Uso</a></li>
+        <li><a href="/sobre">Sobre Nós</a></li>
+        <li><a href="/pagamento">Pagamento Seguro</a></li>
+        <li><a href="/contactos">Contactos</a></li>
+        <li><a href="/devolucoes">Devoluções</a></li>
+        <li><a href="/reclamacoes">Livro De Reclamações</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Área De Cliente</div>
+      <ul>
+        <li><a href="/conta">Informação Pessoal</a></li>
+        <li><a href="/encomendas">Encomendas</a></li>
+        <li><a href="/creditos">Notas De Crédito</a></li>
+        <li><a href="/enderecos">Endereços</a></li>
+        <li><a href="/vales">Vales De Desconto</a></li>
+        <li><a href="/alertas">Meus Alertas</a></li>
+        <li><a href="/cookies">Política De Cookies</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-contact">
+      <div class="footer-col-title">Contacte-Nos</div>
+      <p>FormaFantasia<br>Rua Calouste Gulbenkian, Loja 28 Rch/Dirt<br>3080-084 Figueira Da Foz<br>Portugal — Coimbra</p>
+      <p style="margin-top:.75rem">
+        <a href="tel:233429608">233 429 608</a> (Rede Fixa)<br>
+        <a href="tel:966092180">966 092 180</a> (Rede Móvel)<br>
+        <a href="mailto:Geral@Formafantasia.Pt">Geral@Formafantasia.Pt</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-bottom-left">&copy; 2025 FormaFantasia. Todos os direitos reservados.</span>
+    <div class="payment-icons">
+      <span class="payment-icon">MB WAY</span>
+      <span class="payment-icon">Multibanco</span>
+      <span class="payment-icon">Transf. Bancária</span>
+      <span class="payment-icon">PayPal</span>
+    </div>
+    <div class="secure-badges">
+      <span class="secure-badge">Loja Protegida SSL</span>
+      <span class="secure-badge">Comodo Secure</span>
+    </div>
+  </div>
+  <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
+</footer>
+
+<script src="../js/shared.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   DADOS DA PÁGINA
+   INSTRUÇÃO: Substitui este array pelos produtos reais desta
+   subcategoria. Cada produto deve seguir esta estrutura.
+
+   Quando integrares com o backend ASP.NET, este bloco será
+   gerado via Razor: var products = @Json.Serialize(Model.Products);
+   ═══════════════════════════════════════════════════════════════ */
+const products = [
+  /*
+  {
+    id: 101,
+    name: 'Nome do Produto',
+    ref: 'REF-001',
+    category: 'papel',
+    subcategory: 'infantil',
+    price: 99.00,
+    tag: 'new',        // 'new' | 'promo' | ''
+    pattern: 'floral', // chave em patternStyles (shared.js) ou '' para placeholder
+    href: 'produto.html?id=101',
+  },
+  */
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   LÓGICA DA PÁGINA — não é necessário editar abaixo desta linha
+   ═══════════════════════════════════════════════════════════════ */
+let displayProducts = [...products];
+let currentView = 'grid';
+
+function renderGrid(){
+  const grid = document.getElementById('productsGrid');
+  const count = document.getElementById('visibleCount');
+  const pCount = document.getElementById('productCount');
+  if(pCount) pCount.textContent = products.length;
+  if(count) count.textContent = displayProducts.length;
+
+  if(displayProducts.length === 0){
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <h3>Nenhum produto encontrado</h3>
+        <p>Tenta ajustar os filtros ou <a href="/catalogo" style="color:var(--gold)">ver todo o catálogo</a>.</p>
+      </div>`;
+    return;
+  }
+  grid.innerHTML = displayProducts.map(p => renderProductCard(p)).join('');
+  renderPagination();
+}
+
+function renderPagination(){
+  /* INSTRUÇÃO: Substitui por paginação real quando tiveres mais produtos.
+     Por agora mostra apenas botões de exemplo. */
+  const pag = document.getElementById('pagination');
+  if(!pag || displayProducts.length <= 12) return;
+  pag.innerHTML = `
+    <button class="page-btn disabled"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="page-btn active">1</button>
+    <button class="page-btn">2</button>
+    <button class="page-btn">3</button>
+    <button class="page-btn"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></button>
+  `;
+}
+
+function sortProducts(val){
+  const sorted = [...products];
+  if(val === 'price-asc') sorted.sort((a,b) => a.price - b.price);
+  else if(val === 'price-desc') sorted.sort((a,b) => b.price - a.price);
+  else if(val === 'name-asc') sorted.sort((a,b) => a.name.localeCompare(b.name,'pt'));
+  else if(val === 'name-desc') sorted.sort((a,b) => b.name.localeCompare(a.name,'pt'));
+  displayProducts = sorted;
+  renderGrid();
+}
+
+function setView(v){
+  currentView = v;
+  const grid = document.getElementById('productsGrid');
+  grid.classList.toggle('list-view', v === 'list');
+  document.getElementById('gridViewBtn').classList.toggle('active', v === 'grid');
+  document.getElementById('listViewBtn').classList.toggle('active', v === 'list');
+}
+
+function updatePriceLabel(val){
+  document.getElementById('priceLabel').textContent = val;
+  displayProducts = products.filter(p => p.price <= Number(val));
+  renderGrid();
+}
+
+initSearch(products);
+initNavDropdowns();
+updateCartUI();
+renderGrid();
+</script>
+</body>
+</html>
