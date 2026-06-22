@@ -34,13 +34,6 @@ namespace FormaFantasia.Web.Pages.Produtos
         {
             if (!ModelState.IsValid)
             {
-                foreach (var error in ModelState)
-                {
-                    foreach (var err in error.Value.Errors)
-                    {
-                        Console.WriteLine($"ERRO no campo {error.Key}: {err.ErrorMessage}");
-                    }
-                }
                 ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nome");
                 return Page();
             }
