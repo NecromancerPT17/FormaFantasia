@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FormaFantasia.Web.Data;
@@ -11,6 +12,7 @@ using FormaFantasia.Web.Models;
 
 namespace FormaFantasia.Web.Pages.Encomendas
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly FormaFantasia.Web.Data.ApplicationDbContext _context;

@@ -38,10 +38,11 @@
                 <input asp-for="Produto.Stock" class="form-control" />
                 <span asp-validation-for="Produto.Stock" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                
-                <label asp-for="Produto.CategoriaId" class="control-label"></label>
-                <select asp-for="Produto.CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
+            <div class="mb-3">
+                <label asp-for="Produto.CategoriaId" class="form-label">Categoria</label>
+                <select asp-for="Produto.CategoriaId" asp-items="Model.Categorias" class="form-control">
+                    <option value="">-- Seleciona uma categoria --</option>
+                </select>
                 <span asp-validation-for="Produto.CategoriaId" class="text-danger"></span>
             </div>
             <div class="form-group">

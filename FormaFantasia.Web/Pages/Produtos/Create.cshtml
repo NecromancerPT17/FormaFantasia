@@ -11,7 +11,7 @@
     <hr />
     <div class="row">
     <div class="col-md-4">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Produto.Nome" class="control-label"></label>
@@ -33,9 +33,17 @@
                 <input asp-for="Produto.Stock" class="form-control" />
                 <span asp-validation-for="Produto.Stock" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Produto.CategoriaId" class="control-label"></label>
-                <select asp-for="Produto.CategoriaId" class ="form-control" asp-items="ViewBag.CategoriaId"></select>
+            <div class="mb-3">
+                <label asp-for="Produto.CategoriaId" class="form-label">Categoria</label>
+                <select asp-for="Produto.CategoriaId" asp-items="Model.Categorias" class="form-control">
+                    <option value="">-- Seleciona uma categoria --</option>
+                </select>
+                <span asp-validation-for="Produto.CategoriaId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fotos do Produto</label>
+                <input type="file" name="Fotos" multiple accept="image/*" class="form-control" />
+                <small class="text-muted">Podes selecionar várias fotos. A primeira será a principal.</small>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

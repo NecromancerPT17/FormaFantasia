@@ -45,4 +45,10 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
+// Seed da base de dados
+using (var scope = app.Services.CreateScope())
+{
+    await SeedData.InicializarAsync(scope.ServiceProvider);
+}
+
 app.Run();

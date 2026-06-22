@@ -1,0 +1,40 @@
+@page
+@model FormaFantasia.Web.Pages.Admin.UtilizadoresModel
+@{
+    ViewData["Title"] = "Gestão de Utilizadores";
+}
+
+<h1>Gestão de Utilizadores</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Morada</th>
+            <th>NIF</th>
+            <th>Role Atual</th>
+            <th>Alterar Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model.Utilizadores)
+        {
+            <tr>
+                <td>@u.Email</td>
+                <td>@u.Morada</td>
+                <td>@u.NIF</td>
+                <td>@u.Role</td>
+                <td>
+                    <form method="post" asp-page-handler="AlterarRole">
+                        <input type="hidden" name="userId" value="@u.Id" />
+                        <select name="novoRole" class="form-select form-select-sm d-inline w-auto">
+                            <option value="Admin" selected="@(u.Role == "Admin")">Admin</option>
+                            <option value="Cliente" selected="@(u.Role == "Cliente")">Cliente</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary ms-1">Guardar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

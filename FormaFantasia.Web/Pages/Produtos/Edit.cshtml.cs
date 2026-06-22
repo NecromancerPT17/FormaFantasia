@@ -8,12 +8,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FormaFantasia.Web.Data;
 using FormaFantasia.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace FormaFantasia.Web.Pages.Produtos
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly FormaFantasia.Web.Data.ApplicationDbContext _context;
+
+        public SelectList Categorias { get; set; } = null!;
 
         public EditModel(FormaFantasia.Web.Data.ApplicationDbContext context)
         {
@@ -36,7 +41,9 @@ namespace FormaFantasia.Web.Pages.Produtos
                 return NotFound();
             }
             Produto = produto;
-           ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id");
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Id");
+
+            Categorias = new SelectList(_context.Categorias, "Id", "Nome");
             return Page();
         }
 
