@@ -1,0 +1,40 @@
+@page "{id:int}"
+@model FormaFantasia.Web.Pages.EncomendaConfirmadaModel
+@{
+    ViewData["Title"] = "Encomenda Confirmada";
+}
+
+<div class="text-center mt-5">
+    <h1 class="text-success">✅ Encomenda Confirmada!</h1>
+    <p class="lead">Obrigado pela tua encomenda. O número da tua encomenda é <strong>#@Model.Encomenda?.Id</strong>.</p>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <h4>Resumo</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unit.</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Encomenda?.ItensEncomenda ?? new List<FormaFantasia.Web.Models.ItemEncomenda>())
+                {
+                    <tr>
+                        <td>@item.Produto?.Nome</td>
+                        <td>@item.Quantidade</td>
+                        <td>@item.PrecoUnitario.ToString("C")</td>
+                        <td>@((item.Quantidade * item.PrecoUnitario).ToString("C"))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+        <h5 class="text-end">Total: @Model.Encomenda?.ItensEncomenda.Sum(i => i.Quantidade * i.PrecoUnitario).ToString("C")</h5>
+        <a href="/" class="btn btn-primary mt-3">Continuar a Comprar</a>
+    </div>
+</div>

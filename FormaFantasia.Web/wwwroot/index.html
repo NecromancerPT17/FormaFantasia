@@ -325,7 +325,7 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
       </div>
       <div class="cart-total-value" id="cartTotal">0,00 €</div>
     </div>
-    <a href="/checkout" class="btn-checkout">Finalizar Encomenda</a>
+    <a href="/Checkout" class="btn-checkout">Finalizar Encomenda</a>
     <button class="btn-continue" onclick="toggleCart()">Continuar a Comprar</button>
   </div>
 </aside>
@@ -699,6 +699,8 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
   </div>
 </footer>
 
+<script src="/js/shared.js"></script>
+
 <script>
 const products = [
   {id:1,name:'Versace 4 | Clássico Grego | Navy & Dourado',ref:'37048-4',category:'papel',price:136,tag:'new',pattern:'greek'},
@@ -710,21 +712,6 @@ const products = [
   {id:7,name:'Tapete Kilim | Tradicional Marroquino',ref:'TK-9920',category:'tapecaria',price:320,tag:'',pattern:'kilim'},
   {id:8,name:'Régua Nível de Bolha | Profissional',ref:'ACC-001',category:'acessorios',price:14.90,tag:'',pattern:'tool'},
 ];
-
-const patternStyles = {
-  greek:'repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 5px,#1a2e42 5px,#1a2e42 24px),repeating-linear-gradient(-45deg,#b8973a33 0,#b8973a33 2px,transparent 2px,transparent 24px)',
-  floral:'radial-gradient(ellipse at 30% 50%,#b8973a22,transparent 50%),radial-gradient(ellipse at 70% 30%,#b8973a33,transparent 40%),linear-gradient(135deg,#f0ece2,#e8e2d5)',
-  marble:'linear-gradient(115deg,#f5f0e8,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df)',
-  berber:'repeating-linear-gradient(0deg,#c9a84c22 0,#c9a84c22 2px,transparent 2px,transparent 16px),repeating-linear-gradient(90deg,#c9a84c22 0,#c9a84c22 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f5e8c8,#e8d5a0)',
-  tropical:'radial-gradient(circle at 20% 80%,#2d5a27 0%,transparent 40%),radial-gradient(circle at 80% 20%,#3a7a32 0%,transparent 40%),linear-gradient(135deg,#1a3d16,#2d5a27)',
-  cement:'repeating-linear-gradient(0deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),repeating-linear-gradient(90deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),linear-gradient(135deg,#d0cdc8,#b8b5b0)',
-  kilim:'repeating-linear-gradient(45deg,#8b1a1a 0,#8b1a1a 4px,#d4a017 4px,#d4a017 8px,#8b1a1a 8px,#8b1a1a 12px,#1a3d8b 12px,#1a3d8b 16px)',
-  tool:'linear-gradient(135deg,#e8e2d5,#d0cbc0)',
-};
-
-let cart = {};
-let wishlist = [];
-let currentFilter = 'todos';
 
 function renderProducts(filter){
   const grid = document.getElementById('productsGrid');
@@ -772,29 +759,6 @@ function filterProducts(cat, btn){
   renderProducts(cat);
 }
 
-function addToCart(id){
-  const p = products.find(x => x.id === id);
-  if(!p) return;
-  if(cart[id]){
-    cart[id].qty++;
-  } else {
-    cart[id] = {product:p, qty:1};
-  }
-  updateCartUI();
-  showNotif('Adicionado: ' + p.name.substring(0,35) + (p.name.length > 35 ? '…' : ''));
-}
-
-function removeFromCart(id){
-  delete cart[id];
-  updateCartUI();
-}
-
-function changeQty(id, delta){
-  if(!cart[id]) return;
-  cart[id].qty += delta;
-  if(cart[id].qty <= 0) delete cart[id];
-  updateCartUI();
-}
 
 function updateCartUI(){
   const items = Object.values(cart);
@@ -929,14 +893,6 @@ document.getElementById('searchInput').addEventListener('input', function(){
   else document.getElementById('searchToast').classList.remove('open');
 });
 
-let notifTimer;
-function showNotif(msg){
-  clearTimeout(notifTimer);
-  const toast = document.getElementById('notifToast');
-  document.getElementById('notifMsg').textContent = msg;
-  toast.classList.add('show');
-  notifTimer = setTimeout(() => toast.classList.remove('show'), 2800);
-}
 
 function subscribeNewsletter(btn){
   const input = btn.parentElement.querySelector('input');

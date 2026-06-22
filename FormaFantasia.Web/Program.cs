@@ -15,6 +15,7 @@ builder.Services.AddIdentity<Utilizador, IdentityRole>(options => options.SignIn
     .AddDefaultUI();
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllers();
 
 
 var supportedCultures = new[] { "en-US" };
@@ -44,6 +45,8 @@ app.UseAuthorization();
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
+
+app.MapControllers();
 
 // Seed da base de dados
 using (var scope = app.Services.CreateScope())

@@ -492,10 +492,34 @@ function confirmOrder(){
     showNotif('O teu carrinho está vazio.');
     return;
   }
-  const num = '#FF-' + String(Math.floor(Math.random() * 90000) + 10000);
-  document.getElementById('orderNumber').textContent = num;
-  document.getElementById('successOverlay').classList.add('show');
-  cart = {};
+
+  const itens = Object.values(cart).map(i => ({
+    produtoId: i.product.id,
+    quantidade: i.qty
+  }));
+
+  const morada = document.getElementById('address').value + ', ' +
+                 document.getElementById('city').value + ', ' +
+                 document.getElementById('postalCode').value;
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = '/Checkout';
+
+  const itensInput = document.createElement('input');
+  itensInput.type = 'hidden';
+  itensInput.name = 'ItensJson';
+  itensInput.value = JSON.stringify(itens);
+
+  const moradaInput = document.createElement('input');
+  moradaInput.type = 'hidden';
+  moradaInput.name = 'MoradaEntrega';
+  moradaInput.value = morada;
+
+  form.appendChild(itensInput);
+  form.appendChild(moradaInput);
+  document.body.appendChild(form);
+  form.submit();
 }
 
 document.getElementById('postalCode').addEventListener('input', function(){
