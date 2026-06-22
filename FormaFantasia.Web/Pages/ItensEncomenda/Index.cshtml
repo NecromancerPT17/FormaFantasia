@@ -1,0 +1,54 @@
+@page
+@model FormaFantasia.Web.Pages.ItensEncomenda.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemEncomenda[0].Encomenda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemEncomenda[0].Produto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemEncomenda[0].Quantidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemEncomenda[0].PrecoUnitario)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ItemEncomenda) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Encomenda.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Produto.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoUnitario)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
