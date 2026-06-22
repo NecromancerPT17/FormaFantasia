@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | FormaFantasia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy-mid:#1a2e42;--gold:#b8973a;--gold-light:#d4af5a;--gold-pale:#f5ead0;
+  --cream:#faf8f4;--cream-dark:#f0ece2;--text-primary:#1a1a1a;--text-secondary:#5a5a5a;
+  --text-muted:#9a9a9a;--green-cta:#2a7a4b;--green-cta-hover:#235f3b;--white:#ffffff;
+  --border:#e8e2d5;--border-light:#f0ece2;--shadow:0 2px 12px rgba(13,27,42,0.08);
+  --shadow-hover:0 6px 24px rgba(13,27,42,0.14);--error:#c0392b;--success:#2a7a4b;
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+
+header{background:var(--white);border-bottom:1px solid var(--border)}
+.header-main{display:flex;align-items:center;justify-content:space-between;padding:.875rem 2rem;gap:1rem;max-width:1200px;margin:0 auto}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.checkout-steps{display:flex;align-items:center;gap:0}
+.step{display:flex;align-items:center;gap:.5rem;font-size:12px;font-weight:500;color:var(--text-muted)}
+.step.active{color:var(--navy)}
+.step.done{color:var(--green-cta)}
+.step-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;border:2px solid var(--border);background:var(--white);flex-shrink:0}
+.step.active .step-num{border-color:var(--navy);background:var(--navy);color:var(--white)}
+.step.done .step-num{border-color:var(--green-cta);background:var(--green-cta);color:var(--white)}
+.step-sep{width:32px;height:1px;background:var(--border);margin:0 .5rem}
+
+.checkout-body{max-width:1100px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start}
+
+.checkout-form-area{display:flex;flex-direction:column;gap:1.5rem}
+.form-block{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.form-block-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy);margin-bottom:1.25rem;display:flex;align-items:center;gap:.625rem}
+.form-block-title svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:1.8;flex-shrink:0}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}
+.form-row.full{grid-template-columns:1fr}
+.form-row.thirds{grid-template-columns:2fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:.3rem}
+.form-group label{font-size:12px;font-weight:500;color:var(--text-secondary);letter-spacing:.02em}
+.form-group input,.form-group select{padding:.6rem .875rem;border:1px solid var(--border);border-radius:7px;font-size:14px;font-family:'Inter',sans-serif;background:var(--white);color:var(--text-primary);outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+.form-group input:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,151,58,.12)}
+.form-group input.error{border-color:var(--error)}
+.form-group .error-msg{font-size:11px;color:var(--error);display:none}
+.form-group input.error+.error-msg{display:block}
+.form-group select{cursor:pointer}
+
+.radio-group{display:flex;flex-direction:column;gap:.625rem}
+.radio-option{display:flex;align-items:center;gap:.75rem;padding:.875rem 1rem;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s}
+.radio-option:hover{border-color:var(--gold);background:var(--gold-pale)}
+.radio-option input[type=radio]{accent-color:var(--gold);width:16px;height:16px;flex-shrink:0}
+.radio-option-content{flex:1}
+.radio-option-label{font-size:14px;font-weight:500;color:var(--text-primary)}
+.radio-option-desc{font-size:12px;color:var(--text-muted)}
+.radio-option-price{font-size:14px;font-weight:600;color:var(--navy);margin-left:auto}
+.radio-option.selected{border-color:var(--gold);background:var(--gold-pale)}
+
+.payment-icons-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
+.pay-icon{display:flex;align-items:center;justify-content:center;padding:.35rem .75rem;border:1px solid var(--border);border-radius:5px;font-size:11px;font-weight:600;color:var(--text-secondary);background:var(--white)}
+
+.notif-toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:var(--white);padding:.75rem 1.25rem;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-hover);z-index:400;transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:.5rem;max-width:300px}
+.notif-toast.show{transform:translateY(0);opacity:1}
+.notif-toast svg{width:16px;height:16px;stroke:var(--gold-light);fill:none;stroke-width:2;flex-shrink:0}
+
+.order-summary{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;position:sticky;top:1.5rem}
+.summary-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy);margin-bottom:1.25rem}
+.summary-items{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.25rem;max-height:280px;overflow-y:auto}
+.summary-item{display:flex;align-items:center;gap:.75rem}
+.summary-item-thumb{width:52px;height:52px;border-radius:7px;background:var(--cream-dark);flex-shrink:0;overflow:hidden}
+.summary-item-info{flex:1;min-width:0}
+.summary-item-name{font-size:13px;font-weight:500;line-height:1.3;margin-bottom:2px}
+.summary-item-ref{font-size:11px;color:var(--text-muted)}
+.summary-item-qty{font-size:11px;color:var(--text-muted)}
+.summary-item-price{font-size:14px;font-weight:600;color:var(--navy);margin-left:auto;white-space:nowrap}
+.summary-divider{border:none;border-top:1px solid var(--border-light);margin:.75rem 0}
+.summary-line{display:flex;justify-content:space-between;font-size:13px;margin-bottom:.5rem}
+.summary-line-label{color:var(--text-secondary)}
+.summary-line-value{font-weight:500;color:var(--text-primary)}
+.summary-line-value.free{color:var(--green-cta)}
+.summary-total{display:flex;justify-content:space-between;padding-top:.75rem;border-top:1px solid var(--border);margin-top:.25rem}
+.summary-total-label{font-size:15px;font-weight:600;color:var(--navy)}
+.summary-total-value{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy)}
+.summary-total-note{font-size:11px;color:var(--text-muted);text-align:right;margin-top:2px}
+.btn-confirm{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:1rem;background:var(--green-cta);color:var(--white);font-size:15px;font-weight:600;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;margin-top:1.25rem}
+.btn-confirm:hover{background:var(--green-cta-hover)}
+.btn-confirm svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.btn-confirm:disabled{background:var(--text-muted);cursor:not-allowed}
+.secure-note{display:flex;align-items:center;justify-content:center;gap:.375rem;font-size:11px;color:var(--text-muted);margin-top:.75rem}
+.secure-note svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.coupon-row{display:flex;gap:.5rem;margin-top:1rem}
+.coupon-row input{flex:1;padding:.55rem .75rem;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.coupon-row input:focus{border-color:var(--gold)}
+.coupon-row button{padding:.55rem 1rem;background:var(--navy);color:var(--white);font-size:13px;font-weight:600;border-radius:7px;border:none;cursor:pointer;transition:background .2s;white-space:nowrap}
+.coupon-row button:hover{background:var(--navy-mid)}
+
+.success-overlay{position:fixed;inset:0;background:rgba(13,27,42,.6);z-index:500;display:none;align-items:center;justify-content:center}
+.success-overlay.show{display:flex}
+.success-card{background:var(--white);border-radius:16px;padding:3rem 2.5rem;max-width:480px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.success-icon{width:64px;height:64px;border-radius:50%;background:#e8f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
+.success-icon svg{width:32px;height:32px;stroke:var(--green-cta);fill:none;stroke-width:2.5}
+.success-card h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--navy);margin-bottom:.625rem}
+.success-card p{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:1.5rem}
+.success-order-num{font-size:13px;color:var(--text-muted);margin-bottom:1.5rem}
+.success-order-num strong{font-size:16px;color:var(--navy);font-family:'Cormorant Garamond',serif}
+.success-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center}
+.btn-success-primary{padding:.75rem 1.5rem;background:var(--navy);color:var(--white);font-size:14px;font-weight:600;border-radius:7px;transition:background .2s}
+.btn-success-primary:hover{background:var(--navy-mid)}
+.btn-success-secondary{padding:.75rem 1.5rem;background:var(--white);color:var(--navy);font-size:14px;font-weight:500;border-radius:7px;border:1px solid var(--border);transition:all .2s}
+.btn-success-secondary:hover{border-color:var(--navy)}
+
+footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;margin-top:3rem}
+.footer-simple{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:1rem}
+.footer-simple-left{font-size:12px;color:rgba(255,255,255,.45)}
+.footer-simple-links{display:flex;gap:1.25rem}
+.footer-simple-links a{font-size:12px;color:rgba(255,255,255,.5);transition:color .2s}
+.footer-simple-links a:hover{color:var(--gold-light)}
+.footer-credits{border-top:1px solid rgba(255,255,255,.07);text-align:center;padding:.625rem 2rem;font-size:11px;color:rgba(255,255,255,.3)}
+
+@media(max-width:860px){
+  .checkout-body{grid-template-columns:1fr}
+  .order-summary{position:static}
+}
+@media(max-width:560px){
+  .form-row,.form-row.thirds{grid-template-columns:1fr}
+  .header-main{padding:.75rem 1rem}
+  .checkout-steps{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="notif-toast" id="notifToast">
+  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+  <span id="notifMsg"></span>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <h2>Encomenda Confirmada!</h2>
+    <p>Obrigado pela tua encomenda. Receberás um email de confirmação em breve com todos os detalhes e o número de rastreio.</p>
+    <div class="success-order-num">Número de encomenda: <strong id="orderNumber">#FF-00001</strong></div>
+    <div class="success-actions">
+      <a href="conta.html#encomendas" class="btn-success-primary">Ver Encomendas</a>
+      <a href="../index.html" class="btn-success-secondary">Continuar a Comprar</a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-main">
+    <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
+    <div class="checkout-steps">
+      <div class="step done">
+        <div class="step-num"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+        Carrinho
+      </div>
+      <div class="step-sep"></div>
+      <div class="step active">
+        <div class="step-num">2</div>
+        Entrega
+      </div>
+      <div class="step-sep"></div>
+      <div class="step">
+        <div class="step-num">3</div>
+        Pagamento
+      </div>
+      <div class="step-sep"></div>
+      <div class="step">
+        <div class="step-num">4</div>
+        Confirmação
+      </div>
+    </div>
+    <a href="../index.html" style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:.3rem">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+      Continuar a comprar
+    </a>
+  </div>
+</header>
+
+<div class="checkout-body">
+
+  <div class="checkout-form-area">
+
+    <div class="form-block">
+      <div class="form-block-title">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Morada de Entrega
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">Primeiro Nome *</label>
+          <input type="text" id="firstName" placeholder="João" autocomplete="given-name">
+          <span class="error-msg">Campo obrigatório</span>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Apelido *</label>
+          <input type="text" id="lastName" placeholder="Silva" autocomplete="family-name">
+          <span class="error-msg">Campo obrigatório</span>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" placeholder="joao@email.com" autocomplete="email">
+          <span class="error-msg">Email inválido</span>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label for="phone">Telemóvel *</label>
+          <input type="tel" id="phone" placeholder="9XX XXX XXX" autocomplete="tel">
+          <span class="error-msg">Campo obrigatório</span>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label for="address">Morada *</label>
+          <input type="text" id="address" placeholder="Rua, número, andar" autocomplete="street-address">
+          <span class="error-msg">Campo obrigatório</span>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label for="address2">Complemento (opcional)</label>
+          <input type="text" id="address2" placeholder="Apartamento, bloco, etc." autocomplete="address-line2">
+        </div>
+      </div>
+      <div class="form-row thirds">
+        <div class="form-group">
+          <label for="city">Localidade *</label>
+          <input type="text" id="city" placeholder="Lisboa" autocomplete="address-level2">
+          <span class="error-msg">Campo obrigatório</span>
+        </div>
+        <div class="form-group">
+          <label for="postalCode">Código Postal *</label>
+          <input type="text" id="postalCode" placeholder="0000-000" maxlength="8" autocomplete="postal-code">
+          <span class="error-msg">Formato inválido</span>
+        </div>
+        <div class="form-group">
+          <label for="country">País *</label>
+          <select id="country" autocomplete="country">
+            <option value="PT" selected>Portugal</option>
+            <option value="ES">Espanha</option>
+            <option value="FR">França</option>
+            <option value="DE">Alemanha</option>
+            <option value="UK">Reino Unido</option>
+            <option value="IT">Itália</option>
+            <option value="NL">Países Baixos</option>
+            <option value="BE">Bélgica</option>
+            <option value="OTHER">Outro</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <div class="form-block-title">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+        Método de Envio
+      </div>
+      <div class="radio-group" id="shippingGroup">
+        <label class="radio-option selected" onclick="selectShipping(this, 0)">
+          <input type="radio" name="shipping" value="free" checked>
+          <div class="radio-option-content">
+            <div class="radio-option-label">Envio Standard</div>
+            <div class="radio-option-desc">Entrega em 10–14 dias úteis</div>
+          </div>
+          <span class="radio-option-price free" style="color:var(--green-cta)">Grátis</span>
+        </label>
+        <label class="radio-option" onclick="selectShipping(this, 9.90)">
+          <input type="radio" name="shipping" value="express">
+          <div class="radio-option-content">
+            <div class="radio-option-label">Envio Expresso</div>
+            <div class="radio-option-desc">Entrega em 3–5 dias úteis</div>
+          </div>
+          <span class="radio-option-price">9,90 €</span>
+        </label>
+        <label class="radio-option" onclick="selectShipping(this, 24.90)">
+          <input type="radio" name="shipping" value="international">
+          <div class="radio-option-content">
+            <div class="radio-option-label">Envio Internacional</div>
+            <div class="radio-option-desc">Europa — 7–10 dias úteis</div>
+          </div>
+          <span class="radio-option-price">24,90 €</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <div class="form-block-title">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        Método de Pagamento
+      </div>
+      <div class="radio-group">
+        <label class="radio-option selected" onclick="selectPayment(this)">
+          <input type="radio" name="payment" value="mb" checked>
+          <div class="radio-option-content">
+            <div class="radio-option-label">Multibanco / MB Way</div>
+            <div class="radio-option-desc">Referência gerada após confirmação</div>
+          </div>
+        </label>
+        <label class="radio-option" onclick="selectPayment(this)">
+          <input type="radio" name="payment" value="transfer">
+          <div class="radio-option-content">
+            <div class="radio-option-label">Transferência Bancária</div>
+            <div class="radio-option-desc">IBAN enviado por email</div>
+          </div>
+        </label>
+        <label class="radio-option" onclick="selectPayment(this)">
+          <input type="radio" name="payment" value="paypal">
+          <div class="radio-option-content">
+            <div class="radio-option-label">PayPal</div>
+            <div class="radio-option-desc">Redireccionado para o PayPal no passo seguinte</div>
+          </div>
+        </label>
+      </div>
+      <div class="payment-icons-row">
+        <span class="pay-icon">MB WAY</span>
+        <span class="pay-icon">Multibanco</span>
+        <span class="pay-icon">Transf. Bancária</span>
+        <span class="pay-icon">PayPal</span>
+      </div>
+    </div>
+
+  </div>
+
+  <aside>
+    <div class="order-summary">
+      <div class="summary-title">Resumo da Encomenda</div>
+      <div class="summary-items" id="summaryItems">
+        <p style="font-size:13px;color:var(--text-muted);text-align:center;padding:1rem 0">Carrinho vazio.</p>
+      </div>
+      <hr class="summary-divider">
+      <div class="summary-line">
+        <span class="summary-line-label">Subtotal</span>
+        <span class="summary-line-value" id="summarySubtotal">0,00 €</span>
+      </div>
+      <div class="summary-line">
+        <span class="summary-line-label">Envio</span>
+        <span class="summary-line-value free" id="summaryShipping">Grátis</span>
+      </div>
+      <div class="summary-line" id="discountRow" style="display:none">
+        <span class="summary-line-label">Desconto</span>
+        <span class="summary-line-value" id="discountValue" style="color:var(--error)">−0,00 €</span>
+      </div>
+      <div class="summary-total">
+        <div>
+          <div class="summary-total-label">Total</div>
+          <div class="summary-total-note">IVA incluído</div>
+        </div>
+        <div>
+          <div class="summary-total-value" id="summaryTotal">0,00 €</div>
+        </div>
+      </div>
+      <button class="btn-confirm" id="btnConfirm" onclick="confirmOrder()">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Confirmar Encomenda
+      </button>
+      <div class="secure-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path stroke-linecap="round" d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Pagamento seguro e encriptado
+      </div>
+      <div class="coupon-row">
+        <input type="text" id="couponInput" placeholder="Código de desconto">
+        <button onclick="applyCoupon()">Aplicar</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-simple">
+    <span class="footer-simple-left">&copy; 2025 FormaFantasia. Todos os direitos reservados.</span>
+    <div class="footer-simple-links">
+      <a href="https://formafantasia.pt/content/1-comprar">Condições</a>
+      <a href="https://formafantasia.pt/content/1-comprar">Privacidade</a>
+      <a href="https://formafantasia.pt/content/6-contactos">Contactos</a>
+    </div>
+  </div>
+  <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
+</footer>
+
+<script src="../js/shared.js"></script>
+<script>
+let shippingCost = 0;
+let discountAmount = 0;
+
+const COUPONS = {
+  'BEMVINDO15': 0.15,
+  'FF10': 0.10,
+};
+
+function fmt(n){ return Number(n).toFixed(2).replace('.',',') + ' €'; }
+
+function renderSummary(){
+  const items = Object.values(cart);
+  const container = document.getElementById('summaryItems');
+  if(items.length === 0){
+    container.innerHTML = '<p style="font-size:13px;color:var(--text-muted);text-align:center;padding:1rem 0">Carrinho vazio.</p>';
+    document.getElementById('btnConfirm').disabled = true;
+  } else {
+    container.innerHTML = items.map(i => `
+      <div class="summary-item">
+        <div class="summary-item-thumb" style="background:${patternStyles[i.product.pattern]||patternStyles.plain};background-size:cover"></div>
+        <div class="summary-item-info">
+          <div class="summary-item-name">${i.product.name}</div>
+          <div class="summary-item-ref">Ref. ${i.product.ref}</div>
+          <div class="summary-item-qty">Qtd: ${i.qty}</div>
+        </div>
+        <span class="summary-item-price">${fmt(i.product.price * i.qty)}</span>
+      </div>
+    `).join('');
+    document.getElementById('btnConfirm').disabled = false;
+  }
+  updateTotals();
+}
+
+function updateTotals(){
+  const items = Object.values(cart);
+  const subtotal = items.reduce((s,i) => s + i.product.price * i.qty, 0);
+  const discount = subtotal * discountAmount;
+  const total = subtotal - discount + shippingCost;
+  document.getElementById('summarySubtotal').textContent = fmt(subtotal);
+  document.getElementById('summaryShipping').textContent = shippingCost === 0 ? 'Grátis' : fmt(shippingCost);
+  document.getElementById('summaryShipping').className = 'summary-line-value' + (shippingCost === 0 ? ' free' : '');
+  if(discount > 0){
+    document.getElementById('discountRow').style.display = 'flex';
+    document.getElementById('discountValue').textContent = '−' + fmt(discount);
+  } else {
+    document.getElementById('discountRow').style.display = 'none';
+  }
+  document.getElementById('summaryTotal').textContent = fmt(total);
+}
+
+function selectShipping(el, cost){
+  document.querySelectorAll('#shippingGroup .radio-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  shippingCost = cost;
+  updateTotals();
+}
+
+function selectPayment(el){
+  document.querySelectorAll('.radio-group .radio-option').forEach(o => {
+    if(o.querySelector('input[name=payment]')) o.classList.remove('selected');
+  });
+  el.classList.add('selected');
+}
+
+function applyCoupon(){
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  if(COUPONS[code]){
+    discountAmount = COUPONS[code];
+    showNotif('Código "' + code + '" aplicado — ' + (discountAmount * 100) + '% de desconto!');
+    updateTotals();
+  } else {
+    showNotif('Código inválido ou já utilizado.');
+  }
+}
+
+function validateForm(){
+  const required = ['firstName','lastName','email','phone','address','city','postalCode'];
+  let valid = true;
+  required.forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const val = el.value.trim();
+    let fieldValid = val.length > 0;
+    if(id === 'email') fieldValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    if(id === 'postalCode') fieldValid = /^\d{4}-\d{3}$/.test(val) || /^\d{4,8}$/.test(val);
+    el.classList.toggle('error', !fieldValid);
+    if(!fieldValid) valid = false;
+  });
+  return valid;
+}
+
+function confirmOrder(){
+  if(!validateForm()){
+    showNotif('Por favor preenche todos os campos obrigatórios.');
+    return;
+  }
+  if(Object.keys(cart).length === 0){
+    showNotif('O teu carrinho está vazio.');
+    return;
+  }
+  const num = '#FF-' + String(Math.floor(Math.random() * 90000) + 10000);
+  document.getElementById('orderNumber').textContent = num;
+  document.getElementById('successOverlay').classList.add('show');
+  cart = {};
+}
+
+document.getElementById('postalCode').addEventListener('input', function(){
+  let v = this.value.replace(/\D/g,'');
+  if(v.length > 4) v = v.slice(0,4) + '-' + v.slice(4,7);
+  this.value = v;
+});
+
+let notifTimer;
+function showNotif(msg){
+  clearTimeout(notifTimer);
+  const t = document.getElementById('notifToast');
+  document.getElementById('notifMsg').textContent = msg;
+  t.classList.add('show');
+  notifTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+renderSummary();
+</script>
+</body>
+</html>
