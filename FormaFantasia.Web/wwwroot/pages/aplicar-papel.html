@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como Aplicar Papel de Parede | FormaFantasia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1b2a;--navy-mid:#1a2e42;--gold:#b8973a;--gold-light:#d4af5a;--gold-pale:#f5ead0;--cream:#faf8f4;--cream-dark:#f0ece2;--text-primary:#1a1a1a;--text-secondary:#5a5a5a;--text-muted:#9a9a9a;--green-cta:#2a7a4b;--white:#ffffff;--border:#e8e2d5}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);line-height:1.6}
+a{text-decoration:none;color:inherit}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:.875rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.back-link{font-size:13px;color:var(--text-secondary);display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.back-link:hover{color:var(--navy)}
+.back-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.page-hero{background:var(--navy);padding:2.5rem 2rem;color:var(--white)}
+.page-hero-inner{max-width:900px;margin:0 auto}
+.breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:.875rem}
+.breadcrumb a{color:rgba(255,255,255,.5)}
+.breadcrumb-sep{color:rgba(255,255,255,.25)}
+.page-hero h1{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;margin-bottom:.5rem}
+.page-hero p{font-size:14px;color:rgba(255,255,255,.65);max-width:560px;line-height:1.7}
+.mockup-banner{background:var(--gold-pale);border:2px dashed var(--gold);border-radius:8px;padding:.75rem 1.25rem;font-size:13px;color:var(--navy);margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+.mockup-banner svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;flex-shrink:0}
+.body{max-width:900px;margin:0 auto;padding:2.5rem 2rem}
+.step-card{display:flex;gap:1.25rem;padding:1.5rem;background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:1rem}
+.step-card:hover{box-shadow:0 4px 16px rgba(13,27,42,.07)}
+.step-num{width:40px;height:40px;border-radius:50%;background:var(--navy);color:var(--white);font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Cormorant Garamond',serif}
+.step-title{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:.375rem}
+.step-text{font-size:13px;color:var(--text-secondary);line-height:1.7}
+.video-placeholder{background:var(--cream-dark);border:1px solid var(--border);border-radius:12px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--text-muted);font-size:14px;margin:2rem 0}
+.video-placeholder svg{width:48px;height:48px;stroke:currentColor;fill:none;stroke-width:1.2;opacity:.5}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.875rem;margin:1.5rem 0}
+.tool-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem;text-align:center}
+.tool-icon{width:44px;height:44px;border-radius:10px;background:var(--gold-pale);margin:0 auto .75rem;display:flex;align-items:center;justify-content:center}
+.tool-icon svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.8}
+.tool-name{font-size:13px;font-weight:600;color:var(--navy)}
+.tool-desc{font-size:11px;color:var(--text-muted);margin-top:.25rem}
+.cta-box{background:var(--navy);border-radius:12px;padding:2rem;text-align:center;margin-top:2rem;color:var(--white)}
+.cta-box h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin-bottom:.5rem}
+.cta-box p{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:1.25rem}
+.btn-cta{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;background:var(--gold);color:var(--navy);font-size:14px;font-weight:600;border-radius:7px;transition:background .2s}
+.btn-cta:hover{background:var(--gold-light)}
+.btn-cta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+footer{background:var(--navy-mid);text-align:center;padding:.875rem 2rem;font-size:12px;color:rgba(255,255,255,.3);margin-top:3rem}
+</style>
+<script src="../js/products.js"></script>
+<script src="../js/header.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/nav.js"></script>
+</head>
+<body>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <nav class="breadcrumb">
+      <a href="../index.html">Início</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Aplicar Papel de Parede</span>
+    </nav>
+    <h1>Aplicar Papel de Parede</h1>
+    <p>Guia completo para aplicar papel de parede em casa. Segue estes passos para um resultado profissional.</p>
+  </div>
+</div>
+<div class="body">
+  <div class="mockup-banner">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    Guia informativo — conteúdo e vídeos definitivos a inserir pela FormaFantasia antes da publicação.
+  </div>
+
+  <div class="video-placeholder">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    [ Vídeo tutorial a incorporar aqui ]
+  </div>
+
+  <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);margin-bottom:1.25rem">Passo a Passo</h2>
+  
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Preparação da Parede</div>
+        <div class="step-text">Limpa a superfície removendo poeira e gordura. Preenche buracos e irregularidades com massa de estuque. Deixa secar completamente antes de começar.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Medição e Corte</div>
+        <div class="step-text">Mede a altura da parede e corta as tiras de papel com 5 cm extra em cima e em baixo. Verifica o alinhamento do padrão antes de colar.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Preparação da Cola</div>
+        <div class="step-text">Mistura a cola de acordo com as instruções do fabricante. Para papel TNT (tecido não-tecido), aplica a cola directamente na parede, não no papel.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Aplicação</div>
+        <div class="step-text">Coloca a primeira tira no canto da parede, alinhando verticalmente com um nível. Alisa da parte central para as extremidades com um rodo, eliminando bolhas de ar.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Acabamento</div>
+        <div class="step-text">Corta o excesso nas extremidades com um estilete e régua. Limpa imediatamente qualquer excesso de cola com um pano húmido.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <div class="step-title">Secagem</div>
+        <div class="step-text">Não utilizes a divisão nas primeiras 24 horas. Não exponhas directamente ao calor ou correntes de ar durante a secagem.</div>
+      </div>
+    </div>
+
+  <div class="cta-box">
+    <h3>Pronto para começar?</h3>
+    <p>Explora o nosso catálogo e encontra o produto ideal para o teu projeto.</p>
+    <a href="catalogo-hub.html" class="btn-cta">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Ver Catálogo
+    </a>
+  </div>
+</div>
+<footer>Website criado por Diogo Martins e Rafael Vieira</footer>
+</body>
+</html>

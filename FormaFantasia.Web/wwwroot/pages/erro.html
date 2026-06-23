@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ocorreu um erro | FormaFantasia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1b2a;--gold:#b8973a;--gold-light:#d4af5a;--cream:#faf8f4;--border:#e8e2d5;--text-secondary:#5a5a5a;--white:#ffffff;--error:#c0392b}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);margin-bottom:3rem;letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:3rem 2.5rem;max-width:480px;width:100%}
+.icon{width:64px;height:64px;border-radius:50%;background:#fdecea;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+.icon svg{width:28px;height:28px;stroke:var(--error);fill:none;stroke-width:1.8}
+h1{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin-bottom:.625rem}
+p{font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:2rem}
+.error-code{font-size:12px;color:var(--text-secondary);background:#f5f0ea;border-radius:5px;padding:.4rem .875rem;display:inline-block;margin-bottom:1.5rem;font-family:monospace}
+.btn-home{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.75rem;background:var(--navy);color:var(--white);border-radius:7px;font-size:14px;font-weight:600;text-decoration:none;transition:opacity .2s;margin-bottom:.75rem}
+.btn-home:hover{opacity:.85}
+.btn-retry{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.5rem;color:var(--text-secondary);border:1px solid var(--border);border-radius:7px;font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;background:none;transition:all .2s;margin-left:.5rem;font-family:inherit}
+.btn-retry:hover{border-color:var(--navy);color:var(--navy)}
+.btn-home svg,.btn-retry svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+</style>
+</head>
+<body>
+<a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
+<div class="card">
+  <div class="icon">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+  </div>
+  <h1>Ocorreu um erro</h1>
+  <p>Algo correu mal ao processar o teu pedido. O problema foi registado. Podes tentar novamente ou voltar ao início.</p>
+  <div class="error-code" id="errorCode">Erro 500 — Erro interno do servidor</div>
+  <div>
+    <a href="../index.html" class="btn-home">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      Ir para o início
+    </a>
+    <button class="btn-retry" onclick="history.back()">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Tentar novamente
+    </button>
+  </div>
+</div>
+<script>
+const p = new URLSearchParams(window.location.search);
+if(p.get('code')) document.getElementById('errorCode').textContent = 'Erro ' + p.get('code') + (p.get('msg') ? ' — ' + p.get('msg') : '');
+</script>
+</body>
+</html>

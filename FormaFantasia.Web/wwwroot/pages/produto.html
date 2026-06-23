@@ -306,66 +306,7 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
   <div class="header-main">
     <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
     <nav aria-label="Navegação principal">
-      <ul class="nav-primary">
-        <li>
-          <a href="catalogo.html" class="active">Papel
-            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-          </a>
-          <div class="nav-dropdown">
-            <div class="nav-dropdown-section">Papel de Parede</div>
-            <a href="catalogo.html">Infantil <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
-            <a href="catalogo.html">Decoração <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
-            <hr>
-            <div class="nav-dropdown-section">Destaques</div>
-            <a href="catalogo.html">Versace 4</a>
-            <a href="catalogo.html">Liberty London</a>
-            <a href="catalogo.html">Coleção Botânica</a>
-          </div>
-        </li>
-        <li>
-          <a href="catalogo.html">Vinil
-            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-          </a>
-          <div class="nav-dropdown">
-            <div class="nav-dropdown-section">Vinil Decorativo</div>
-            <a href="catalogo.html">Liso e Texturado</a>
-            <a href="catalogo.html">Efeitos Especiais</a>
-            <a href="catalogo.html">Impressão Digital</a>
-            <hr>
-            <div class="nav-dropdown-section">Aplicações</div>
-            <a href="https://formafantasia.pt/content/3-aplicar-vinil-decorativo">Como Aplicar Vinil</a>
-          </div>
-        </li>
-        <li>
-          <a href="catalogo.html">Tapeçarias
-            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-          </a>
-          <div class="nav-dropdown">
-            <div class="nav-dropdown-section">Tapeçarias</div>
-            <a href="catalogo.html">Clássicas</a>
-            <a href="catalogo.html">Modernas</a>
-            <a href="catalogo.html">À Medida</a>
-            <hr>
-            <div class="nav-dropdown-section">Tecidos</div>
-            <a href="catalogo.html">Ver Tecidos</a>
-          </div>
-        </li>
-        <li>
-          <a href="catalogo.html">Outros
-            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-          </a>
-          <div class="nav-dropdown">
-            <div class="nav-dropdown-section">Categorias</div>
-            <a href="catalogo.html">Painéis Decorativos <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
-            <a href="catalogo.html">Impressão Digital</a>
-            <a href="catalogo.html">Calhas</a>
-            <a href="catalogo.html">Stock Off</a>
-            <a href="catalogo.html">Varões</a>
-            <a href="catalogo.html">Tecidos</a>
-            <a href="catalogo.html">Colas</a>
-          </div>
-        </li>
-      </ul>
+      <ul class="nav-primary"></ul>
     </nav>
     <div class="header-actions">
       <div class="search-wrapper">
@@ -403,7 +344,7 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="../index.html">Início</a>
     <span class="breadcrumb-sep">›</span>
-    <a href="catalogo.html">Catálogo</a>
+    <a href="catalogo-hub.html" id="breadcrumbCatalogo">Catálogo</a>
     <span class="breadcrumb-sep">›</span>
     <span class="breadcrumb-current" id="breadcrumbCurrent">Produto</span>
   </nav>
@@ -594,50 +535,15 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
   <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
 </footer>
 
-<script src="../js/shared.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/products.js"></script>
+<script src="../js/cart.js"></script>
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   DADOS DO PRODUTO
-   INSTRUÇÃO: Preenche este objeto com os dados reais do produto.
-   Com Razor: var PAGE_PRODUCT = @Json.Serialize(Model.Product);
-   ═══════════════════════════════════════════════════════════════ */
-const PAGE_PRODUCT = {
-  id: 1,
-  name: 'Versace 4 | Padrão Clássico Grego | Navy & Dourado',
-  ref: '37048-4',
-  category: 'papel',
-  price: 136.00,
-  priceOriginal: null,
-  tag: 'new',
-  pattern: 'greek',
-  description: 'Papel de parede de luxo da coleção Versace 4, com o icónico padrão Clássico Grego em tons navy e dourado. Fabricado em tecido não-tecido (TNT) para uma aplicação fácil e uma remoção limpa.',
-  features: [
-    'Tecido não-tecido – TNT',
-    'Lavabilidade',
-    'Resistência luve',
-    'Fácil removida',
-    'Fácil aplicação',
-  ],
-  specs: [
-    ['Material', 'Tecido não-tecido – TNT'],
-    ['Medidas', '125 × 30 × 20 mm'],
-    ['Largura do rolo', '0,70 m'],
-    ['Comprimento do rolo', '10,05 m'],
-    ['Padrão', 'Repetição 64 cm'],
-    ['Lavabilidade', 'Lavável'],
-    ['Aplicação', 'Colar o papel (cola no papel)'],
-    ['Marca', 'Versace'],
-    ['Coleção', 'Versace 4'],
-  ],
-  images: ['greek', 'floral', 'marble'],
-};
+const params = new URLSearchParams(window.location.search);
+const productId = parseInt(params.get('id')) || 201;
+const PAGE_PRODUCT = FF_PRODUCTS.find(p => p.id === productId) || FF_PRODUCTS.find(p => p.id === 201);
+const RELATED_PRODUCTS = FF_PRODUCTS.filter(p => p.id !== PAGE_PRODUCT.id && (p.subcategory === PAGE_PRODUCT.subcategory || p.category === PAGE_PRODUCT.category)).slice(0,4);
 
-/* INSTRUÇÃO: Produtos relacionados — substitui pelo array real da mesma coleção/categoria */
-const RELATED_PRODUCTS = [];
-
-/* ═══════════════════════════════════════════════════════════════
-   LÓGICA DA PÁGINA — não é necessário editar abaixo desta linha
-   ═══════════════════════════════════════════════════════════════ */
 function initProductPage(){
   const p = PAGE_PRODUCT;
   document.title = p.name + ' | FormaFantasia';
@@ -645,53 +551,90 @@ function initProductPage(){
   document.getElementById('productRef').textContent = 'Referência: ' + p.ref;
   document.getElementById('productName').textContent = p.name;
   document.getElementById('productPrice').textContent = formatPrice(p.price);
-
-  if(p.priceOriginal){
-    const orig = document.getElementById('productPriceOriginal');
-    orig.textContent = formatPrice(p.priceOriginal);
-    orig.style.display = 'inline';
-  }
-
+  const orig = document.getElementById('productPriceOriginal');
+  if(p.priceOriginal && orig){ orig.textContent = formatPrice(p.priceOriginal); orig.style.display = 'inline'; }
   const mainPat = document.getElementById('mainPattern');
   if(mainPat) mainPat.style.background = patternStyles[p.pattern] || patternStyles.plain;
-
   const thumbs = document.getElementById('productThumbs');
   if(thumbs && p.images){
     thumbs.innerHTML = p.images.map((img, i) => `
-      <div class="product-thumb ${i === 0 ? 'active' : ''}" onclick="selectThumb(this, '${img}')">
-        <div class="product-thumb-pattern" style="background:${patternStyles[img]||patternStyles.plain}"></div>
-      </div>
-    `).join('');
+      <div class="product-thumb ${i === 0 ? 'active' : ''}" onclick="selectThumb(this,'${img}')">
+        <div class="product-thumb-pattern" style="background:${patternStyles[img]||patternStyles.plain};width:100%;height:100%"></div>
+      </div>`).join('');
   }
-
   const feats = document.getElementById('productFeatures');
   if(feats && p.features){
     feats.innerHTML = p.features.map(f => `
       <li>
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         ${f}
-      </li>
-    `).join('');
+      </li>`).join('');
   }
-
   const desc = document.getElementById('productDescription');
   if(desc) desc.textContent = p.description || '';
-
   const specTable = document.getElementById('specTable');
   if(specTable && p.specs){
-    specTable.innerHTML = p.specs.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+    specTable.innerHTML = p.specs.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
   }
-
   document.getElementById('btnAddCart').onclick = () => addToCart(p.id, p);
+  const wishBtn = document.getElementById('btnWishlist');
+  if(wishlist.some(w => w.id === p.id)) wishBtn.classList.add('active');
+  renderRelated();
+  renderFBT();
+  const backLink = document.getElementById('breadcrumbCatalogo');
+  if(backLink && p.catalogFile) backLink.href = p.catalogFile;
+}
 
-  const related = document.getElementById('relatedGrid');
-  if(related){
-    if(RELATED_PRODUCTS.length === 0){
-      related.innerHTML = '<p style="font-size:14px;color:var(--text-muted);grid-column:1/-1">Produtos relacionados serão adicionados aqui.</p>';
-    } else {
-      related.innerHTML = RELATED_PRODUCTS.map(rp => renderProductCard(rp)).join('');
-    }
+function renderRelated(){
+  const grid = document.getElementById('relatedGrid');
+  const title = document.getElementById('relatedTitle');
+  if(!grid) return;
+  if(RELATED_PRODUCTS.length === 0){
+    grid.innerHTML = '<p style="font-size:14px;color:var(--text-muted);grid-column:1/-1">Não existem produtos relacionados neste momento.</p>';
+    return;
   }
+  if(title) title.textContent = 'Mais em ' + (PAGE_PRODUCT.subcategory ? PAGE_PRODUCT.subcategory.charAt(0).toUpperCase() + PAGE_PRODUCT.subcategory.slice(1) : 'Catálogo');
+  grid.innerHTML = RELATED_PRODUCTS.map(p => `
+    <article class="product-card">
+      <a href="produto.html?id=${p.id}" style="text-decoration:none;color:inherit;display:contents">
+        <div class="product-card-img">
+          <div class="product-card-pattern" style="background:${patternStyles[p.pattern]||patternStyles.plain};width:100%;height:100%"></div>
+          ${p.tag ? `<span class="product-tag ${p.tag==='new'?'tag-new':'tag-promo'}">${p.tag==='new'?'Novo':'Promo'}</span>` : ''}
+          <button class="product-wish ${wishlist.some(w=>w.id===p.id)?'liked':''}" data-wish-id="${p.id}" onclick="toggleWishItem(${p.id},FF_PRODUCTS.find(x=>x.id===${p.id}),event)" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-name">${p.name}</div>
+          <div class="product-card-ref">Ref. ${p.ref}</div>
+          <div class="product-card-footer">
+            <div class="product-card-price">${formatPrice(p.price)}</div>
+            <button class="btn-add-cart" onclick="addToCart(${p.id},FF_PRODUCTS.find(x=>x.id===${p.id}));event.preventDefault();event.stopPropagation()">
+              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              Adicionar
+            </button>
+          </div>
+        </div>
+      </a>
+    </article>`).join('');
+}
+
+function renderFBT(){
+  const row = document.getElementById('fbtRow');
+  if(!row) return;
+  const others = FF_PRODUCTS.filter(p => p.id !== PAGE_PRODUCT.id && p.category !== PAGE_PRODUCT.category).slice(0,2);
+  if(others.length === 0){ row.innerHTML = '<p style="font-size:13px;color:var(--text-muted)">Produtos complementares serão adicionados em breve.</p>'; return; }
+  const allFbt = [PAGE_PRODUCT, ...others];
+  const total = allFbt.reduce((s,p) => s + p.price, 0);
+  row.innerHTML = allFbt.map((p,i) => `
+    ${i > 0 ? '<span class="fbt-plus">+</span>' : ''}
+    <div class="fbt-item">
+      <div class="fbt-thumb"><div class="fbt-thumb-pattern" style="background:${patternStyles[p.pattern]||patternStyles.plain};width:100%;height:100%"></div></div>
+      <div class="fbt-name">${p.name.split('|')[0].trim()}</div>
+    </div>`).join('') +
+    `<button class="btn-fbt" onclick="${allFbt.map(p=>`addToCart(${p.id},FF_PRODUCTS.find(x=>x.id===${p.id}))`).join(';')};showNotif('${allFbt.length} produtos adicionados ao carrinho')">
+      Adicionar Ambos — ${formatPrice(total)}
+    </button>`;
 }
 
 function selectThumb(el, patternKey){
@@ -702,25 +645,17 @@ function selectThumb(el, patternKey){
 }
 
 function handleWishlistBtn(){
-  const btn = document.getElementById('btnWishlist');
-  toggleWishItem(PAGE_PRODUCT.id, null, PAGE_PRODUCT);
-  const isLiked = wishlist.includes(PAGE_PRODUCT.id);
-  btn.classList.toggle('active', isLiked);
+  const p = PAGE_PRODUCT;
+  toggleWishItem(p.id, p, null);
+  document.getElementById('btnWishlist').classList.toggle('active', wishlist.some(w => w.id === p.id));
 }
 
 function calcRolls(){
   const w = parseFloat(document.getElementById('wallWidth').value) || 0;
   const h = parseFloat(document.getElementById('wallHeight').value) || 0;
   const result = document.getElementById('calcResult');
-  if(w <= 0 || h <= 0){
-    result.textContent = 'Introduz medidas válidas';
-    result.querySelector && (result.innerHTML = 'Introduz medidas válidas<small>largura e altura em metros</small>');
-    return;
-  }
-  const area = w * h;
-  const areaWithMargin = area * 1.10;
-  const rollArea = 0.70 * 10.05;
-  const rolls = Math.ceil(areaWithMargin / rollArea);
+  if(w <= 0 || h <= 0){ result.innerHTML = 'Introduz medidas válidas<small>largura e altura em metros</small>'; return; }
+  const rolls = Math.ceil((w * h * 1.10) / (0.70 * 10.05));
   result.innerHTML = `Precisa de ${rolls} Rolo${rolls !== 1 ? 's' : ''}<small>de ${rolls} Rolos (incluindo margem de 10%)</small>`;
 }
 
@@ -731,11 +666,9 @@ function switchTab(id, btn){
   document.getElementById('tab-' + id).classList.add('active');
 }
 
-const products = [PAGE_PRODUCT, ...RELATED_PRODUCTS];
-initSearch(products);
-initNavDropdowns();
-updateCartUI();
-initProductPage();
+document.addEventListener('DOMContentLoaded', function(){
+  initProductPage();
+});
 </script>
 </body>
 </html>

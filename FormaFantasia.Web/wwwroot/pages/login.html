@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar na Conta | FormaFantasia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1b2a;--navy-mid:#1a2e42;--gold:#b8973a;--gold-light:#d4af5a;--gold-pale:#f5ead0;--cream:#faf8f4;--cream-dark:#f0ece2;--text-primary:#1a1a1a;--text-secondary:#5a5a5a;--text-muted:#9a9a9a;--green-cta:#2a7a4b;--green-cta-hover:#235f3b;--white:#ffffff;--border:#e8e2d5;--error:#c0392b}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
+a{text-decoration:none;color:inherit}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:.875rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.back-link{font-size:13px;color:var(--text-secondary);display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.back-link:hover{color:var(--navy)}
+.back-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+main{display:flex;align-items:center;justify-content:center;padding:2.5rem 1rem}
+.auth-wrap{width:100%;max-width:420px}
+.tab-bar{display:flex;background:var(--cream-dark);border-radius:10px;padding:4px;margin-bottom:1.75rem}
+.tab-btn{flex:1;padding:.6rem;text-align:center;font-size:14px;font-weight:500;border-radius:7px;cursor:pointer;transition:all .2s;color:var(--text-secondary);border:none;background:none;font-family:'Inter',sans-serif}
+.tab-btn.active{background:var(--white);color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,.08);font-weight:600}
+.auth-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:2rem}
+.auth-card h1{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);margin-bottom:.375rem}
+.auth-card p{font-size:14px;color:var(--text-secondary);margin-bottom:1.5rem}
+.form-group{display:flex;flex-direction:column;gap:.3rem;margin-bottom:1rem}
+.form-group label{font-size:12px;font-weight:500;color:var(--text-secondary)}
+.form-group input{padding:.65rem .875rem;border:1px solid var(--border);border-radius:7px;font-size:14px;font-family:'Inter',sans-serif;background:var(--white);outline:none;transition:border-color .2s}
+.form-group input:focus{border-color:var(--gold)}
+.form-group input.error{border-color:var(--error)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.forgot{font-size:12px;color:var(--gold);text-align:right;display:block;margin-top:-.5rem;margin-bottom:1rem;cursor:pointer}
+.forgot:hover{text-decoration:underline}
+.btn-auth{width:100%;padding:.875rem;background:var(--green-cta);color:var(--white);font-size:15px;font-weight:600;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;margin-top:.5rem}
+.btn-auth:hover{background:var(--green-cta-hover)}
+.divider{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0;font-size:12px;color:var(--text-muted)}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-guest{width:100%;padding:.75rem;background:var(--white);color:var(--text-secondary);font-size:14px;font-weight:500;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-guest:hover{border-color:var(--navy);color:var(--navy)}
+.error-banner{background:#fdecea;border:1px solid #f5c6cb;border-radius:7px;padding:.625rem .875rem;font-size:13px;color:var(--error);margin-bottom:1rem;display:none}
+.error-banner.show{display:block}
+.panel{display:none}
+.panel.active{display:block}
+footer{background:var(--navy-mid);text-align:center;padding:.875rem 2rem;font-size:12px;color:rgba(255,255,255,.3)}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
+  <a href="../index.html" class="back-link">
+    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+    Continuar como visitante
+  </a>
+</header>
+
+<main>
+  <div class="auth-wrap">
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Entrar</button>
+      <button class="tab-btn" id="tabRegisto" onclick="switchTab('registo')">Criar conta</button>
+    </div>
+
+    <div class="auth-card">
+
+      <div class="panel active" id="panelLogin">
+        <h1>Bem-vindo de volta</h1>
+        <p>Entra na tua conta para ver encomendas e gerir os teus dados.</p>
+        <div class="error-banner" id="loginError">Email ou password incorretos.</div>
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="email@exemplo.pt" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <span class="forgot" onclick="showNotif('Funcionalidade de recuperação disponível após integração com backend.')">Esqueceste a password?</span>
+        <button class="btn-auth" onclick="doLogin()">Entrar</button>
+        <div class="divider">ou</div>
+        <button class="btn-guest" onclick="doGuest()">Continuar como visitante</button>
+      </div>
+
+      <div class="panel" id="panelRegisto">
+        <h1>Criar conta</h1>
+        <p>Regista-te para acompanhar encomendas e guardar os teus dados.</p>
+        <div class="error-banner" id="registoError">Preenche todos os campos obrigatórios.</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regPrimeiro">Primeiro Nome *</label>
+            <input type="text" id="regPrimeiro" placeholder="João">
+          </div>
+          <div class="form-group">
+            <label for="regApelido">Apelido *</label>
+            <input type="text" id="regApelido" placeholder="Silva">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email *</label>
+          <input type="email" id="regEmail" placeholder="email@exemplo.pt">
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password *</label>
+          <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres">
+        </div>
+        <div class="form-group">
+          <label for="regConfirm">Confirmar Password *</label>
+          <input type="password" id="regConfirm" placeholder="Repete a password">
+        </div>
+        <button class="btn-auth" onclick="doRegisto()">Criar Conta</button>
+        <div class="divider">ou</div>
+        <button class="btn-guest" onclick="doGuest()">Continuar como visitante</button>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>Website criado por Diogo Martins e Rafael Vieira</footer>
+
+<script src="../js/cart.js"></script>
+<script>
+const REDIRECT = new URLSearchParams(window.location.search).get('redirect') || 'conta.html';
+
+function switchTab(tab){
+  document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('panelRegisto').classList.toggle('active', tab === 'registo');
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('tabRegisto').classList.toggle('active', tab === 'registo');
+}
+
+function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPassword').value.trim();
+  const banner = document.getElementById('loginError');
+  if(!email || !pass){ banner.textContent = 'Preenche o email e a password.'; banner.classList.add('show'); return; }
+  const saved = JSON.parse(sessionStorage.getItem('ff_registered') || '[]');
+  const user = saved.find(u => u.email === email && u.password === pass);
+  if(!user && !(email === 'admin@formafantasia.pt' && pass === 'Admin@123456')){
+    banner.textContent = 'Email ou password incorretos.'; banner.classList.add('show'); return;
+  }
+  banner.classList.remove('show');
+  const profile = user || {firstName:'Admin', lastName:'', email};
+  sessionStorage.setItem('ff_profile', JSON.stringify({...profile, loggedIn:true}));
+  window.location.href = REDIRECT;
+}
+
+function doRegisto(){
+  const primeiro = document.getElementById('regPrimeiro').value.trim();
+  const apelido  = document.getElementById('regApelido').value.trim();
+  const email    = document.getElementById('regEmail').value.trim();
+  const pass     = document.getElementById('regPassword').value.trim();
+  const confirm  = document.getElementById('regConfirm').value.trim();
+  const banner   = document.getElementById('registoError');
+  if(!primeiro || !email || !pass){ banner.textContent = 'Preenche todos os campos obrigatórios.'; banner.classList.add('show'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ banner.textContent = 'Email inválido.'; banner.classList.add('show'); return; }
+  if(pass.length < 8){ banner.textContent = 'A password deve ter pelo menos 8 caracteres.'; banner.classList.add('show'); return; }
+  if(pass !== confirm){ banner.textContent = 'As passwords não coincidem.'; banner.classList.add('show'); return; }
+  banner.classList.remove('show');
+  const users = JSON.parse(sessionStorage.getItem('ff_registered') || '[]');
+  if(users.find(u => u.email === email)){ banner.textContent = 'Já existe uma conta com este email.'; banner.classList.add('show'); return; }
+  const profile = {firstName:primeiro, lastName:apelido, email, password:pass, loggedIn:true};
+  users.push(profile);
+  sessionStorage.setItem('ff_registered', JSON.stringify(users));
+  sessionStorage.setItem('ff_profile', JSON.stringify(profile));
+  window.location.href = REDIRECT;
+}
+
+function doGuest(){
+  sessionStorage.setItem('ff_profile', JSON.stringify({guest:true}));
+  window.location.href = REDIRECT;
+}
+
+let _nt;
+function showNotif(msg){
+  clearTimeout(_nt);
+  const t = document.getElementById('notifToast');
+  if(!t) return;
+  document.getElementById('notifMsg').textContent = msg;
+  t.classList.add('show');
+  _nt = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>

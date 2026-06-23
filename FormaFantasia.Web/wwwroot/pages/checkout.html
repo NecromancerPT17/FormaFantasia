@@ -133,13 +133,12 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
   .checkout-steps{display:none}
 }
 </style>
+<script src="../js/products.js"></script>
+<script src="../js/header.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/nav.js"></script>
 </head>
 <body>
-
-<div class="notif-toast" id="notifToast">
-  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-  <span id="notifMsg"></span>
-</div>
 
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
@@ -151,41 +150,12 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
     <div class="success-order-num">Número de encomenda: <strong id="orderNumber">#FF-00001</strong></div>
     <div class="success-actions">
       <a href="conta.html#encomendas" class="btn-success-primary">Ver Encomendas</a>
-      <a href="catalogo.html" class="btn-success-secondary">Continuar a Comprar</a>
+      <a href="catalogo-hub.html" class="btn-success-secondary">Continuar a Comprar</a>
     </div>
   </div>
 </div>
 
-<header>
-  <div class="header-main">
-    <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
-    <div class="checkout-steps">
-      <div class="step done">
-        <div class="step-num"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-        Carrinho
-      </div>
-      <div class="step-sep"></div>
-      <div class="step active">
-        <div class="step-num">2</div>
-        Entrega
-      </div>
-      <div class="step-sep"></div>
-      <div class="step">
-        <div class="step-num">3</div>
-        Pagamento
-      </div>
-      <div class="step-sep"></div>
-      <div class="step">
-        <div class="step-num">4</div>
-        Confirmação
-      </div>
-    </div>
-    <a href="catalogo.html" style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:.3rem">
-      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
-      Continuar a comprar
-    </a>
-  </div>
-</header>
+
 
 <div class="checkout-body">
 
@@ -390,23 +360,19 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
   <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
 </footer>
 
-<script src="../js/shared.js"></script>
+
 <script>
 let shippingCost = 0;
 let discountAmount = 0;
 
-const COUPONS = {
-  'BEMVINDO15': 0.15,
-  'FF10': 0.10,
-};
-
+const COUPONS = { 'BEMVINDO15': 0.15, 'FF10': 0.10 };
 function fmt(n){ return Number(n).toFixed(2).replace('.',',') + ' €'; }
 
 function renderSummary(){
   const items = Object.values(cart);
   const container = document.getElementById('summaryItems');
   if(items.length === 0){
-    container.innerHTML = '<p style="font-size:13px;color:var(--text-muted);text-align:center;padding:1rem 0">Carrinho vazio.</p>';
+    container.innerHTML = '<p style="font-size:13px;color:var(--text-muted);text-align:center;padding:1rem 0">Carrinho vazio. <a href="catalogo-hub.html" style="color:var(--gold)">Ver catálogo</a></p>';
     document.getElementById('btnConfirm').disabled = true;
   } else {
     container.innerHTML = items.map(i => `
@@ -418,8 +384,7 @@ function renderSummary(){
           <div class="summary-item-qty">Qtd: ${i.qty}</div>
         </div>
         <span class="summary-item-price">${fmt(i.product.price * i.qty)}</span>
-      </div>
-    `).join('');
+      </div>`).join('');
     document.getElementById('btnConfirm').disabled = false;
   }
   updateTotals();
@@ -433,12 +398,8 @@ function updateTotals(){
   document.getElementById('summarySubtotal').textContent = fmt(subtotal);
   document.getElementById('summaryShipping').textContent = shippingCost === 0 ? 'Grátis' : fmt(shippingCost);
   document.getElementById('summaryShipping').className = 'summary-line-value' + (shippingCost === 0 ? ' free' : '');
-  if(discount > 0){
-    document.getElementById('discountRow').style.display = 'flex';
-    document.getElementById('discountValue').textContent = '−' + fmt(discount);
-  } else {
-    document.getElementById('discountRow').style.display = 'none';
-  }
+  document.getElementById('discountRow').style.display = discount > 0 ? 'flex' : 'none';
+  if(discount > 0) document.getElementById('discountValue').textContent = '−' + fmt(discount);
   document.getElementById('summaryTotal').textContent = fmt(total);
 }
 
@@ -458,86 +419,87 @@ function selectPayment(el){
 
 function applyCoupon(){
   const code = document.getElementById('couponInput').value.trim().toUpperCase();
-  if(COUPONS[code]){
-    discountAmount = COUPONS[code];
-    showNotif('Código "' + code + '" aplicado — ' + (discountAmount * 100) + '% de desconto!');
-    updateTotals();
-  } else {
-    showNotif('Código inválido ou já utilizado.');
-  }
+  if(COUPONS[code]){ discountAmount = COUPONS[code]; showNotif('Código "' + code + '" aplicado — ' + (discountAmount * 100) + '% de desconto!'); updateTotals(); }
+  else { showNotif('Código inválido ou já utilizado.'); }
 }
 
 function validateForm(){
-  const required = ['firstName','lastName','email','phone','address','city','postalCode'];
+  const fields = [
+    {id:'firstName', test: v => v.length >= 2},
+    {id:'lastName',  test: v => v.length >= 2},
+    {id:'email',     test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},
+    {id:'phone',     test: v => /^[0-9\s\+\-]{9,15}$/.test(v)},
+    {id:'address',   test: v => v.length >= 5},
+    {id:'city',      test: v => v.length >= 2},
+    {id:'postalCode',test: v => /^\d{4}-\d{3}$/.test(v)},
+  ];
   let valid = true;
-  required.forEach(id => {
+  fields.forEach(({id, test}) => {
     const el = document.getElementById(id);
     if(!el) return;
-    const val = el.value.trim();
-    let fieldValid = val.length > 0;
-    if(id === 'email') fieldValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-    if(id === 'postalCode') fieldValid = /^\d{4}-\d{3}$/.test(val) || /^\d{4,8}$/.test(val);
-    el.classList.toggle('error', !fieldValid);
-    if(!fieldValid) valid = false;
+    const ok = test(el.value.trim());
+    el.classList.toggle('error', !ok);
+    if(!ok) valid = false;
   });
+  if(!valid) showNotif('Verifica os campos assinalados a vermelho.');
   return valid;
 }
 
 function confirmOrder(){
-  if(!validateForm()){
-    showNotif('Por favor preenche todos os campos obrigatórios.');
-    return;
-  }
-  if(Object.keys(cart).length === 0){
-    showNotif('O teu carrinho está vazio.');
-    return;
-  }
-
-  const itens = Object.values(cart).map(i => ({
-    produtoId: i.product.id,
-    quantidade: i.qty
-  }));
-
-  const morada = document.getElementById('address').value + ', ' +
-                 document.getElementById('city').value + ', ' +
-                 document.getElementById('postalCode').value;
-
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = '/Checkout';
-
-  const itensInput = document.createElement('input');
-  itensInput.type = 'hidden';
-  itensInput.name = 'ItensJson';
-  itensInput.value = JSON.stringify(itens);
-
-  const moradaInput = document.createElement('input');
-  moradaInput.type = 'hidden';
-  moradaInput.name = 'MoradaEntrega';
-  moradaInput.value = morada;
-
-  form.appendChild(itensInput);
-  form.appendChild(moradaInput);
-  document.body.appendChild(form);
-  form.submit();
+  if(!validateForm()) return;
+  if(Object.keys(cart).length === 0){ showNotif('O teu carrinho está vazio.'); return; }
+  const num = '#FF-' + String(Math.floor(Math.random() * 90000) + 10000);
+  const items = Object.values(cart);
+  const subtotal = items.reduce((s,i) => s + i.product.price * i.qty, 0);
+  const order = {
+    number: num,
+    date: new Date().toLocaleDateString('pt-PT', {day:'numeric', month:'long', year:'numeric'}),
+    items: items.map(i => ({name:i.product.name, ref:i.product.ref, qty:i.qty, price:i.product.price, pattern:i.product.pattern})),
+    total: subtotal - subtotal * discountAmount + shippingCost,
+    status: 'processing',
+    address: {
+      name: (document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value).trim(),
+      line: document.getElementById('address').value,
+      city: document.getElementById('city').value,
+      postal: document.getElementById('postalCode').value,
+      country: document.getElementById('country').options[document.getElementById('country').selectedIndex].text,
+    }
+  };
+  try {
+    const existing = JSON.parse(sessionStorage.getItem('ff_orders') || '[]');
+    existing.unshift(order);
+    sessionStorage.setItem('ff_orders', JSON.stringify(existing));
+    const profile = JSON.parse(sessionStorage.getItem('ff_profile') || '{}');
+    profile.firstName = document.getElementById('firstName').value.trim();
+    profile.lastName  = document.getElementById('lastName').value.trim();
+    profile.email     = document.getElementById('email').value.trim();
+    profile.phone     = document.getElementById('phone').value.trim();
+    profile.address   = order.address;
+    sessionStorage.setItem('ff_profile', JSON.stringify(profile));
+  } catch(e){}
+  document.getElementById('orderNumber').textContent = num;
+  document.getElementById('successOverlay').classList.add('show');
+  clearCart();
 }
 
-document.getElementById('postalCode').addEventListener('input', function(){
-  let v = this.value.replace(/\D/g,'');
-  if(v.length > 4) v = v.slice(0,4) + '-' + v.slice(4,7);
-  this.value = v;
+document.addEventListener('DOMContentLoaded', function(){
+  const pc = document.getElementById('postalCode');
+  if(pc){
+    pc.addEventListener('input', function(){
+      let v = this.value.replace(/\D/g,'');
+      if(v.length > 4) v = v.slice(0,4) + '-' + v.slice(4,7);
+      this.value = v;
+      this.classList.toggle('error', v.length > 0 && !/^\d{4}-\d{3}$/.test(v));
+    });
+    pc.addEventListener('blur', function(){
+      if(this.value && !/^\d{4}-\d{3}$/.test(this.value)){
+        this.classList.add('error');
+        showNotif('Código postal deve ter o formato 0000-000');
+      }
+    });
+  }
+  renderSummary();
 });
-
-let notifTimer;
-function showNotif(msg){
-  clearTimeout(notifTimer);
-  const t = document.getElementById('notifToast');
-  document.getElementById('notifMsg').textContent = msg;
-  t.classList.add('show');
-  notifTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-renderSummary();
 </script>
 </body>
 </html>

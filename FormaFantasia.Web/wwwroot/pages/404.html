@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página não encontrada | FormaFantasia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1b2a;--gold:#b8973a;--gold-light:#d4af5a;--cream:#faf8f4;--border:#e8e2d5;--text-secondary:#5a5a5a;--text-muted:#9a9a9a;--white:#ffffff}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);margin-bottom:3rem;letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.code{font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:600;line-height:1;color:var(--navy);opacity:.08;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;user-select:none}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:3rem 2.5rem;max-width:480px;width:100%;position:relative;overflow:hidden}
+.icon{width:64px;height:64px;border-radius:50%;background:#f0ece2;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+.icon svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.8}
+h1{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin-bottom:.625rem}
+p{font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:2rem}
+.btn-home{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.75rem;background:var(--navy);color:var(--white);border-radius:7px;font-size:14px;font-weight:600;text-decoration:none;transition:opacity .2s;margin-bottom:.75rem}
+.btn-home:hover{opacity:.85}
+.btn-back{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.5rem;color:var(--text-secondary);border:1px solid var(--border);border-radius:7px;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s;margin-left:.5rem}
+.btn-back:hover{border-color:var(--navy);color:var(--navy)}
+.btn-back svg,.btn-home svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+</style>
+<script src="../js/products.js"></script>
+<script src="../js/header.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/nav.js"></script>
+</head>
+<body>
+<a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
+<div class="card">
+  <div class="code">404</div>
+  <div class="icon">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+  </div>
+  <h1>Página não encontrada</h1>
+  <p>A página que procuras não existe ou foi movida. Verifica o endereço ou volta ao início.</p>
+  <div>
+    <a href="../index.html" class="btn-home">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      Ir para o início
+    </a>
+    <a href="javascript:history.back()" class="btn-back">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+      Voltar
+    </a>
+  </div>
+</div>
+</body>
+</html>

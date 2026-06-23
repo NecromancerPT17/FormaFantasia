@@ -504,6 +504,14 @@ function showNotif(msg){ clearTimeout(notifTimer); const t = document.getElement
   });
 })();
 updateCartUI();
+const _hubQ = new URLSearchParams(window.location.search).get('q');
+if(_hubQ){
+  const msg = document.createElement('div');
+  msg.style.cssText = 'background:var(--gold-pale);border:1px solid var(--gold);border-radius:8px;padding:.75rem 1.25rem;font-size:14px;color:var(--navy);margin-bottom:1.5rem;';
+  msg.innerHTML = 'Resultados para "<strong>' + _hubQ + '</strong>" — seleciona uma categoria abaixo para filtrar. <a href="catalogo-hub.html" style="color:var(--gold);margin-left:.5rem">Limpar pesquisa</a>';
+  const hubBody = document.querySelector('.hub-body');
+  if(hubBody) hubBody.prepend(msg);
+}
 </script>
 </body>
 </html>

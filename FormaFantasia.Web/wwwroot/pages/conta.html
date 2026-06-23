@@ -231,12 +231,7 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
   <div class="header-main">
     <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
     <nav aria-label="Navegação principal">
-      <ul class="nav-primary">
-        <li><a href="https://formafantasia.pt/6-papel">Papel</a></li>
-        <li><a href="https://formafantasia.pt/vinil">Vinil</a></li>
-        <li><a href="https://formafantasia.pt/tapecarias">Tapeçarias</a></li>
-        <li><a href="https://formafantasia.pt/outros">Outros</a></li>
-      </ul>
+      <ul class="nav-primary"></ul>
     </nav>
     <div class="header-actions">
       <button class="icon-btn" onclick="toggleCart()" aria-label="Carrinho">
@@ -253,12 +248,12 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </div>
     <div class="account-hero-info">
-      <h1 id="heroName">João Silva</h1>
-      <p id="heroEmail">joao.silva@email.com &nbsp;·&nbsp; Cliente desde 2023</p>
+      <h1 id="heroName">A minha conta</h1>
+      <p id="heroEmail">Sessão não iniciada &nbsp;·&nbsp; Faça login para ver os seus dados</p>
     </div>
     <div class="account-hero-actions">
       <button class="btn-edit-profile" onclick="showPanel('informacao')">Editar Perfil</button>
-      <button class="btn-logout" onclick="showNotif('Sessão terminada.')">Terminar Sessão</button>
+      <button class="btn-logout" onclick="handleLogout()">Terminar Sessão</button>
     </div>
   </div>
 </div>
@@ -292,93 +287,7 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
 
     <div class="account-panel active" id="panel-encomendas">
       <div class="panel-title">As Minhas Encomendas</div>
-      <div class="orders-list">
-
-        <div class="order-card">
-          <div class="order-card-header">
-            <span class="order-num">#FF-82341</span>
-            <span class="order-date">12 de março, 2025</span>
-            <span class="order-status status-shipped">
-              <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
-              Em Envio
-            </span>
-            <span class="order-total-label">Total&nbsp;</span>
-            <span class="order-total-value">136,00 €</span>
-          </div>
-          <div class="tracking-bar">
-            <div class="tracking-steps">
-              <div class="tracking-step">
-                <div class="tracking-dot done"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                <span class="tracking-label done">Confirmada</span>
-              </div>
-              <div class="tracking-step">
-                <div class="tracking-dot done"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-                <span class="tracking-label done">Em Preparação</span>
-              </div>
-              <div class="tracking-step">
-                <div class="tracking-dot current"></div>
-                <span class="tracking-label current">Em Envio</span>
-              </div>
-              <div class="tracking-step">
-                <div class="tracking-dot"></div>
-                <span class="tracking-label">Entregue</span>
-              </div>
-            </div>
-          </div>
-          <div class="order-card-items">
-            <div class="order-item-row">
-              <div class="order-item-thumb" style="background:repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 5px,#1a2e42 5px,#1a2e42 24px)"></div>
-              <div class="order-item-info">
-                <div class="order-item-name">Versace 4 | Clássico Grego | Navy & Dourado</div>
-                <div class="order-item-ref">Ref. 37048-4 · Qtd: 1</div>
-              </div>
-              <span class="order-item-price">136,00 €</span>
-            </div>
-          </div>
-          <div class="order-card-footer">
-            <button class="btn-track" onclick="showNotif('Rastreio: PT123456789PT')">
-              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6-3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-              Rastrear
-            </button>
-            <button class="btn-reorder" onclick="showNotif('Produtos adicionados ao carrinho.')">Encomendar de novo</button>
-          </div>
-        </div>
-
-        <div class="order-card">
-          <div class="order-card-header">
-            <span class="order-num">#FF-71208</span>
-            <span class="order-date">5 de janeiro, 2025</span>
-            <span class="order-status status-delivered">
-              <svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Entregue
-            </span>
-            <span class="order-total-label">Total&nbsp;</span>
-            <span class="order-total-value">334,90 €</span>
-          </div>
-          <div class="order-card-items">
-            <div class="order-item-row">
-              <div class="order-item-thumb" style="background:radial-gradient(ellipse at 30% 50%,#b8973a22,transparent 50%),linear-gradient(135deg,#f0ece2,#e8e2d5)"></div>
-              <div class="order-item-info">
-                <div class="order-item-name">Liberty London | Flores Silvestres | Sage</div>
-                <div class="order-item-ref">Ref. LB-2241 · Qtd: 2</div>
-              </div>
-              <span class="order-item-price">236,00 €</span>
-            </div>
-            <div class="order-item-row">
-              <div class="order-item-thumb" style="background:repeating-linear-gradient(0deg,#c9a84c22 0,#c9a84c22 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f5e8c8,#e8d5a0)"></div>
-              <div class="order-item-info">
-                <div class="order-item-name">Tapete Berber | Geométrico | Ocre & Creme</div>
-                <div class="order-item-ref">Ref. TB-3301 · Qtd: 1</div>
-              </div>
-              <span class="order-item-price">98,90 €</span>
-            </div>
-          </div>
-          <div class="order-card-footer">
-            <button class="btn-reorder" onclick="showNotif('Produtos adicionados ao carrinho.')">Encomendar de novo</button>
-          </div>
-        </div>
-
-      </div>
+      <div class="orders-list" id="ordersList"></div>
     </div>
 
     <div class="account-panel" id="panel-informacao">
@@ -390,25 +299,25 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
         </div>
         <div id="personal-view">
           <div class="info-grid">
-            <div class="info-field"><div class="info-field-label">Primeiro Nome</div><div class="info-field-value">João</div></div>
-            <div class="info-field"><div class="info-field-label">Apelido</div><div class="info-field-value">Silva</div></div>
-            <div class="info-field"><div class="info-field-label">Email</div><div class="info-field-value">joao.silva@email.com</div></div>
-            <div class="info-field"><div class="info-field-label">Telemóvel</div><div class="info-field-value">912 345 678</div></div>
-            <div class="info-field"><div class="info-field-label">Data de Nascimento</div><div class="info-field-value placeholder">Não definida</div></div>
-            <div class="info-field"><div class="info-field-label">NIF</div><div class="info-field-value placeholder">Não definido</div></div>
+            <div class="info-field"><div class="info-field-label">Primeiro Nome</div><div class="info-field-value placeholder" id="view-firstName">—</div></div>
+            <div class="info-field"><div class="info-field-label">Apelido</div><div class="info-field-value placeholder" id="view-lastName">—</div></div>
+            <div class="info-field"><div class="info-field-label">Email</div><div class="info-field-value placeholder" id="view-email">—</div></div>
+            <div class="info-field"><div class="info-field-label">Telemóvel</div><div class="info-field-value placeholder" id="view-phone">—</div></div>
+            <div class="info-field"><div class="info-field-label">Data de Nascimento</div><div class="info-field-value placeholder" id="view-dob">Não definida</div></div>
+            <div class="info-field"><div class="info-field-label">NIF</div><div class="info-field-value placeholder" id="view-nif">Não definido</div></div>
           </div>
         </div>
         <div id="personal-edit" style="display:none">
           <div class="form-row-2">
-            <div class="form-group"><label>Primeiro Nome</label><input type="text" value="João"></div>
-            <div class="form-group"><label>Apelido</label><input type="text" value="Silva"></div>
+            <div class="form-group"><label>Primeiro Nome</label><input type="text" id="edit-firstName" placeholder="Primeiro nome"></div>
+            <div class="form-group"><label>Apelido</label><input type="text" id="edit-lastName" placeholder="Apelido"></div>
           </div>
-          <div class="form-group"><label>Email</label><input type="email" value="joao.silva@email.com"></div>
+          <div class="form-group"><label>Email</label><input type="email" id="edit-email" placeholder="email@exemplo.pt"></div>
           <div class="form-row-2">
-            <div class="form-group"><label>Telemóvel</label><input type="tel" value="912 345 678"></div>
-            <div class="form-group"><label>Data de Nascimento</label><input type="date"></div>
+            <div class="form-group"><label>Telemóvel</label><input type="tel" id="edit-phone" placeholder="9XX XXX XXX"></div>
+            <div class="form-group"><label>Data de Nascimento</label><input type="date" id="edit-dob"></div>
           </div>
-          <div class="form-group"><label>NIF</label><input type="text" placeholder="000 000 000"></div>
+          <div class="form-group"><label>NIF</label><input type="text" id="edit-nif" placeholder="000 000 000"></div>
           <div style="margin-top:.5rem">
             <button class="btn-save" onclick="saveSection('personal')">Guardar Alterações</button>
             <button class="btn-cancel" onclick="cancelEdit('personal')">Cancelar</button>
@@ -419,17 +328,8 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
 
     <div class="account-panel" id="panel-moradas">
       <div class="panel-title">As Minhas Moradas</div>
-      <div class="address-grid">
-        <div class="address-card default">
-          <span class="address-default-badge">Predefinida</span>
-          <div class="address-name">João Silva</div>
-          <div class="address-text">Rua das Flores, 42, 3º Esq.<br>1200-001 Lisboa<br>Portugal</div>
-          <div class="address-actions">
-            <button class="btn-address-action" onclick="showNotif('Morada editada.')">Editar</button>
-            <button class="btn-address-action" onclick="showNotif('Morada eliminada.')">Eliminar</button>
-          </div>
-        </div>
-        <button class="btn-add-address" onclick="showNotif('Formulário de nova morada em breve.')">
+      <div class="address-grid" id="addressGrid">
+        <button class="btn-add-address" onclick="showNotif('Funcionalidade disponível após login.')">
           <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
           Adicionar Morada
         </button>
@@ -524,36 +424,170 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
   <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
 </footer>
 
-<script src="../js/shared.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/cart.js"></script>
 <script>
+const PROFILE_KEY = 'ff_profile';
+const ORDERS_KEY  = 'ff_orders';
+
+(function authGuard(){
+  try {
+    const profile = JSON.parse(sessionStorage.getItem(PROFILE_KEY) || 'null');
+    if(!profile || profile.guest){
+      window.location.href = 'login.html?redirect=conta.html';
+    }
+  } catch(e){
+    window.location.href = 'login.html?redirect=conta.html';
+  }
+})();
+
+function loadProfile(){ try{ return JSON.parse(sessionStorage.getItem(PROFILE_KEY)) || {}; }catch(e){ return {}; } }
+function saveProfile(p){ try{ sessionStorage.setItem(PROFILE_KEY, JSON.stringify(p)); }catch(e){} }
+function loadOrders(){ try{ return JSON.parse(sessionStorage.getItem(ORDERS_KEY)) || []; }catch(e){ return []; } }
+
+function fmt(n){ return Number(n).toFixed(2).replace('.',',') + ' €'; }
+
+function initPage(){
+  const profile = loadProfile();
+  if(profile.firstName){
+    document.getElementById('heroName').textContent = profile.firstName + ' ' + (profile.lastName || '');
+    document.getElementById('heroEmail').textContent = (profile.email || 'Email não definido');
+  }
+  const fields = ['firstName','lastName','email','phone','dob','nif'];
+  fields.forEach(f => {
+    const el = document.getElementById('view-' + f);
+    const editEl = document.getElementById('edit-' + f);
+    if(el && profile[f]) { el.textContent = profile[f]; el.classList.remove('placeholder'); }
+    if(editEl && profile[f]) editEl.value = profile[f];
+  });
+  renderOrders();
+  renderAddress();
+}
+
+function renderOrders(){
+  const orders = loadOrders();
+  const list = document.getElementById('ordersList');
+  if(!list) return;
+  if(orders.length === 0){
+    list.innerHTML = `<div class="empty-panel">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      <h3>Sem encomendas ainda</h3>
+      <p>Depois de confirmares uma encomenda no checkout, ela aparece aqui. <a href="catalogo-hub.html" style="color:var(--gold)">Ver catálogo</a></p>
+    </div>`;
+    return;
+  }
+  list.innerHTML = orders.map(o => {
+    const statusLabel = {processing:'Em processamento', shipped:'Em envio', delivered:'Entregue', cancelled:'Cancelada'}[o.status] || 'Em processamento';
+    const statusClass = {processing:'status-processing', shipped:'status-shipped', delivered:'status-delivered', cancelled:'status-cancelled'}[o.status] || 'status-processing';
+    const steps = ['Confirmada','Em Preparação','Em Envio','Entregue'];
+    const stepIdx = {processing:1, shipped:2, delivered:3, cancelled:0}[o.status] || 0;
+    return `
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-num">${o.number}</span>
+          <span class="order-date">${o.date}</span>
+          <span class="order-status ${statusClass}">${statusLabel}</span>
+          <span class="order-total-label">Total&nbsp;</span>
+          <span class="order-total-value">${fmt(o.total)}</span>
+        </div>
+        <div class="tracking-bar">
+          <div class="tracking-steps">
+            ${steps.map((s,i) => `
+              <div class="tracking-step">
+                <div class="tracking-dot ${i < stepIdx ? 'done' : i === stepIdx ? 'current' : ''}">
+                  ${i < stepIdx ? '<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>' : ''}
+                </div>
+                <span class="tracking-label ${i < stepIdx ? 'done' : i === stepIdx ? 'current' : ''}">${s}</span>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="order-card-items">
+          ${o.items.map(item => `
+            <div class="order-item-row">
+              <div class="order-item-thumb" style="background:${patternStyles[item.pattern]||patternStyles.plain};background-size:cover"></div>
+              <div class="order-item-info">
+                <div class="order-item-name">${item.name}</div>
+                <div class="order-item-ref">Ref. ${item.ref} · Qtd: ${item.qty}</div>
+              </div>
+              <span class="order-item-price">${fmt(item.price * item.qty)}</span>
+            </div>`).join('')}
+        </div>
+        <div class="order-card-footer">
+          <button class="btn-reorder" onclick="showNotif('Produtos adicionados ao carrinho.')">Encomendar de novo</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderAddress(){
+  const profile = loadProfile();
+  const grid = document.getElementById('addressGrid');
+  if(!grid) return;
+  if(profile.address){
+    grid.innerHTML = `
+      <div class="address-card default">
+        <span class="address-default-badge">Predefinida</span>
+        <div class="address-name">${profile.firstName || ''} ${profile.lastName || ''}</div>
+        <div class="address-text">${profile.address.line || ''}<br>${profile.address.postal || ''} ${profile.address.city || ''}<br>${profile.address.country || 'Portugal'}</div>
+        <div class="address-actions">
+          <button class="btn-address-action" onclick="showNotif('Funcionalidade disponível após login.')">Editar</button>
+          <button class="btn-address-action" onclick="clearAddress()">Remover</button>
+        </div>
+      </div>
+      <button class="btn-add-address" onclick="showNotif('Funcionalidade disponível após login.')">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        Adicionar Morada
+      </button>`;
+  }
+}
+
+function clearAddress(){
+  const p = loadProfile();
+  delete p.address;
+  saveProfile(p);
+  renderAddress();
+  showNotif('Morada removida.');
+}
+
 function showPanel(id){
   document.querySelectorAll('.account-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.account-nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
-  const navItems = document.querySelectorAll('.account-nav-item');
   const labels = ['encomendas','informacao','moradas','vales','seguranca'];
   const idx = labels.indexOf(id);
+  const navItems = document.querySelectorAll('.account-nav-item');
   if(idx > -1 && navItems[idx]) navItems[idx].classList.add('active');
   if(id === 'encomendas') window.location.hash = 'encomendas';
 }
 
 function toggleEditMode(section){
-  const view = document.getElementById(section + '-view');
-  const edit = document.getElementById(section + '-edit');
-  if(view) view.style.display = 'none';
-  if(edit) edit.style.display = 'block';
+  document.getElementById(section + '-view').style.display = 'none';
+  document.getElementById(section + '-edit').style.display = 'block';
 }
 
 function cancelEdit(section){
-  const view = document.getElementById(section + '-view');
-  const edit = document.getElementById(section + '-edit');
-  if(view) view.style.display = 'block';
-  if(edit) edit.style.display = 'none';
+  document.getElementById(section + '-view').style.display = 'block';
+  document.getElementById(section + '-edit').style.display = 'none';
 }
 
 function saveSection(section){
+  if(section === 'personal'){
+    const p = loadProfile();
+    ['firstName','lastName','email','phone','dob','nif'].forEach(f => {
+      const el = document.getElementById('edit-' + f);
+      if(el && el.value.trim()) p[f] = el.value.trim();
+    });
+    saveProfile(p);
+    initPage();
+  }
   cancelEdit(section);
   showNotif('Informação guardada com sucesso.');
+}
+
+function handleLogout(){
+  sessionStorage.removeItem(PROFILE_KEY);
+  showNotif('Sessão terminada.');
+  setTimeout(() => { window.location.href = '../index.html'; }, 1500);
 }
 
 let notifTimer;
@@ -565,8 +599,12 @@ function showNotif(msg){
   notifTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-if(window.location.hash === '#encomendas') showPanel('encomendas');
-updateCartUI();
+document.addEventListener('DOMContentLoaded', function(){
+  if(window.location.hash === '#encomendas') showPanel('encomendas');
+  initPage();
+  updateCartUI();
+  updateWishlistUI();
+});
 </script>
 </body>
 </html>
