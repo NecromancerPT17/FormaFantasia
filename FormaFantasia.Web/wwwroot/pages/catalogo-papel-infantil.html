@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infantil – Papel de Parede | FormaFantasia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy-mid:#1a2e42;--gold:#b8973a;--gold-light:#d4af5a;--gold-pale:#f5ead0;
+  --cream:#faf8f4;--cream-dark:#f0ece2;--text-primary:#1a1a1a;--text-secondary:#5a5a5a;
+  --text-muted:#9a9a9a;--green-cta:#2a7a4b;--green-cta-hover:#235f3b;--white:#ffffff;
+  --border:#e8e2d5;--border-light:#f0ece2;--shadow:0 2px 12px rgba(13,27,42,0.08);
+  --shadow-hover:0 6px 24px rgba(13,27,42,0.14);
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);line-height:1.6}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.header-top{background:var(--navy);color:var(--white);font-size:12px;text-align:center;padding:7px 1rem;letter-spacing:.04em}
+.header-top a{color:var(--gold-light)}
+.header-main{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;gap:1rem}
+.logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.nav-primary{display:flex;gap:2rem;list-style:none}
+.nav-primary>li{position:relative}
+.nav-primary>li>a{font-size:14px;font-weight:500;color:var(--text-primary);letter-spacing:.03em;padding:.25rem 0;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:.25rem;white-space:nowrap}
+.nav-primary>li>a:hover,.nav-primary>li>a.active{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-arrow{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;transition:transform .2s;flex-shrink:0}
+.nav-primary>li.dd-open>.nav-arrow{transform:rotate(180deg)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);left:0;background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(13,27,42,.13);min-width:220px;padding:.5rem 0;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .15s,visibility .15s;z-index:500}
+.nav-dropdown::before{content:'';position:absolute;top:-10px;left:0;right:0;height:10px}
+.nav-primary>li.dd-open>.nav-dropdown{visibility:visible;opacity:1;pointer-events:all}
+.nav-dropdown a{display:flex;align-items:center;justify-content:space-between;padding:.5rem 1rem;font-size:13px;color:var(--text-primary);transition:all .2s;white-space:nowrap}
+.nav-dropdown a:hover{background:var(--cream);color:var(--gold)}
+.nav-dropdown-section{padding:.4rem 1rem .2rem;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-top:.25rem}
+.nav-dropdown hr{border:none;border-top:1px solid var(--border-light);margin:.3rem 0}
+.nav-dd-arrow{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;color:var(--text-muted)}
+.header-actions{display:flex;align-items:center;gap:.5rem}
+.search-wrapper{display:flex;align-items:center;background:var(--cream);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .2s}
+.search-wrapper:focus-within{border-color:var(--gold)}
+.search-wrapper input{border:none;background:none;padding:.4rem .75rem;font-size:14px;width:200px;outline:none;font-family:inherit;color:var(--text-primary)}
+.search-wrapper input::placeholder{color:var(--text-muted)}
+.search-wrapper button{padding:.4rem .6rem;color:var(--text-secondary);display:flex;align-items:center}
+.search-wrapper button:hover{color:var(--gold)}
+.icon-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;transition:background .2s;position:relative;color:var(--text-primary)}
+.icon-btn:hover{background:var(--cream-dark);color:var(--gold)}
+.icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+.badge{position:absolute;top:2px;right:2px;background:var(--gold);color:var(--white);font-size:10px;font-weight:600;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;top:0;right:0;width:380px;max-width:100%;height:100%;background:var(--white);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.12)}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
+.cart-header h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
+.cart-close{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all .2s}
+.cart-close:hover{background:var(--cream);color:var(--text-primary)}
+.cart-close svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.cart-body{flex:1;overflow-y:auto;padding:1rem 1.5rem}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--text-muted)}
+.cart-empty svg{width:48px;height:48px;stroke:currentColor;fill:none;stroke-width:1.2;margin:0 auto 1rem}
+.cart-empty p{font-size:15px}
+.cart-item{display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border-light)}
+.cart-item-img-placeholder{width:64px;height:64px;border-radius:6px;flex-shrink:0}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:13px;font-weight:500;line-height:1.4;margin-bottom:4px}
+.cart-item-ref{font-size:11px;color:var(--text-muted);margin-bottom:8px}
+.cart-item-controls{display:flex;align-items:center;justify-content:space-between}
+.qty-control{display:flex;align-items:center;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.qty-control button{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-secondary)}
+.qty-control button:hover{background:var(--cream)}
+.qty-control span{font-size:13px;font-weight:500;padding:0 8px;min-width:28px;text-align:center}
+.cart-item-price{font-size:14px;font-weight:600;color:var(--navy)}
+.cart-item-remove{color:var(--text-muted);font-size:11px;cursor:pointer;margin-left:.5rem;padding:2px 4px}
+.cart-item-remove:hover{color:#c0392b}
+.cart-footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:1rem}
+.cart-total-label{font-size:14px;color:var(--text-secondary)}
+.cart-total-note{font-size:11px;color:var(--text-muted);margin-top:2px}
+.cart-total-value{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)}
+.btn-checkout{display:block;width:100%;padding:.85rem;background:var(--green-cta);color:var(--white);font-size:15px;font-weight:600;text-align:center;border-radius:8px;margin-bottom:.5rem;transition:background .2s}
+.btn-checkout:hover{background:var(--green-cta-hover)}
+.btn-continue{display:block;width:100%;padding:.7rem;color:var(--text-secondary);font-size:13px;text-align:center;border-radius:8px;border:1px solid var(--border);transition:all .2s}
+.btn-continue:hover{border-color:var(--navy);color:var(--navy)}
+.wishlist-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:320px;background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-hover);z-index:300;display:none;padding:1rem}
+.wishlist-dropdown.open{display:block}
+.wishlist-dropdown h3{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:.75rem;color:var(--navy)}
+.wishlist-item{display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid var(--border-light);font-size:13px}
+.wishlist-item:last-child{border-bottom:none}
+.wishlist-item-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.wishlist-empty-note{font-size:13px;color:var(--text-muted);text-align:center;padding:.5rem 0}
+.notif-toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:var(--white);padding:.75rem 1.25rem;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-hover);z-index:400;transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:.5rem;max-width:300px}
+.notif-toast.show{transform:translateY(0);opacity:1}
+.notif-toast svg{width:16px;height:16px;stroke:var(--gold-light);fill:none;stroke-width:2;flex-shrink:0}
+.cat-hero{background:var(--navy);padding:2.5rem 2rem 2rem;color:var(--white)}
+.cat-hero-inner{max-width:1200px;margin:0 auto}
+.breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:1rem;flex-wrap:wrap}
+.breadcrumb a{color:rgba(255,255,255,.5);transition:color .2s}
+.breadcrumb a:hover{color:var(--gold-light)}
+.breadcrumb-sep{color:rgba(255,255,255,.25)}
+.breadcrumb-current{color:var(--white)}
+.cat-hero h1{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;line-height:1.15;margin-bottom:.5rem}
+.cat-hero p{font-size:14px;color:rgba(255,255,255,.65);max-width:560px;line-height:1.7}
+.cat-hero-meta{display:flex;align-items:center;gap:1.5rem;margin-top:1.25rem;flex-wrap:wrap}
+.cat-hero-stat{font-size:13px;color:rgba(255,255,255,.5)}
+.cat-hero-stat strong{color:var(--gold-light);font-weight:600}
+.cat-body{max-width:1200px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start}
+.cat-main{display:block}
+.cat-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap}
+.cat-count{font-size:13px;color:var(--text-secondary)}
+.cat-count strong{color:var(--text-primary)}
+.cat-sort select{border:1px solid var(--border);border-radius:6px;padding:.35rem .75rem;font-size:13px;font-family:'Inter',sans-serif;background:var(--white);color:var(--text-primary);outline:none;cursor:pointer}
+.cat-sort{display:flex;align-items:center;gap:.5rem;font-size:13px;color:var(--text-secondary)}
+.cat-sidebar{display:block}
+.cat-sidebar-block{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem}
+.cat-sidebar-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.75rem}
+.sidebar-filter-list{list-style:none;display:flex;flex-direction:column;gap:.25rem}
+.sidebar-filter-list li a{display:flex;align-items:center;justify-content:space-between;padding:.4rem .5rem;border-radius:6px;font-size:13px;color:var(--text-secondary);transition:all .2s}
+.sidebar-filter-list li a:hover,.sidebar-filter-list li a.active{background:var(--gold-pale);color:var(--navy);font-weight:500}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem}
+.product-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .25s;position:relative}
+.product-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px)}
+.product-card-img{width:100%;height:190px;overflow:hidden;background:var(--cream-dark);position:relative}
+.product-card-pattern{width:100%;height:100%}
+.product-wish{position:absolute;top:.625rem;right:.625rem;width:32px;height:32px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2}
+.product-wish:hover{background:var(--white);transform:scale(1.1)}
+.product-wish svg{width:16px;height:16px;stroke:#c0392b;fill:none;stroke-width:2;transition:fill .2s}
+.product-wish.liked svg{fill:#c0392b}
+.product-tag{position:absolute;top:.625rem;left:.625rem;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:3px;z-index:2}
+.tag-new{background:var(--navy);color:var(--white)}
+.tag-promo{background:#c0392b;color:var(--white)}
+.product-card-body{padding:1rem}
+.product-card-category{font-size:11px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.25rem}
+.product-card-name{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:.5rem;line-height:1.4}
+.product-card-ref{font-size:11px;color:var(--text-muted);margin-bottom:.75rem}
+.product-card-footer{display:flex;align-items:center;justify-content:space-between}
+.product-card-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
+.product-card-price small{font-family:'Inter',sans-serif;font-size:11px;color:var(--text-muted);font-weight:400}
+.btn-add-cart{padding:.45rem .875rem;background:var(--green-cta);color:var(--white);font-size:12px;font-weight:600;border-radius:6px;display:flex;align-items:center;gap:.3rem;border:none;transition:background .2s}
+.btn-add-cart:hover{background:var(--green-cta-hover)}
+.btn-add-cart svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;margin-top:2rem}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-bottom-left{font-size:12px;color:rgba(255,255,255,.45)}
+.footer-credits{border-top:1px solid rgba(255,255,255,.07);text-align:center;padding:.625rem 2rem;font-size:11px;color:rgba(255,255,255,.3)}
+@media(max-width:900px){.cat-body{grid-template-columns:1fr}.cat-sidebar{display:none}}
+@media(max-width:600px){.header-main{padding:.75rem 1rem}nav ul{display:none}}
+</style>
+</head>
+<body>
+
+<div class="notif-toast" id="notifToast">
+  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+  <span id="notifMsg"></span>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Carrinho">
+  <div class="cart-header">
+    <h2>Carrinho</h2>
+    <button class="cart-close" onclick="toggleCart()">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total-row">
+      <div><div class="cart-total-label">Total</div><div class="cart-total-note">IVA incluído</div></div>
+      <div class="cart-total-value" id="cartTotal">0,00 €</div>
+    </div>
+    <a href="checkout.html" class="btn-checkout">Finalizar Encomenda</a>
+    <button class="btn-continue" onclick="toggleCart()">Continuar a Comprar</button>
+  </div>
+</aside>
+
+<header>
+  <div class="header-top">
+    Envios internacionais disponíveis &mdash; <a href="https://formafantasia.pt/content/1-comprar">Saiba mais</a> &nbsp;|&nbsp; Encomenda online 24/7 &nbsp;|&nbsp; Multibanco e PayPal aceites
+  </div>
+  <div class="header-main">
+    <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
+    <nav aria-label="Navegação principal">
+      <ul class="nav-primary">
+        <li>
+          <a href="catalogo-papel-infantil.html" class="active">Papel
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Papel de Parede</div>
+            <a href="catalogo-papel-infantil.html">Infantil <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <a href="catalogo-papel-decoracao.html">Decoração <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <a href="catalogo-papel-economico.html">Económico</a>
+            <a href="catalogo-papel-cozinha.html">Cozinha &amp; WC</a>
+          </div>
+        </li>
+        <li>
+          <a href="catalogo-vinil.html">Vinil
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Vinil Decorativo</div>
+            <a href="catalogo-vinil.html">Ver tudo</a>
+            <a href="https://formafantasia.pt/content/3-aplicar-vinil-decorativo">Como Aplicar Vinil</a>
+          </div>
+        </li>
+        <li>
+          <a href="catalogo-tapecarias.html">Tapeçarias
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Tapeçarias</div>
+            <a href="catalogo-tapecarias.html">Ver tudo</a>
+          </div>
+        </li>
+        <li>
+          <a href="catalogo-hub.html">Outros
+            <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-section">Categorias</div>
+            <a href="catalogo-paineis.html">Painéis Decorativos</a>
+            <a href="catalogo-impressao.html">Impressão Digital</a>
+            <a href="catalogo-calhas.html">Calhas</a>
+            <a href="catalogo-stockoff.html">Stock Off</a>
+            <a href="catalogo-varoes.html">Varões</a>
+            <a href="catalogo-tecidos.html">Tecidos</a>
+            <a href="catalogo-colas.html">Colas</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="search-wrapper">
+        <input type="search" placeholder="Buscar..." id="searchInput" autocomplete="off">
+        <button aria-label="Pesquisar">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <div style="position:relative">
+        <button class="icon-btn" id="wishBtn" onclick="toggleWishlist()" aria-label="Lista de desejos">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="badge" id="wishBadge" style="display:none">0</span>
+        </button>
+        <div class="wishlist-dropdown" id="wishlistDropdown">
+          <h3>Lista de Desejos</h3>
+          <div id="wishlistItems"><p class="wishlist-empty-note">Ainda não adicionou artigos.</p></div>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="toggleCart()" aria-label="Carrinho">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="badge" id="cartBadge" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="cat-hero">
+  <div class="cat-hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Início</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="catalogo-hub.html">Catálogo</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Papel de Parede Infantil</span>
+    </nav>
+    <h1>Papel de Parede Infantil</h1>
+    <p>Padrões alegres e temáticos para quartos de criança. Materiais seguros, laváveis e de fácil aplicação.</p>
+    <div class="cat-hero-meta">
+      <span class="cat-hero-stat"><strong id="productCount">0</strong> produtos</span>
+      <span class="cat-hero-stat">Envio em <strong>14 dias</strong></span>
+      <span class="cat-hero-stat">IVA <strong>incluído</strong></span>
+    </div>
+  </div>
+</div>
+
+<div class="cat-body">
+  <aside class="cat-sidebar" aria-label="Filtros">
+    <div class="cat-sidebar-block">
+      <div class="cat-sidebar-title">Categorias</div>
+      <ul class="sidebar-filter-list">
+        <li><a href="catalogo-hub.html">← Ver todas as categorias</a></li>
+      </ul>
+    </div>
+    <div class="cat-sidebar-block">
+      <div class="cat-sidebar-title">Preço</div>
+      <input type="range" min="0" max="500" value="500" id="priceRange" oninput="filterByPrice(this.value)" style="width:100%;accent-color:var(--gold)">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-top:.25rem"><span>0 €</span><span>até <span id="priceLabel">500</span> €</span></div>
+    </div>
+  </aside>
+  <main class="cat-main">
+    <div class="cat-toolbar">
+      <span class="cat-count"><strong id="visibleCount">0</strong> produtos encontrados</span>
+      <div class="cat-sort">
+        <label for="sortSelect">Ordenar:</label>
+        <select id="sortSelect" onchange="sortProducts(this.value)">
+          <option value="default">Em destaque</option>
+          <option value="price-asc">Preço: mais baixo</option>
+          <option value="price-desc">Preço: mais alto</option>
+          <option value="name-asc">Nome: A–Z</option>
+        </select>
+      </div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <span class="footer-bottom-left">&copy; 2025 FormaFantasia. Todos os direitos reservados.</span>
+    <a href="catalogo-hub.html" style="font-size:12px;color:rgba(255,255,255,.5)">← Voltar ao Catálogo</a>
+  </div>
+  <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
+</footer>
+
+<script>
+const products = [
+  {id:101,name:'Abracazoo | Safari Colorido',ref:'ABZ-101',category:'papel',price:89.0,tag:'new',pattern:'floral'},
+];
+
+const patternStyles = {
+  greek:'repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 5px,#1a2e42 5px,#1a2e42 24px),repeating-linear-gradient(-45deg,#b8973a33 0,#b8973a33 2px,transparent 2px,transparent 24px)',
+  floral:'radial-gradient(ellipse at 30% 50%,#b8973a22,transparent 50%),linear-gradient(135deg,#f0ece2,#e8e2d5)',
+  marble:'linear-gradient(115deg,#f5f0e8,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df)',
+  berber:'repeating-linear-gradient(0deg,#c9a84c22 0,#c9a84c22 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f5e8c8,#e8d5a0)',
+  tropical:'radial-gradient(circle at 20% 80%,#2d5a27 0%,transparent 40%),linear-gradient(135deg,#1a3d16,#2d5a27)',
+  cement:'repeating-linear-gradient(0deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),linear-gradient(135deg,#d0cdc8,#b8b5b0)',
+  kilim:'repeating-linear-gradient(45deg,#8b1a1a 0,#8b1a1a 4px,#d4a017 4px,#d4a017 8px,#1a3d8b 12px,#1a3d8b 16px)',
+  plain:'linear-gradient(135deg,#f0ece2,#e8e2d5)',
+};
+
+const categoryLabels = {papel:'Papel de Parede',vinil:'Vinil Decorativo',tapecaria:'Tapeçaria',paineis:'Painéis Decorativos',impressao:'Impressão Digital',calhas:'Calhas',stockoff:'Stock Off',varoes:'Varões',tecidos:'Tecidos',colas:'Colas',acessorios:'Acessório'};
+function categoryLabel(c){ return categoryLabels[c] || c; }
+function formatPrice(p){ return Number(p).toFixed(2).replace('.',',') + ' €'; }
+
+let cart = {};
+let wishlist = [];
+let displayProducts = [...products];
+
+function addToCart(id){
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  if(cart[id]){ cart[id].qty++; } else { cart[id] = {product:p, qty:1}; }
+  updateCartUI();
+  showNotif('Adicionado: ' + p.name.substring(0,35) + (p.name.length > 35 ? '…' : ''));
+}
+function removeFromCart(id){ delete cart[id]; updateCartUI(); }
+function changeQty(id, delta){
+  if(!cart[id]) return;
+  cart[id].qty += delta;
+  if(cart[id].qty <= 0) delete cart[id];
+  updateCartUI();
+}
+function updateCartUI(){
+  const items = Object.values(cart);
+  const totalQty = items.reduce((s,i) => s + i.qty, 0);
+  const badge = document.getElementById('cartBadge');
+  if(badge){ badge.style.display = totalQty > 0 ? 'flex' : 'none'; badge.textContent = totalQty; }
+  const body = document.getElementById('cartBody'), footer = document.getElementById('cartFooter');
+  if(!body) return;
+  if(items.length === 0){
+    body.innerHTML = '<div class="cart-empty"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg><p>O teu carrinho está vazio.</p></div>';
+    if(footer) footer.style.display = 'none';
+  } else {
+    body.innerHTML = items.map(i => `<div class="cart-item"><div class="cart-item-img-placeholder" style="background:${patternStyles[i.product.pattern]||patternStyles.plain};background-size:cover"></div><div class="cart-item-info"><div class="cart-item-name">${i.product.name}</div><div class="cart-item-ref">Ref. ${i.product.ref}</div><div class="cart-item-controls"><div class="qty-control"><button onclick="changeQty(${i.product.id},-1)">−</button><span>${i.qty}</span><button onclick="changeQty(${i.product.id},1)">+</button></div><div style="display:flex;align-items:center"><span class="cart-item-price">${formatPrice(i.product.price * i.qty)}</span><button class="cart-item-remove" onclick="removeFromCart(${i.product.id})">remover</button></div></div></div></div>`).join('');
+    if(footer) footer.style.display = 'block';
+    const t = document.getElementById('cartTotal'); if(t) t.textContent = formatPrice(items.reduce((s,i) => s + i.product.price * i.qty, 0));
+  }
+}
+function toggleCart(){
+  const d = document.getElementById('cartDrawer'), o = document.getElementById('cartOverlay');
+  const open = d.classList.contains('open');
+  d.classList.toggle('open', !open); o.classList.toggle('open', !open);
+  if(!open) updateCartUI();
+}
+function toggleWishItem(id, e){
+  if(e){ e.preventDefault(); e.stopPropagation(); }
+  const idx = wishlist.indexOf(id);
+  if(idx > -1){ wishlist.splice(idx,1); showNotif('Removido da lista de desejos'); }
+  else { wishlist.push(id); showNotif('Adicionado à lista de desejos ♥'); }
+  renderGrid();
+  const wbadge = document.getElementById('wishBadge');
+  if(wbadge){ wbadge.textContent = wishlist.length; wbadge.style.display = wishlist.length > 0 ? 'flex' : 'none'; }
+}
+function toggleWishlist(){ document.getElementById('wishlistDropdown').classList.toggle('open'); }
+document.addEventListener('click', function(e){
+  const dd = document.getElementById('wishlistDropdown'), btn = document.getElementById('wishBtn');
+  if(dd && dd.classList.contains('open') && !dd.contains(e.target) && btn && !btn.contains(e.target)) dd.classList.remove('open');
+});
+function filterByPrice(val){
+  document.getElementById('priceLabel').textContent = val;
+  displayProducts = products.filter(p => p.price <= Number(val));
+  renderGrid();
+}
+function sortProducts(val){
+  const s = [...displayProducts];
+  if(val === 'price-asc') s.sort((a,b) => a.price - b.price);
+  else if(val === 'price-desc') s.sort((a,b) => b.price - a.price);
+  else if(val === 'name-asc') s.sort((a,b) => a.name.localeCompare(b.name,'pt'));
+  displayProducts = s;
+  renderGrid();
+}
+function renderGrid(){
+  const grid = document.getElementById('productsGrid');
+  document.getElementById('productCount').textContent = products.length;
+  document.getElementById('visibleCount').textContent = displayProducts.length;
+  grid.innerHTML = displayProducts.map(p => `
+    <article class="product-card">
+      <a href="produto.html" style="text-decoration:none;color:inherit;display:contents">
+        <div class="product-card-img">
+          <div class="product-card-pattern" style="background:${patternStyles[p.pattern]||patternStyles.plain};width:100%;height:100%"></div>
+          ${p.tag ? `<span class="product-tag ${p.tag === 'new' ? 'tag-new' : 'tag-promo'}">${p.tag === 'new' ? 'Novo' : 'Promo'}</span>` : ''}
+          <button class="product-wish ${wishlist.includes(p.id) ? 'liked' : ''}" onclick="toggleWishItem(${p.id},event)" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </button>
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-category">${categoryLabel(p.category)}</div>
+          <div class="product-card-name">${p.name}</div>
+          <div class="product-card-ref">Ref. ${p.ref}</div>
+          <div class="product-card-footer">
+            <div class="product-card-price">${formatPrice(p.price)} <small>(IVA inc.)</small></div>
+            <button class="btn-add-cart" onclick="addToCart(${p.id});event.preventDefault();event.stopPropagation()">
+              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              Adicionar
+            </button>
+          </div>
+        </div>
+      </a>
+    </article>
+  `).join('');
+}
+let notifTimer;
+function showNotif(msg){ clearTimeout(notifTimer); const t = document.getElementById('notifToast'); document.getElementById('notifMsg').textContent = msg; t.classList.add('show'); notifTimer = setTimeout(() => t.classList.remove('show'), 2800); }
+(function(){
+  const ddTimers = new WeakMap();
+  document.querySelectorAll('.nav-primary > li').forEach(li => {
+    if(!li.querySelector('.nav-dropdown')) return;
+    function open(){ clearTimeout(ddTimers.get(li)); li.classList.add('dd-open'); }
+    function scheduleClose(){ ddTimers.set(li, setTimeout(() => li.classList.remove('dd-open'), 180)); }
+    li.addEventListener('mouseenter', open);
+    li.addEventListener('mouseleave', scheduleClose);
+  });
+})();
+renderGrid();
+updateCartUI();
+</script>
+</body>
+</html>
