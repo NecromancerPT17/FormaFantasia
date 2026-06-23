@@ -168,6 +168,8 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 .badge-dest{background:var(--green-cta);color:var(--white)}
 .highlight-card h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:.5rem;line-height:1.3}
 .highlight-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem}
+.highlight-price{font-size:18px;font-weight:600;color:var(--gold);margin-bottom:1rem}
+.highlight-price span{font-size:12px;color:var(--text-muted);font-weight:400;text-decoration:line-through;margin-left:.25rem}
 .highlight-link{font-size:13px;font-weight:500;color:var(--navy);display:inline-flex;align-items:center;gap:.3rem;border-bottom:1px solid var(--navy);transition:all .2s}
 .highlight-link:hover{color:var(--gold);border-color:var(--gold)}
 .highlight-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s}
@@ -177,14 +179,11 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 .hv-floral{background:radial-gradient(ellipse at 30% 60%,#b8973a22 0%,transparent 50%),radial-gradient(ellipse at 70% 30%,#b8973a33 0%,transparent 40%),linear-gradient(135deg,#f0ece2,#e8e2d5)}
 .hv-marble{background:linear-gradient(115deg,#f5f0e8 0%,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df 100%)}
 
-/* ── CATEGORY FILTER LINKS ── */
-.products-filter{display:flex;gap:.5rem;justify-content:center;margin-bottom:2.5rem;flex-wrap:wrap}
-.filter-btn{padding:.45rem 1rem;border-radius:20px;border:1px solid var(--border);font-size:13px;font-weight:500;color:var(--text-secondary);transition:all .2s;background:var(--white);text-decoration:none;display:inline-block}
-.filter-btn:hover{background:var(--navy);color:var(--white);border-color:var(--navy)}
-.highlight-visual{width:100%;height:120px;border-radius:8px;margin-bottom:1.25rem;overflow:hidden}
-
 /* ── PRODUCT GRID ── */
 .products-section{background:var(--white)}
+.products-filter{display:flex;gap:.5rem;justify-content:center;margin-bottom:2.5rem;flex-wrap:wrap}
+.filter-btn{padding:.45rem 1rem;border-radius:20px;border:1px solid var(--border);font-size:13px;font-weight:500;color:var(--text-secondary);transition:all .2s;background:var(--white)}
+.filter-btn:hover,.filter-btn.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
 .product-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .25s;position:relative}
 .product-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px)}
@@ -326,7 +325,7 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
       </div>
       <div class="cart-total-value" id="cartTotal">0,00 €</div>
     </div>
-    <a href="pages/checkout.html" class="btn-checkout">Finalizar Encomenda</a>
+    <a href="/Checkout" class="btn-checkout">Finalizar Encomenda</a>
     <button class="btn-continue" onclick="toggleCart()">Continuar a Comprar</button>
   </div>
 </aside>
@@ -340,49 +339,61 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
     <nav aria-label="Navegação principal">
       <ul class="nav-primary">
         <li>
-          <a href="pages/catalogo-papel-infantil.html">Papel
+          <a href="/papel">Papel
             <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </a>
           <div class="nav-dropdown">
             <div class="nav-dropdown-section">Papel de Parede</div>
-            <a href="pages/catalogo-papel-infantil.html">Infantil <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
-            <a href="pages/catalogo-papel-decoracao.html">Decoração <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
-            <a href="pages/catalogo-papel-economico.html">Económico</a>
-            <a href="pages/catalogo-papel-cozinha.html">Cozinha &amp; WC</a>
+            <a href="/papel/infantil">Infantil <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <a href="/papel/decoracao">Decoração <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <hr>
+            <div class="nav-dropdown-section">Destaques</div>
+            <a href="/papel/versace">Versace 4</a>
+            <a href="/papel/liberty">Liberty London</a>
+            <a href="/papel/botanica">Coleção Botânica</a>
           </div>
         </li>
         <li>
-          <a href="pages/catalogo-vinil.html">Vinil
+          <a href="/vinil">Vinil
             <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </a>
           <div class="nav-dropdown">
             <div class="nav-dropdown-section">Vinil Decorativo</div>
-            <a href="pages/catalogo-vinil.html">Ver tudo</a>
-            <a href="https://formafantasia.pt/content/3-aplicar-vinil-decorativo">Como Aplicar Vinil</a>
+            <a href="/vinil/liso">Liso e Texturado</a>
+            <a href="/vinil/efeitos">Efeitos Especiais</a>
+            <a href="/vinil/impressao">Impressão Digital</a>
+            <hr>
+            <div class="nav-dropdown-section">Aplicações</div>
+            <a href="/aplicar/vinil">Como Aplicar Vinil</a>
           </div>
         </li>
         <li>
-          <a href="pages/catalogo-tapecarias.html">Tapeçarias
+          <a href="/tapecarias">Tapeçarias
             <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </a>
           <div class="nav-dropdown">
             <div class="nav-dropdown-section">Tapeçarias</div>
-            <a href="pages/catalogo-tapecarias.html">Ver tudo</a>
+            <a href="/tapecarias/classicas">Clássicas</a>
+            <a href="/tapecarias/modernas">Modernas</a>
+            <a href="/tapecarias/medida">À Medida</a>
+            <hr>
+            <div class="nav-dropdown-section">Tecidos</div>
+            <a href="/tecidos">Ver Tecidos</a>
           </div>
         </li>
         <li>
-          <a href="pages/catalogo-hub.html">Outros
+          <a href="/outros">Outros
             <svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </a>
           <div class="nav-dropdown">
             <div class="nav-dropdown-section">Categorias</div>
-            <a href="pages/catalogo-paineis.html">Painéis Decorativos</a>
-            <a href="pages/catalogo-impressao.html">Impressão Digital</a>
-            <a href="pages/catalogo-calhas.html">Calhas</a>
-            <a href="pages/catalogo-stockoff.html">Stock Off</a>
-            <a href="pages/catalogo-varoes.html">Varões</a>
-            <a href="pages/catalogo-tecidos.html">Tecidos</a>
-            <a href="pages/catalogo-colas.html">Colas</a>
+            <a href="/paineis-decorativos">Painéis Decorativos <svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+            <a href="/impressao-digital">Impressão Digital</a>
+            <a href="/calhas">Calhas</a>
+            <a href="/stock-off">Stock Off</a>
+            <a href="/varoes">Varões</a>
+            <a href="/tecidos">Tecidos</a>
+            <a href="/colas">Colas</a>
           </div>
         </li>
       </ul>
@@ -424,13 +435,13 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
       <h1 class="hero-title">Transforma<br>as tuas <em>paredes</em><br>em arte</h1>
       <p class="hero-subtitle">Papel de parede de luxo, vinil decorativo e tapeçarias exclusivas para cada ambiente. Mais de 2000 referências disponíveis.</p>
       <div class="hero-ctas">
-        <a href="pages/catalogo-hub.html" class="btn-primary">
+        <a href="/produtos" class="btn-primary">
           <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           Ver Catálogo
         </a>
-        <a href="https://formafantasia.pt/content/4-sobre-nos" class="btn-secondary">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Sobre Nós
+        <a href="/ambientes" class="btn-secondary">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Simulador de Ambiente
         </a>
       </div>
     </div>
@@ -484,66 +495,63 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
       <span class="highlight-badge badge-new">Novidade</span>
       <h3>Versace 4 Clássico Grego</h3>
       <p>Padrão navy &amp; dourado com motivos helénicos. Tecido não-tecido TNT de fácil aplicação.</p>
-      <a href="pages/catalogo-papel-decoracao.html" class="highlight-link">
-        Ver catálogo
+      <div class="highlight-price">136,00 €</div>
+      <a href="/produto/37048-4" class="highlight-link">
+        Ver produto
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </article>
     <article class="highlight-card">
       <div class="highlight-visual hv-marble"></div>
       <span class="highlight-badge badge-promo">Promoção</span>
-      <h3>Stock Off — Liquidação</h3>
-      <p>Artigos em liquidação com descontos até 40%. Enquanto houver stock disponível.</p>
-      <a href="pages/catalogo-stockoff.html" class="highlight-link">
-        Ver stock off
+      <h3>Efeito Mármore Branco</h3>
+      <p>Coleção premium de vinil com efeito mármore. Resistente à humidade, ideal para casas de banho.</p>
+      <div class="highlight-price">89,00 € <span>118,00 €</span></div>
+      <a href="/vinil/marmore" class="highlight-link">
+        Ver produto
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </article>
     <article class="highlight-card">
       <div class="highlight-visual hv-floral"></div>
       <span class="highlight-badge badge-dest">Destaque</span>
-      <h3>Papel de Parede Infantil</h3>
-      <p>Padrões alegres e temáticos para quartos de criança. Materiais seguros e laváveis.</p>
-      <a href="pages/catalogo-papel-infantil.html" class="highlight-link">
-        Ver catálogo
+      <h3>Coleção Botânica</h3>
+      <p>Padrões florais contemporâneos para ambientes modernos. Disponível em 6 colorações.</p>
+      <div class="highlight-price">112,00 €</div>
+      <a href="/papel/botanica" class="highlight-link">
+        Ver produto
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </article>
   </div>
 </section>
 
-<section class="section products-section" style="background:var(--white)">
+<section class="section products-section">
   <div class="container">
     <div class="section-header">
       <p class="section-eyebrow">Catálogo</p>
-      <h2 class="section-title">Explorar por Categoria</h2>
-      <p class="section-subtitle">Seleciona uma categoria para ver o catálogo completo de produtos.</p>
+      <h2 class="section-title">Produtos em Destaque</h2>
+      <p class="section-subtitle">Uma seleção dos nossos melhores artigos, com envio em 14 dias úteis.</p>
     </div>
-    <div class="products-filter" role="group" aria-label="Categorias">
-      <a href="pages/catalogo-papel-infantil.html" class="filter-btn">Papel Infantil</a>
-      <a href="pages/catalogo-papel-decoracao.html" class="filter-btn">Papel Decoração</a>
-      <a href="pages/catalogo-papel-economico.html" class="filter-btn">Papel Económico</a>
-      <a href="pages/catalogo-papel-cozinha.html" class="filter-btn">Cozinha &amp; WC</a>
-      <a href="pages/catalogo-vinil.html" class="filter-btn">Vinil</a>
-      <a href="pages/catalogo-tapecarias.html" class="filter-btn">Tapeçarias</a>
-      <a href="pages/catalogo-paineis.html" class="filter-btn">Painéis</a>
-      <a href="pages/catalogo-impressao.html" class="filter-btn">Impressão Digital</a>
-      <a href="pages/catalogo-calhas.html" class="filter-btn">Calhas</a>
-      <a href="pages/catalogo-stockoff.html" class="filter-btn">Stock Off</a>
-      <a href="pages/catalogo-varoes.html" class="filter-btn">Varões</a>
-      <a href="pages/catalogo-tecidos.html" class="filter-btn">Tecidos</a>
-      <a href="pages/catalogo-colas.html" class="filter-btn">Colas</a>
+    <div class="products-filter" role="group" aria-label="Filtrar produtos">
+      <button class="filter-btn active" onclick="filterProducts('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="filterProducts('papel',this)">Papel de Parede</button>
+      <button class="filter-btn" onclick="filterProducts('vinil',this)">Vinil</button>
+      <button class="filter-btn" onclick="filterProducts('tapecaria',this)">Tapeçarias</button>
+      <button class="filter-btn" onclick="filterProducts('paineis',this)">Painéis Decorativos</button>
+      <button class="filter-btn" onclick="filterProducts('impressao',this)">Impressão Digital</button>
+      <button class="filter-btn" onclick="filterProducts('calhas',this)">Calhas</button>
+      <button class="filter-btn" onclick="filterProducts('stockoff',this)">Stock Off</button>
+      <button class="filter-btn" onclick="filterProducts('varoes',this)">Varões</button>
+      <button class="filter-btn" onclick="filterProducts('tecidos',this)">Tecidos</button>
+      <button class="filter-btn" onclick="filterProducts('colas',this)">Colas</button>
+      <button class="filter-btn" onclick="filterProducts('acessorios',this)">Acessórios</button>
     </div>
-    <div style="text-align:center;margin-top:2rem">
-      <a href="pages/catalogo-hub.html" class="btn-primary" style="display:inline-flex">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Ver Catálogo Completo
-      </a>
-    </div>
+    <div class="products-grid" id="productsGrid"></div>
   </div>
 </section>
 
-<section class="section personalization-section" style="background:var(--cream-dark)">
+<section class="section personalization-section">
   <div class="container">
     <div class="section-header">
       <p class="section-eyebrow">Personalização</p>
@@ -551,30 +559,30 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
       <p class="section-subtitle">Ferramentas de personalização para o teu papel de parede e tapete.</p>
     </div>
     <div class="pers-grid">
-      <a href="pages/catalogo-papel-decoracao.html" class="pers-card">
+      <a href="/personalizar/papel" class="pers-card">
         <div class="pers-card-bg pers-card-bg-papel"></div>
         <div class="pers-card-pattern pc-pattern-greek"></div>
         <div class="pers-card-overlay"></div>
         <div class="pers-card-content">
-          <p class="pers-card-eyebrow">Coleções Exclusivas</p>
-          <h3 class="pers-card-title">Papel de Parede Decoração</h3>
-          <p class="pers-card-desc">Centenas de padrões premium para transformar qualquer ambiente.</p>
+          <p class="pers-card-eyebrow">Ferramenta exclusiva</p>
+          <h3 class="pers-card-title">Personaliza o teu Papel de Parede</h3>
+          <p class="pers-card-desc">Escolhe padrão, cor e dimensões. Visualiza em tempo real antes de encomendar.</p>
           <span class="pers-cta">
-            Ver coleção
+            Começar a personalizar
             <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
           </span>
         </div>
       </a>
-      <a href="pages/catalogo-tapecarias.html" class="pers-card">
+      <a href="/personalizar/tapete" class="pers-card">
         <div class="pers-card-bg pers-card-bg-tapete"></div>
         <div class="pers-card-pattern pc-pattern-tapete"></div>
         <div class="pers-card-overlay"></div>
         <div class="pers-card-content">
-          <p class="pers-card-eyebrow">Tapeçarias &amp; Tapetes</p>
-          <h3 class="pers-card-title">Tapeçarias à Medida</h3>
-          <p class="pers-card-desc">Clássicas, modernas e à medida para cada divisão da tua casa.</p>
+          <p class="pers-card-eyebrow">Configurador 3D</p>
+          <h3 class="pers-card-title">Design de Tapetes à Medida</h3>
+          <p class="pers-card-desc">Configura tamanho, textura e padrão. Tapetes únicos para cada divisão.</p>
           <span class="pers-cta">
-            Ver tapeçarias
+            Configurar tapete
             <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
           </span>
         </div>
@@ -631,34 +639,33 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
     <div class="footer-col">
       <div class="footer-col-title">Aplicações</div>
       <ul>
-        <li><a href="https://formafantasia.pt/content/2-aplicar-papel-de-parede">Aplicar Papel De Parede</a></li>
-        <li><a href="https://formafantasia.pt/7934-paineis-decorativos">Aplicar Painéis Decorativos</a></li>
-        <li><a href="https://formafantasia.pt/content/3-aplicar-vinil-decorativo">Aplicar Vinil Decorativo</a></li>
+        <li><a href="/aplicar/papel">Aplicar Papel De Parede</a></li>
+        <li><a href="/aplicar/paineis">Aplicar Painéis Decorativos</a></li>
+        <li><a href="/aplicar/vinil">Aplicar Vinil Decorativo</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Informação</div>
       <ul>
-        <li><a href="https://formafantasia.pt/content/1-comprar">Condições</a></li>
-        <li><a href="https://formafantasia.pt/content/1-comprar">Condições De Uso</a></li>
-        <li><a href="https://formafantasia.pt/content/4-sobre-nos">Sobre Nós</a></li>
-        <li><a href="https://formafantasia.pt/content/1-comprar">Pagamento Seguro</a></li>
-        <li><a href="https://formafantasia.pt/content/6-contactos">Contactos</a></li>
-        <li><a href="https://formafantasia.pt/content/1-comprar">Devoluções</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=complaint">Livro De Reclamações</a></li>
-        <li><a href="https://formafantasia.pt/content/6-contactos">Contate-Nos</a></li>
+        <li><a href="/condicoes">Condições</a></li>
+        <li><a href="/condicoes-uso">Condições De Uso</a></li>
+        <li><a href="/sobre">Sobre Nós</a></li>
+        <li><a href="/pagamento">Pagamento Seguro</a></li>
+        <li><a href="/contactos">Contactos</a></li>
+        <li><a href="/devolucoes">Devoluções</a></li>
+        <li><a href="/reclamacoes">Livro De Reclamações</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Área De Cliente</div>
       <ul>
-        <li><a href="pages/conta.html">Informação Pessoal</a></li>
-        <li><a href="pages/conta.html#encomendas">Encomendas</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=order-slip">Notas De Crédito</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=address">Endereços</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=discount">Vales De Desconto</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=my-account">Meus Alertas</a></li>
-        <li><a href="https://formafantasia.pt/module/eugeneraldatapro/informations">Política De Cookies</a></li>
+        <li><a href="/conta">Informação Pessoal</a></li>
+        <li><a href="/encomendas">Encomendas</a></li>
+        <li><a href="/creditos">Notas De Crédito</a></li>
+        <li><a href="/enderecos">Endereços</a></li>
+        <li><a href="/vales">Vales De Desconto</a></li>
+        <li><a href="/alertas">Meus Alertas</a></li>
+        <li><a href="/cookies">Política De Cookies</a></li>
       </ul>
     </div>
     <div class="footer-col footer-contact">
@@ -692,56 +699,95 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
   </div>
 </footer>
 
+<script src="/js/shared.js"></script>
+
 <script>
-let cart = {};
-let wishlist = [];
+const products = [
+  {id:1,name:'Versace 4 | Clássico Grego | Navy & Dourado',ref:'37048-4',category:'papel',price:136,tag:'new',pattern:'greek'},
+  {id:2,name:'Liberty London | Flores Silvestres | Sage',ref:'LB-2241',category:'papel',price:118,tag:'',pattern:'floral'},
+  {id:3,name:'Efeito Mármore Premium | Branco Carrara',ref:'VM-8810',category:'vinil',price:89,tag:'promo',pattern:'marble'},
+  {id:4,name:'Tapete Berber | Geométrico | Ocre & Creme',ref:'TB-3301',category:'tapecaria',price:245,tag:'',pattern:'berber'},
+  {id:5,name:'Padrão Tropical | Folhagem Monstera',ref:'PT-6621',category:'papel',price:99,tag:'new',pattern:'tropical'},
+  {id:6,name:'Vinil Cimento Queimado | Cinza Industrial',ref:'VC-5503',category:'vinil',price:76,tag:'',pattern:'cement'},
+  {id:7,name:'Tapete Kilim | Tradicional Marroquino',ref:'TK-9920',category:'tapecaria',price:320,tag:'',pattern:'kilim'},
+  {id:8,name:'Régua Nível de Bolha | Profissional',ref:'ACC-001',category:'acessorios',price:14.90,tag:'',pattern:'tool'},
+];
+
+function renderProducts(filter){
+  const grid = document.getElementById('productsGrid');
+  const filtered = filter === 'todos' ? products : products.filter(p => p.category === filter);
+  grid.innerHTML = filtered.map(p => `
+    <article class="product-card" data-id="${p.id}" data-category="${p.category}">
+      <div class="product-card-img">
+        <div class="product-card-pattern" style="background:${patternStyles[p.pattern]};width:100%;height:100%"></div>
+        ${p.tag ? `<span class="product-tag ${p.tag === 'new' ? 'tag-new' : 'tag-promo'}">${p.tag === 'new' ? 'Novo' : 'Promo'}</span>` : ''}
+        <button class="product-wish ${wishlist.includes(p.id) ? 'liked' : ''}" onclick="toggleWishItem(${p.id},event)" aria-label="Adicionar à lista de desejos">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-card-body">
+        <div class="product-card-category">${categoryLabel(p.category)}</div>
+        <div class="product-card-name">${p.name}</div>
+        <div class="product-card-ref">Ref. ${p.ref}</div>
+        <div class="product-card-footer">
+          <div>
+            <div class="product-card-price">${formatPrice(p.price)} <small>(IVA inc.)</small></div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(${p.id})">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            Adicionar
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function categoryLabel(cat){
+  const map = {papel:'Papel de Parede',vinil:'Vinil Decorativo',tapecaria:'Tapeçaria',acessorios:'Acessório'};
+  return map[cat] || cat;
+}
 
 function formatPrice(p){
-  return Number(p).toFixed(2).replace('.',',') + ' €';
+  return p.toFixed(2).replace('.',',') + ' €';
 }
 
-function addToCart(id, product){
-  if(cart[id]){ cart[id].qty++; } else { cart[id] = {product, qty:1}; }
-  updateCartUI();
-  showNotif('Adicionado: ' + product.name.substring(0,35) + (product.name.length > 35 ? '…' : ''));
+function filterProducts(cat, btn){
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
 }
 
-function removeFromCart(id){
-  delete cart[id];
-  updateCartUI();
-}
-
-function changeQty(id, delta){
-  if(!cart[id]) return;
-  cart[id].qty += delta;
-  if(cart[id].qty <= 0) delete cart[id];
-  updateCartUI();
-}
 
 function updateCartUI(){
   const items = Object.values(cart);
   const totalQty = items.reduce((s,i) => s + i.qty, 0);
   const totalPrice = items.reduce((s,i) => s + i.product.price * i.qty, 0);
   const badge = document.getElementById('cartBadge');
-  if(totalQty > 0){ badge.style.display = 'flex'; badge.textContent = totalQty; }
-  else { badge.style.display = 'none'; }
+  if(totalQty > 0){
+    badge.style.display = 'flex';
+    badge.textContent = totalQty;
+  } else {
+    badge.style.display = 'none';
+  }
   const body = document.getElementById('cartBody');
   const footer = document.getElementById('cartFooter');
   if(items.length === 0){
-    body.innerHTML = '<div class="cart-empty"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg><p>O teu carrinho está vazio.</p></div>';
+    body.innerHTML = `<div class="cart-empty"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg><p>O teu carrinho está vazio.</p></div>`;
     footer.style.display = 'none';
   } else {
     body.innerHTML = items.map(i => `
       <div class="cart-item">
-        <div class="cart-item-img-placeholder"></div>
+        <div class="cart-item-img-placeholder" style="background:${patternStyles[i.product.pattern]};background-size:cover"></div>
         <div class="cart-item-info">
           <div class="cart-item-name">${i.product.name}</div>
           <div class="cart-item-ref">Ref. ${i.product.ref}</div>
           <div class="cart-item-controls">
             <div class="qty-control">
-              <button onclick="changeQty(${i.product.id},-1)">−</button>
+              <button onclick="changeQty(${i.product.id},-1)" aria-label="Diminuir">−</button>
               <span>${i.qty}</span>
-              <button onclick="changeQty(${i.product.id},1)">+</button>
+              <button onclick="changeQty(${i.product.id},1)" aria-label="Aumentar">+</button>
             </div>
             <div style="display:flex;align-items:center">
               <span class="cart-item-price">${formatPrice(i.product.price * i.qty)}</span>
@@ -765,8 +811,20 @@ function toggleCart(){
   if(!isOpen) updateCartUI();
 }
 
-function toggleWishlist(){
-  document.getElementById('wishlistDropdown').classList.toggle('open');
+function toggleWishItem(id, e){
+  e.preventDefault();
+  const p = products.find(x => x.id === id);
+  if(!p) return;
+  const idx = wishlist.indexOf(id);
+  if(idx > -1){
+    wishlist.splice(idx,1);
+    showNotif('Removido da lista de desejos');
+  } else {
+    wishlist.push(id);
+    showNotif('Adicionado à lista de desejos ♥');
+  }
+  updateWishlistUI();
+  renderProducts(currentFilter);
 }
 
 function updateWishlistUI(){
@@ -774,63 +832,93 @@ function updateWishlistUI(){
   badge.textContent = wishlist.length;
   badge.style.display = wishlist.length > 0 ? 'flex' : 'none';
   const container = document.getElementById('wishlistItems');
-  container.innerHTML = wishlist.length === 0
-    ? '<p class="wishlist-empty-note">Ainda não adicionou artigos à lista de desejos.</p>'
-    : wishlist.map(item => `<div class="wishlist-item"><div class="wishlist-item-dot"></div><span style="flex:1">${item.name.substring(0,30)}${item.name.length>30?'…':''}</span><span style="color:var(--gold);font-size:12px;font-weight:600">${formatPrice(item.price)}</span></div>`).join('');
+  if(wishlist.length === 0){
+    container.innerHTML = '<p class="wishlist-empty-note">Ainda não adicionou artigos à lista de desejos.</p>';
+  } else {
+    container.innerHTML = wishlist.map(id => {
+      const p = products.find(x => x.id === id);
+      return p ? `<div class="wishlist-item"><div class="wishlist-item-dot"></div><span style="flex:1">${p.name.substring(0,30)}${p.name.length>30?'…':''}</span><span style="color:var(--gold);font-size:12px;font-weight:600">${formatPrice(p.price)}</span></div>` : '';
+    }).join('');
+  }
+}
+
+function toggleWishlist(){
+  const dd = document.getElementById('wishlistDropdown');
+  dd.classList.toggle('open');
 }
 
 document.addEventListener('click', function(e){
   const dd = document.getElementById('wishlistDropdown');
   const btn = document.getElementById('wishBtn');
-  if(dd && dd.classList.contains('open') && !dd.contains(e.target) && btn && !btn.contains(e.target)) dd.classList.remove('open');
+  if(dd.classList.contains('open') && !dd.contains(e.target) && !btn.contains(e.target)){
+    dd.classList.remove('open');
+  }
   const st = document.getElementById('searchToast');
   const si = document.getElementById('searchInput');
-  if(st && st.classList.contains('open') && !st.contains(e.target) && si && !si.contains(e.target)) st.classList.remove('open');
+  if(st.classList.contains('open') && !st.contains(e.target) && !si.contains(e.target)){
+    st.classList.remove('open');
+  }
 });
 
-document.getElementById('searchInput').addEventListener('input', function(){
-  const q = this.value.trim().toLowerCase();
+function doSearch(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
   const toast = document.getElementById('searchToast');
   const results = document.getElementById('searchResults');
-  if(q.length < 2){ toast.classList.remove('open'); return; }
-  results.innerHTML = `<div class="search-result-item" onclick="window.location='pages/catalogo.html'">
-    <div class="search-result-swatch" style="background:var(--cream-dark)"></div>
-    <div><div class="search-result-name">Pesquisar "${q}" no catálogo</div><div style="font-size:11px;color:var(--text-muted)">Ver todos os resultados</div></div>
-    <span class="search-result-price" style="color:var(--navy)">→</span>
-  </div>`;
+  if(!q){ toast.classList.remove('open'); return; }
+  const found = products.filter(p => p.name.toLowerCase().includes(q) || p.ref.toLowerCase().includes(q) || categoryLabel(p.category).toLowerCase().includes(q));
+  if(found.length === 0){
+    results.innerHTML = '<p style="font-size:13px;color:var(--text-muted);padding:.25rem 0">Nenhum resultado encontrado para "' + q + '".</p>';
+  } else {
+    results.innerHTML = found.slice(0,5).map(p => `
+      <div class="search-result-item" onclick="addToCart(${p.id})">
+        <div class="search-result-swatch" style="background:${patternStyles[p.pattern]};background-size:cover"></div>
+        <div>
+          <div class="search-result-name">${p.name}</div>
+          <div style="font-size:11px;color:var(--text-muted)">Ref. ${p.ref}</div>
+        </div>
+        <span class="search-result-price">${formatPrice(p.price)}</span>
+      </div>
+    `).join('');
+  }
   toast.classList.add('open');
-});
+}
 
 document.getElementById('searchInput').addEventListener('keydown', function(e){
-  if(e.key === 'Enter'){ window.location = 'pages/catalogo.html'; }
+  if(e.key === 'Enter') doSearch();
   if(e.key === 'Escape') document.getElementById('searchToast').classList.remove('open');
 });
 
-let notifTimer;
-function showNotif(msg){
-  clearTimeout(notifTimer);
-  const toast = document.getElementById('notifToast');
-  document.getElementById('notifMsg').textContent = msg;
-  toast.classList.add('show');
-  notifTimer = setTimeout(() => toast.classList.remove('show'), 2800);
-}
+document.getElementById('searchInput').addEventListener('input', function(){
+  if(this.value.length > 1) doSearch();
+  else document.getElementById('searchToast').classList.remove('open');
+});
+
 
 function subscribeNewsletter(btn){
   const input = btn.parentElement.querySelector('input');
   const val = input.value.trim();
-  if(!val || !val.includes('@')){ showNotif('Por favor introduz um email válido.'); return; }
+  if(!val || !val.includes('@')){
+    showNotif('Por favor introduz um email válido.');
+    return;
+  }
   input.value = '';
   showNotif('Subscrito com sucesso! Obrigado.');
 }
 
+renderProducts('todos');
 updateCartUI();
 
 (function(){
   const ddTimers = new WeakMap();
   document.querySelectorAll('.nav-primary > li').forEach(li => {
     if(!li.querySelector('.nav-dropdown')) return;
-    function open(){ clearTimeout(ddTimers.get(li)); li.classList.add('dd-open'); }
-    function scheduleClose(){ ddTimers.set(li, setTimeout(() => li.classList.remove('dd-open'), 180)); }
+    function open(){
+      clearTimeout(ddTimers.get(li));
+      li.classList.add('dd-open');
+    }
+    function scheduleClose(){
+      ddTimers.set(li, setTimeout(() => li.classList.remove('dd-open'), 180));
+    }
     li.addEventListener('mouseenter', open);
     li.addEventListener('mouseleave', scheduleClose);
   });
@@ -838,4 +926,3 @@ updateCartUI();
 </script>
 </body>
 </html>
-

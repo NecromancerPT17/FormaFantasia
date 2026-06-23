@@ -1,0 +1,82 @@
+@page
+@model FormaFantasia.Web.Pages.CheckoutModel
+@{
+    ViewData["Title"] = "Finalizar Encomenda";
+}
+
+<h1>Finalizar Encomenda</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Morada de Entrega</h4>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="MoradaEntrega" class="form-label">Morada</label>
+                <input asp-for="MoradaEntrega" class="form-control" placeholder="Rua, número, código postal..." />
+                <span asp-validation-for="MoradaEntrega" class="text-danger"></span>
+            </div>
+
+            <!-- Itens do carrinho vindos do JS -->
+            <input type="hidden" name="ItensJson" id="itensJsonInput" />
+
+            <div id="resumoCarrinho" class="mb-3">
+                <h5>Resumo do Carrinho</h5>
+                <div id="listaItens"></div>
+                <hr />
+                <strong>Total: <span id="totalCheckout">0,00 €</span></strong>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100" onclick="preencherItens()">
+                Confirmar Encomenda
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Carregar do localStorage
+            const saved = localStorage.getItem('ff_cart');
+            if (saved) {
+                try { cart = JSON.parse(saved); } catch(e) {}
+            }
+            
+            const items = Object.values(cart);
+            const lista = document.getElementById('listaItens');
+            const total = document.getElementById('totalCheckout');
+
+            if (items.length === 0) {
+                lista.innerHTML = '<p class="text-muted">O carrinho está vazio.</p>';
+                return;
+            }
+
+            let totalVal = 0;
+            lista.innerHTML = items.map(i => {
+                totalVal += i.product.price * i.qty;
+                return `<div class="d-flex justify-content-between">
+                    <span>${i.product.name} x${i.qty}</span>
+                    <span>${(i.product.price * i.qty).toFixed(2)} €</span>
+                </div>`;
+            }).join('');
+
+            total.textContent = totalVal.toFixed(2).replace('.', ',') + ' €';
+        });
+
+        function preencherItens() {
+            const saved = localStorage.getItem('ff_cart');
+            if (saved) {
+                try { cart = JSON.parse(saved); } catch(e) {}
+            }
+            const items = Object.values(cart).map(i => ({
+                produtoId: i.product.id,
+                quantidade: i.qty
+            }));
+            document.getElementById('itensJsonInput').value = JSON.stringify(items);
+        }
+    </script>
+}
