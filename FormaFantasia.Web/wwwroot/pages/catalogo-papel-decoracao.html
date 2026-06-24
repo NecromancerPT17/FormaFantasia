@@ -10,11 +10,11 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#0d1b2a;--navy-mid:#1a2e42;--gold:#b8973a;--gold-light:#d4af5a;--gold-pale:#f5ead0;
-  --cream:#faf8f4;--cream-dark:#f0ece2;--text-primary:#1a1a1a;--text-secondary:#5a5a5a;
-  --text-muted:#9a9a9a;--green-cta:#2a7a4b;--green-cta-hover:#235f3b;--white:#ffffff;
-  --border:#e8e2d5;--border-light:#f0ece2;--shadow:0 2px 12px rgba(13,27,42,0.08);
-  --shadow-hover:0 6px 24px rgba(13,27,42,0.14);
+  --navy:#1c1c1a;--navy-mid:#2e2e2b;--gold:#5c7a5c;--gold-light:#7a9e7a;--gold-pale:#eef3ee;
+  --cream:#fafaf8;--cream-dark:#f0f0ec;--text-primary:#1c1c1a;--text-secondary:#5c5c58;
+  --text-muted:#9a9a94;--green-cta:#3d6b4f;--green-cta-hover:#2e5440;--white:#ffffff;
+  --border:#e4e4de;--border-light:#ebebf0;--shadow:0 2px 12px rgba(28,28,26,0.08);
+  --shadow-hover:0 6px 24px rgba(28,28,26,0.14);
 }
 body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);line-height:1.6}
 a{text-decoration:none;color:inherit}
@@ -61,7 +61,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 .qty-control span{font-size:13px;font-weight:500;padding:0 8px;min-width:28px;text-align:center}
 .cart-item-price{font-size:14px;font-weight:600;color:var(--navy)}
 .cart-item-remove{color:var(--text-muted);font-size:11px;cursor:pointer;margin-left:.5rem;padding:2px 4px}
-.cart-item-remove:hover{color:#c0392b}
+.cart-item-remove:hover{color:#5c7a5c}
 .cart-footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem}
 .cart-total-row{display:flex;justify-content:space-between;margin-bottom:1rem}
 .cart-total-label{font-size:14px;color:var(--text-secondary)}
@@ -113,11 +113,11 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 .product-card-pattern{width:100%;height:100%}
 .product-wish{position:absolute;top:.625rem;right:.625rem;width:32px;height:32px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2}
 .product-wish:hover{background:var(--white);transform:scale(1.1)}
-.product-wish svg{width:16px;height:16px;stroke:#c0392b;fill:none;stroke-width:2;transition:fill .2s}
-.product-wish.liked svg{fill:#c0392b}
+.product-wish svg{width:16px;height:16px;stroke:#5c7a5c;fill:none;stroke-width:2;transition:fill .2s}
+.product-wish.liked svg{fill:#5c7a5c}
 .product-tag{position:absolute;top:.625rem;left:.625rem;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:3px;z-index:2}
 .tag-new{background:var(--navy);color:var(--white)}
-.tag-promo{background:#c0392b;color:var(--white)}
+.tag-promo{background:#5c7a5c;color:var(--white)}
 .product-card-body{padding:1rem}
 .product-card-category{font-size:11px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.25rem}
 .product-card-name{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:.5rem;line-height:1.4}
@@ -261,14 +261,14 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
 const products = FF_PRODUCTS.filter(p => [201].includes(p.id));
 
 const patternStyles = {
-  greek:'repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 5px,#1a2e42 5px,#1a2e42 24px),repeating-linear-gradient(-45deg,#b8973a33 0,#b8973a33 2px,transparent 2px,transparent 24px)',
-  floral:'radial-gradient(ellipse at 30% 50%,#b8973a22,transparent 50%),linear-gradient(135deg,#f0ece2,#e8e2d5)',
+  greek:'repeating-linear-gradient(45deg,#1c1c1a 0,#1c1c1a 5px,#2e2e2b 5px,#2e2e2b 24px),repeating-linear-gradient(-45deg,#7a9e7a33 0,#7a9e7a33 2px,transparent 2px,transparent 24px)',
+  floral:'radial-gradient(ellipse at 30% 50%,#5c7a5c22,transparent 50%),linear-gradient(135deg,#f0f0ec,#e4e4de)',
   marble:'linear-gradient(115deg,#f5f0e8,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df)',
-  berber:'repeating-linear-gradient(0deg,#c9a84c22 0,#c9a84c22 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f5e8c8,#e8d5a0)',
-  tropical:'radial-gradient(circle at 20% 80%,#2d5a27 0%,transparent 40%),linear-gradient(135deg,#1a3d16,#2d5a27)',
+  berber:'repeating-linear-gradient(0deg,#a0896022 0,#a0896022 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f2ebe0,#e5d8c5)',
+  tropical:'radial-gradient(circle at 20% 80%,#3d6b4f 0%,transparent 40%),linear-gradient(135deg,#2a4a35,#3d6b4f)',
   cement:'repeating-linear-gradient(0deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),linear-gradient(135deg,#d0cdc8,#b8b5b0)',
-  kilim:'repeating-linear-gradient(45deg,#8b1a1a 0,#8b1a1a 4px,#d4a017 4px,#d4a017 8px,#1a3d8b 12px,#1a3d8b 16px)',
-  plain:'linear-gradient(135deg,#f0ece2,#e8e2d5)',
+  kilim:'repeating-linear-gradient(45deg,#7a4a3a 0,#7a4a3a 4px,#b8936a 4px,#b8936a 8px,#5c7a5c 12px,#5c7a5c 16px)',
+  plain:'linear-gradient(135deg,#f0f0ec,#e4e4de)',
 };
 
 const categoryLabels = {papel:'Papel de Parede',vinil:'Vinil Decorativo',tapecaria:'Tapeçaria',paineis:'Painéis Decorativos',impressao:'Impressão Digital',calhas:'Calhas',stockoff:'Stock Off',varoes:'Varões',tecidos:'Tecidos',colas:'Colas',acessorios:'Acessório'};
