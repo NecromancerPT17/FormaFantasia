@@ -2,6 +2,7 @@ using FormaFantasia.Web.Data;
 using FormaFantasia.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using FormaFantasia.Web.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -16,6 +17,7 @@ builder.Services.AddIdentity<Utilizador, IdentityRole>(options => options.SignIn
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 
 
 var supportedCultures = new[] { "en-US" };
@@ -47,6 +49,7 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.MapControllers();
+app.MapHub<EncomendaHub>("/hubs/encomendas");
 
 // Seed da base de dados
 using (var scope = app.Services.CreateScope())

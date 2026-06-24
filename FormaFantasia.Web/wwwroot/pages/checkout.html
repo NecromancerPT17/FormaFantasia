@@ -445,44 +445,77 @@ function validateForm(){
   return valid;
 }
 
-function confirmOrder(){
+async function confirmOrder(){
   if(!validateForm()) return;
   if(Object.keys(cart).length === 0){ showNotif('O teu carrinho está vazio.'); return; }
-  const num = '#FF-' + String(Math.floor(Math.random() * 90000) + 10000);
-  const items = Object.values(cart);
-  const subtotal = items.reduce((s,i) => s + i.product.price * i.qty, 0);
-  const order = {
-    number: num,
-    date: new Date().toLocaleDateString('pt-PT', {day:'numeric', month:'long', year:'numeric'}),
-    items: items.map(i => ({name:i.product.name, ref:i.product.ref, qty:i.qty, price:i.product.price, pattern:i.product.pattern})),
-    total: subtotal - subtotal * discountAmount + shippingCost,
-    status: 'processing',
-    address: {
-      name: (document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value).trim(),
-      line: document.getElementById('address').value,
-      city: document.getElementById('city').value,
-      postal: document.getElementById('postalCode').value,
-      country: document.getElementById('country').options[document.getElementById('country').selectedIndex].text,
-    }
-  };
+
+  // Verificar se está logado
   try {
-    const existing = JSON.parse(sessionStorage.getItem('ff_orders') || '[]');
-    existing.unshift(order);
-    sessionStorage.setItem('ff_orders', JSON.stringify(existing));
-    const profile = JSON.parse(sessionStorage.getItem('ff_profile') || '{}');
-    profile.firstName = document.getElementById('firstName').value.trim();
-    profile.lastName  = document.getElementById('lastName').value.trim();
-    profile.email     = document.getElementById('email').value.trim();
-    profile.phone     = document.getElementById('phone').value.trim();
-    profile.address   = order.address;
-    sessionStorage.setItem('ff_profile', JSON.stringify(profile));
-  } catch(e){}
-  document.getElementById('orderNumber').textContent = num;
-  document.getElementById('successOverlay').classList.add('show');
-  clearCart();
+    const authResponse = await fetch('/api/Utilizadores/auth');
+    const authData = await authResponse.json();
+    if(!authData.isAuthenticated) {
+      showNotif('Precisas de fazer login para confirmar a encomenda.', { credentials: 'include' });
+      setTimeout(() => {
+        window.location.href = '/Identity/Account/Login?ReturnUrl=%2Fpages%2Fcheckout.html';
+      }, 1500);
+      return;
+    }
+  } catch(e) {
+    showNotif('Erro de ligação. Tenta novamente.');
+    return;
+  }
+
+  const items = Object.values(cart).map(i => ({
+    produtoId: i.product.id,
+    quantidade: i.qty
+  }));
+
+  const morada = document.getElementById('address').value + ', ' +
+                 document.getElementById('city').value + ', ' +
+                 document.getElementById('postalCode').value;
+
+  try {
+    const tokenResponse = await fetch('/Checkout', { credentials: 'include' });
+    const tokenText = await tokenResponse.text();
+    const tokenMatch = tokenText.match(/name="__RequestVerificationToken"[^>]*value="([^"]+)"/);
+    const token = tokenMatch ? tokenMatch[1] : '';
+
+  const response = await fetch('/Checkout', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      'ItensJson': JSON.stringify(items),
+      'MoradaEntrega': morada,
+      '__RequestVerificationToken': token
+    })
+  });
+
+    if(response.ok || response.redirected) {
+      const num = '#FF-' + String(Math.floor(Math.random() * 90000) + 10000);
+      document.getElementById('orderNumber').textContent = num;
+      document.getElementById('successOverlay').classList.add('show');
+      clearCart();
+      document.querySelector('.btn-success-primary').href = '/pages/conta.html#encomendas';
+    } else {
+      showNotif('Erro ao processar a encomenda. Tenta novamente.');
+    }
+  } catch(e) {
+    showNotif('Erro de ligação. Tenta novamente.');
+  }
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', async function(){
+  // Verificar login logo ao entrar na página
+  try {
+    const authResponse = await fetch('/api/Utilizadores/auth', { credentials: 'include' });
+    const authData = await authResponse.json();
+    if(!authData.isAuthenticated) {
+      window.location.href = '/Identity/Account/Login?ReturnUrl=%2Fpages%2Fcheckout.html';
+      return;
+    }
+  } catch(e) {}
+
   const pc = document.getElementById('postalCode');
   if(pc){
     pc.addEventListener('input', function(){

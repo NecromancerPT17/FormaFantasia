@@ -38,3 +38,20 @@
         }
     </tbody>
 </table>
+
+<!-- SignalR: notificações em tempo real de novas encomendas -->
+
+<script src="~/lib/signalr/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/hubs/encomendas")
+        .build();
+
+    connection.on("NovaEncomenda", function (data) {
+        alert("🛒 Nova encomenda #" + data.encomendaId + 
+              " de " + data.utilizadorEmail + 
+              " — Total: " + data.total.toFixed(2) + "€");
+    });
+
+    connection.start().catch(err => console.error(err));
+</script>

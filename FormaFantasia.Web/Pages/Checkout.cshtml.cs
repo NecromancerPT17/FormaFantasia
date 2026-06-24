@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
+using FormaFantasia.Web.Hubs;
 
 namespace FormaFantasia.Web.Pages;
 
@@ -13,11 +15,13 @@ public class CheckoutModel : PageModel
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<Utilizador> _userManager;
+    private readonly IHubContext<EncomendaHub> _hubContext;
 
-    public CheckoutModel(ApplicationDbContext context, UserManager<Utilizador> userManager)
+    public CheckoutModel(ApplicationDbContext context, UserManager<Utilizador> userManager, IHubContext<EncomendaHub> hubContext)
     {
         _context = context;
         _userManager = userManager;
+        _hubContext = hubContext;
     }
 
     [BindProperty]
@@ -71,6 +75,14 @@ public class CheckoutModel : PageModel
         }
 
         await _context.SaveChangesAsync();
+
+        // Notificar Admin em tempo real
+        await _hubContext.Clients.All.SendAsync("NovaEncomenda", new
+        {
+            encomendaId = encomenda.Id,
+            utilizadorEmail = user.Email,
+            total = encomenda.ItensEncomenda.Sum(i => i.Quantidade * i.PrecoUnitario)
+        });
 
         return RedirectToPage("/EncomendaConfirmada", new { id = encomenda.Id });
     }
