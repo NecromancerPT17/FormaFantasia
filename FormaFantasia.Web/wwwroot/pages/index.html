@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FormaFantasia – Papel de Parede, Vinil e Tapeçarias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;
+  --navy-mid:#1a2e42;
+  --gold:#b8973a;
+  --gold-light:#d4af5a;
+  --gold-pale:#f5ead0;
+  --cream:#faf8f4;
+  --cream-dark:#f0ece2;
+  --text-primary:#1a1a1a;
+  --text-secondary:#5a5a5a;
+  --text-muted:#9a9a9a;
+  --green-cta:#2a7a4b;
+  --green-cta-hover:#235f3b;
+  --white:#ffffff;
+  --border:#e8e2d5;
+  --border-light:#f0ece2;
+  --shadow:0 2px 12px rgba(13,27,42,0.08);
+  --shadow-hover:0 6px 24px rgba(13,27,42,0.14);
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ── HEADER ── */
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.header-top{background:var(--navy);color:var(--white);font-size:12px;text-align:center;padding:7px 1rem;letter-spacing:.04em}
+.header-top a{color:var(--gold-light)}
+.header-main{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;gap:1rem}
+.logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
+.logo span{color:var(--gold)}
+.header-actions{display:flex;align-items:center;gap:.5rem}
+.search-wrapper{display:flex;align-items:center;background:var(--cream);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .2s}
+.search-wrapper:focus-within{border-color:var(--gold)}
+.search-wrapper input{border:none;background:none;padding:.4rem .75rem;font-size:14px;width:200px;outline:none;font-family:inherit;color:var(--text-primary)}
+.search-wrapper input::placeholder{color:var(--text-muted)}
+.search-wrapper button{padding:.4rem .6rem;color:var(--text-secondary);display:flex;align-items:center;transition:color .2s}
+.search-wrapper button:hover{color:var(--gold)}
+.icon-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;transition:background .2s;position:relative;color:var(--text-primary)}
+.icon-btn:hover{background:var(--cream-dark);color:var(--gold)}
+.icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+.badge{position:absolute;top:2px;right:2px;background:var(--gold);color:var(--white);font-size:10px;font-weight:600;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1}
+
+/* ── CART DRAWER ── */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;top:0;right:0;width:380px;max-width:100%;height:100%;background:var(--white);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.12)}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
+.cart-header h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
+.cart-close{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all .2s}
+.cart-close:hover{background:var(--cream);color:var(--text-primary)}
+.cart-close svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.cart-body{flex:1;overflow-y:auto;padding:1rem 1.5rem}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--text-muted)}
+.cart-empty svg{width:48px;height:48px;stroke:currentColor;fill:none;stroke-width:1.2;margin:0 auto 1rem}
+.cart-empty p{font-size:15px}
+.cart-item{display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border-light)}
+.cart-item-img{width:64px;height:64px;object-fit:cover;border-radius:6px;background:var(--cream-dark);flex-shrink:0}
+.cart-item-img-placeholder{width:64px;height:64px;border-radius:6px;background:var(--cream-dark);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:10px;text-align:center}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:13px;font-weight:500;line-height:1.4;margin-bottom:4px;color:var(--text-primary)}
+.cart-item-ref{font-size:11px;color:var(--text-muted);margin-bottom:8px}
+.cart-item-controls{display:flex;align-items:center;justify-content:space-between}
+.qty-control{display:flex;align-items:center;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.qty-control button{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-secondary);transition:all .2s;background:none;border:none}
+.qty-control button:hover{background:var(--cream);color:var(--text-primary)}
+.qty-control span{font-size:13px;font-weight:500;padding:0 8px;min-width:28px;text-align:center}
+.cart-item-price{font-size:14px;font-weight:600;color:var(--navy)}
+.cart-item-remove{background:none;border:none;color:var(--text-muted);font-size:11px;cursor:pointer;margin-left:.5rem;transition:color .2s;padding:2px 4px}
+.cart-item-remove:hover{color:#c0392b}
+.cart-footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:1rem}
+.cart-total-label{font-size:14px;color:var(--text-secondary)}
+.cart-total-value{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)}
+.cart-total-note{font-size:11px;color:var(--text-muted);margin-top:2px}
+.btn-checkout{display:block;width:100%;padding:.85rem;background:var(--green-cta);color:var(--white);font-size:15px;font-weight:600;text-align:center;border-radius:8px;letter-spacing:.02em;transition:background .2s;margin-bottom:.5rem}
+.btn-checkout:hover{background:var(--green-cta-hover)}
+.btn-continue{display:block;width:100%;padding:.7rem;background:none;color:var(--text-secondary);font-size:13px;text-align:center;border-radius:8px;border:1px solid var(--border);transition:all .2s}
+.btn-continue:hover{border-color:var(--navy);color:var(--navy)}
+
+/* ── WISHLIST DROPDOWN ── */
+.wishlist-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:320px;background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-hover);z-index:300;display:none;padding:1rem}
+.wishlist-dropdown.open{display:block}
+.wishlist-dropdown h3{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:.75rem;color:var(--navy)}
+.wishlist-item{display:flex;align-items:center;gap:.5rem;padding:.5rem 0;border-bottom:1px solid var(--border-light);font-size:13px}
+.wishlist-item:last-child{border-bottom:none}
+.wishlist-item-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.wishlist-empty-note{font-size:13px;color:var(--text-muted);text-align:center;padding:.5rem 0}
+
+/* ── HERO BANNER ── */
+.hero{background:var(--navy);color:var(--white);overflow:hidden;position:relative}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;min-height:480px}
+.hero-content{padding:4rem 3rem 4rem 4rem;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+.hero-eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1rem;font-weight:500}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:600;line-height:1.08;margin-bottom:1.25rem;color:var(--white)}
+.hero-title em{color:var(--gold-light);font-style:normal}
+.hero-subtitle{font-size:15px;color:rgba(255,255,255,.7);line-height:1.7;max-width:380px;margin-bottom:2rem}
+.hero-ctas{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn-primary{padding:.8rem 1.75rem;background:var(--gold);color:var(--navy);font-size:14px;font-weight:600;border-radius:6px;letter-spacing:.03em;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-secondary{padding:.8rem 1.75rem;background:transparent;color:var(--white);font-size:14px;font-weight:500;border-radius:6px;letter-spacing:.03em;border:1px solid rgba(255,255,255,.35);transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-secondary:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.6)}
+.hero-visual{position:relative;overflow:hidden;background:var(--navy-mid)}
+.hero-visual-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:100%;gap:2px}
+.hero-swatch{background:var(--navy-mid);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-swatch-label{position:absolute;bottom:.5rem;left:.5rem;background:rgba(0,0,0,.6);color:var(--white);font-size:10px;padding:2px 6px;border-radius:3px;letter-spacing:.05em}
+.hero-pattern{width:100%;height:100%;object-fit:cover;opacity:.8}
+.pattern-greek{background:repeating-linear-gradient(45deg,#1a2e42 0,#1a2e42 4px,#0d1b2a 4px,#0d1b2a 20px),repeating-linear-gradient(-45deg,#b8973a33 0,#b8973a33 2px,transparent 2px,transparent 20px)}
+.pattern-waves{background:repeating-radial-gradient(circle at 50% 50%,#1e3350 0,#1e3350 8px,#0d1b2a 8px,#0d1b2a 16px)}
+.pattern-damask{background:repeating-linear-gradient(0deg,#16263a 0,#16263a 2px,#0d1b2a 2px,#0d1b2a 24px),repeating-linear-gradient(90deg,#b8973a22 0,#b8973a22 2px,transparent 2px,transparent 24px)}
+.pattern-geometric{background:repeating-conic-gradient(#162540 0deg 25%,#0d1b2a 25deg 50%,#162540 50deg 75%,#0d1b2a 75deg 100%) 0 0/32px 32px}
+
+/* ── TRUST BAR ── */
+.trust-bar{background:var(--white);border-bottom:1px solid var(--border)}
+.trust-bar-inner{display:grid;grid-template-columns:repeat(3,1fr);max-width:1200px;margin:0 auto}
+.trust-item{display:flex;align-items:center;gap:.875rem;padding:1.25rem 2rem;border-right:1px solid var(--border)}
+.trust-item:last-child{border-right:none}
+.trust-icon{width:40px;height:40px;border-radius:10px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.trust-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.8}
+.trust-text-label{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px}
+.trust-text-sub{font-size:12px;color:var(--text-secondary)}
+
+/* ── SECTION COMMONS ── */
+.section{padding:3.5rem 2rem}
+.section-header{text-align:center;margin-bottom:2.5rem}
+.section-eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:.5rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--navy);line-height:1.2}
+.section-subtitle{font-size:15px;color:var(--text-secondary);max-width:520px;margin:0.6rem auto 0}
+.container{max-width:1200px;margin:0 auto}
+
+/* ── HIGHLIGHTS STRIP ── */
+.highlights-strip{background:var(--cream-dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.highlights-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:1200px;margin:0 auto}
+.highlight-card{padding:2.5rem 2rem;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .2s;text-decoration:none;color:inherit;display:block;cursor:pointer}
+.highlight-card:last-child{border-right:none}
+.highlight-card:hover{background:var(--cream)}
+.highlight-badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;margin-bottom:.75rem}
+.badge-new{background:var(--navy);color:var(--white)}
+.badge-promo{background:var(--gold);color:var(--navy)}
+.badge-dest{background:var(--green-cta);color:var(--white)}
+.highlight-card h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:.5rem;line-height:1.3}
+.highlight-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem}
+.highlight-link{font-size:13px;font-weight:500;color:var(--navy);display:inline-flex;align-items:center;gap:.3rem;border-bottom:1px solid var(--navy);transition:all .2s}
+.highlight-link:hover{color:var(--gold);border-color:var(--gold)}
+.highlight-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s}
+.highlight-link:hover svg{transform:translateX(3px)}
+.highlight-visual{width:100%;height:120px;border-radius:8px;margin-bottom:1.25rem;overflow:hidden}
+.hv-greek{background:repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 6px,#1a2e42 6px,#1a2e42 28px),repeating-linear-gradient(-45deg,#b8973a44 0,#b8973a44 3px,transparent 3px,transparent 28px)}
+.hv-floral{background:radial-gradient(ellipse at 30% 60%,#b8973a22 0%,transparent 50%),radial-gradient(ellipse at 70% 30%,#b8973a33 0%,transparent 40%),linear-gradient(135deg,#f0ece2,#e8e2d5)}
+.hv-marble{background:linear-gradient(115deg,#f5f0e8 0%,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df 100%)}
+
+/* ── CATEGORY FILTER LINKS ── */
+.products-filter{display:flex;gap:.5rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
+.filter-btn{padding:.45rem 1rem;border-radius:20px;border:1px solid var(--border);font-size:13px;font-weight:500;color:var(--text-secondary);transition:all .2s;background:var(--white);text-decoration:none;display:inline-block;cursor:pointer;font-family:'Inter',sans-serif}
+.filter-btn:hover,.filter-btn.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.highlight-visual{width:100%;height:120px;border-radius:8px;margin-bottom:1.25rem;overflow:hidden}
+
+/* ── PRODUCT GRID ── */
+.products-section{background:var(--white)}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
+.product-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .25s;position:relative}
+.product-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px)}
+.product-card-img{width:100%;height:200px;overflow:hidden;background:var(--cream-dark);position:relative}
+.product-card-img-el{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.product-card:hover .product-card-img-el{transform:scale(1.04)}
+.product-card-pattern{width:100%;height:100%}
+.product-wish{position:absolute;top:.625rem;right:.625rem;width:32px;height:32px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2}
+.product-wish:hover{background:var(--white);transform:scale(1.1)}
+.product-wish svg{width:16px;height:16px;stroke:#c0392b;fill:none;stroke-width:2;transition:fill .2s}
+.product-wish.liked svg{fill:#c0392b}
+.product-tag{position:absolute;top:.625rem;left:.625rem;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:3px;z-index:2}
+.tag-new{background:var(--navy);color:var(--white)}
+.tag-promo{background:#c0392b;color:var(--white)}
+.product-card-body{padding:1rem}
+.product-card-category{font-size:11px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.25rem}
+.product-card-name{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:.5rem;line-height:1.4}
+.product-card-ref{font-size:11px;color:var(--text-muted);margin-bottom:.75rem}
+.product-card-footer{display:flex;align-items:center;justify-content:space-between}
+.product-card-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
+.product-card-price small{font-family:'Inter',sans-serif;font-size:11px;color:var(--text-muted);font-weight:400}
+.btn-add-cart{padding:.45rem .875rem;background:var(--green-cta);color:var(--white);font-size:12px;font-weight:600;border-radius:6px;letter-spacing:.03em;transition:background .2s;display:flex;align-items:center;gap:.3rem;border:none}
+.btn-add-cart:hover{background:var(--green-cta-hover)}
+.btn-add-cart svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ── PERSONALIZAÇÃO BANNERS ── */
+.personalization-section{background:var(--cream-dark)}
+.pers-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.pers-card{border-radius:14px;overflow:hidden;position:relative;min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
+.pers-card-bg{position:absolute;inset:0;z-index:0}
+.pers-card-bg-papel{background:linear-gradient(160deg,#0d1b2a 0%,#1a2e42 40%,#243d56 100%)}
+.pers-card-bg-tapete{background:linear-gradient(160deg,#2a1f0d 0%,#3d2e10 40%,#4a3a18 100%)}
+.pers-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.1) 60%);z-index:1}
+.pers-card-pattern{position:absolute;inset:0;z-index:0;opacity:.25}
+.pc-pattern-greek{background:repeating-linear-gradient(45deg,#b8973a 0,#b8973a 2px,transparent 2px,transparent 18px),repeating-linear-gradient(-45deg,#b8973a 0,#b8973a 2px,transparent 2px,transparent 18px)}
+.pc-pattern-tapete{background:repeating-radial-gradient(circle at 50% 50%,#d4af5a 0,#d4af5a 2px,transparent 2px,transparent 18px)}
+.pers-card-content{position:relative;z-index:2;padding:2rem;color:var(--white)}
+.pers-card-eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.5rem;font-weight:500}
+.pers-card-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.2;margin-bottom:.75rem}
+.pers-card-desc{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1.25rem;max-width:320px}
+.pers-cta{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;background:var(--gold);color:var(--navy);font-size:13px;font-weight:600;border-radius:6px;letter-spacing:.02em;transition:all .2s}
+.pers-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+.pers-cta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* ── VALORES / FUNDAMENTOS ── */
+.values-section{background:var(--navy)}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.value-item{padding:3rem 2.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
+.value-item:last-child{border-right:none}
+.value-icon{width:56px;height:56px;border-radius:12px;background:rgba(184,151,58,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;border:1px solid rgba(184,151,58,.3)}
+.value-icon svg{width:26px;height:26px;stroke:var(--gold-light);fill:none;stroke-width:1.6}
+.value-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--white);margin-bottom:.625rem}
+.value-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;max-width:240px;margin:0 auto}
+
+/* ── SEARCH RESULTS TOAST ── */
+.search-toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);width:min(560px,90vw);background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-hover);z-index:150;display:none;padding:1rem}
+.search-toast.open{display:block;transform:translateX(-50%) translateY(0)}
+.search-toast-title{font-size:12px;color:var(--text-muted);letter-spacing:.05em;margin-bottom:.625rem}
+.search-result-item{display:flex;align-items:center;gap:.75rem;padding:.5rem;border-radius:8px;cursor:pointer;transition:background .2s}
+.search-result-item:hover{background:var(--cream)}
+.search-result-swatch{width:36px;height:36px;border-radius:6px;flex-shrink:0}
+.search-result-name{font-size:13px;font-weight:500;color:var(--text-primary)}
+.search-result-price{font-size:13px;color:var(--gold);font-weight:600;margin-left:auto}
+
+/* ── PROMO BANNER ── */
+.promo-banner{background:linear-gradient(90deg,var(--navy) 0%,#1e3a5f 100%);color:var(--white);text-align:center;padding:3.5rem 2rem;position:relative;overflow:hidden}
+.promo-banner::before{content:'';position:absolute;top:-50%;left:-20%;width:140%;height:200%;background:repeating-linear-gradient(45deg,rgba(184,151,58,.04) 0,rgba(184,151,58,.04) 1px,transparent 1px,transparent 40px);pointer-events:none}
+.promo-banner h2{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;margin-bottom:.5rem;color:var(--white)}
+.promo-banner h2 em{color:var(--gold-light);font-style:normal}
+.promo-banner>div>p{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:1.75rem}
+.newsletter-form{display:flex;align-items:center;justify-content:center;gap:.5rem;max-width:440px;margin:0 auto 1rem}
+.newsletter-form input{flex:1;padding:.75rem 1rem;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);border-radius:7px;font-size:14px;color:var(--white);outline:none;font-family:'Inter',sans-serif;transition:border-color .2s}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.5)}
+.newsletter-form input:focus{border-color:var(--gold-light);background:rgba(255,255,255,.15)}
+.newsletter-form button{padding:.75rem 1.5rem;background:var(--gold);color:var(--navy);font-size:14px;font-weight:600;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;white-space:nowrap;font-family:'Inter',sans-serif;transition:background .2s;flex-shrink:0}
+.newsletter-form button:hover{background:var(--gold-light)}
+.newsletter-note{font-size:12px;color:rgba(255,255,255,.4);margin-top:.5rem}
+
+/* ── FOOTER ── */
+footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
+.footer-main{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:3rem 2rem 2rem}
+.footer-col-title{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1rem}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:.5rem}
+.footer-col a{color:rgba(255,255,255,.65);transition:color .2s;font-size:13px}
+.footer-col a:hover{color:var(--gold-light)}
+.footer-contact p{color:rgba(255,255,255,.65);line-height:1.7;font-size:13px}
+.footer-contact a{color:var(--gold-light)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:1.5rem 2rem;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-bottom-left{font-size:12px;color:rgba(255,255,255,.45)}
+.payment-icons{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.payment-icon{background:rgba(255,255,255,.15);border-radius:5px;padding:4px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8);letter-spacing:.04em}
+.secure-badges{display:flex;gap:.5rem;align-items:center}
+.secure-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.6)}
+.footer-credits{border-top:1px solid rgba(255,255,255,.07);text-align:center;padding:.75rem 2rem;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.02em}
+
+/* ── NOTIFICATION TOAST ── */
+.notif-toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:var(--white);padding:.75rem 1.25rem;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-hover);z-index:400;transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:.5rem;max-width:300px}
+.notif-toast.show{transform:translateY(0);opacity:1}
+.notif-toast svg{width:16px;height:16px;stroke:var(--gold-light);fill:none;stroke-width:2;flex-shrink:0}
+
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .hero-content{padding:2.5rem 1.5rem}
+  .hero-title{font-size:36px}
+  .header-main{padding:.75rem 1rem}
+  nav ul{display:none}
+  .trust-bar-inner,.highlights-inner,.products-grid,.values-grid,.pers-grid,.footer-main{grid-template-columns:1fr}
+  .trust-item,.highlight-card,.value-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.08)}
+  .cart-drawer{width:100%}
+  .search-wrapper input{width:140px}
+}
+</style>
+</head>
+<body>
+
+<div class="sr-only"><h2>FormaFantasia – Loja de Papel de Parede, Vinil e Tapeçarias</h2></div>
+
+<div class="notif-toast" id="notifToast">
+  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+  <span id="notifMsg">Adicionado ao carrinho</span>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Carrinho de compras">
+  <div class="cart-header">
+    <h2>Carrinho</h2>
+    <button class="cart-close" onclick="toggleCart()" aria-label="Fechar carrinho">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total-row">
+      <div>
+        <div class="cart-total-label">Total</div>
+        <div class="cart-total-note">IVA incluído</div>
+      </div>
+      <div class="cart-total-value" id="cartTotal">0,00 €</div>
+    </div>
+    <a href="checkout.html" class="btn-checkout">Finalizar Encomenda</a>
+    <button class="btn-continue" onclick="toggleCart()">Continuar a Comprar</button>
+  </div>
+</aside>
+
+<header>
+  <div class="header-top">
+    Envios internacionais disponíveis &mdash; <a href="condicoes.html">Saiba mais</a> &nbsp;|&nbsp; Encomenda online 24/7 &nbsp;|&nbsp; Multibanco e PayPal aceites
+  </div>
+  <div class="header-main">
+    <a href="index.html" class="logo">Forma<span>Fantasia</span></a>
+    <nav aria-label="Navegação principal">
+      <ul class="nav-primary"></ul>
+    </nav>
+    <div class="header-actions">
+      <div class="search-wrapper">
+        <input type="search" placeholder="Buscar..." id="searchInput" autocomplete="off">
+        <button aria-label="Pesquisar" onclick="doSearch()">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <div style="position:relative">
+        <button class="icon-btn" id="wishBtn" onclick="toggleWishlist()" aria-label="Lista de desejos" title="Lista de desejos">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="badge" id="wishBadge" style="display:none">0</span>
+        </button>
+        <div class="wishlist-dropdown" id="wishlistDropdown">
+          <h3>Lista de Desejos</h3>
+          <div id="wishlistItems"><p class="wishlist-empty-note">Ainda não adicionou artigos à lista de desejos.</p></div>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="toggleCart()" aria-label="Carrinho de compras" title="Carrinho">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="badge" id="cartBadge" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="search-toast" id="searchToast">
+  <div class="search-toast-title">RESULTADOS DA PESQUISA</div>
+  <div id="searchResults"></div>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Coleção 2025</p>
+      <h1 class="hero-title">Transforma<br>as tuas <em>paredes</em><br>em arte</h1>
+      <p class="hero-subtitle">Papel de parede de luxo, vinil decorativo e tapeçarias exclusivas para cada ambiente. Mais de 2000 referências disponíveis.</p>
+      <div class="hero-ctas">
+        <a href="catalogo-hub.html" class="btn-primary">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Ver Catálogo
+        </a>
+        <a href="https://formafantasia.pt/content/4-sobre-nos" class="btn-secondary">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Sobre Nós
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-visual-grid">
+        <div class="hero-swatch pattern-greek"></div>
+        <div class="hero-swatch pattern-waves"></div>
+        <div class="hero-swatch pattern-damask"></div>
+        <div class="hero-swatch pattern-geometric"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      </div>
+      <div>
+        <div class="trust-text-label">Envios Internacionais</div>
+        <div class="trust-text-sub">Entregamos em toda a Europa</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      </div>
+      <div>
+        <div class="trust-text-label">Encomenda Online</div>
+        <div class="trust-text-sub">Disponível 24h por dia, 7 dias</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      </div>
+      <div>
+        <div class="trust-text-label">Multibanco &amp; PayPal</div>
+        <div class="trust-text-sub">Pagamento seguro e verificado</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="highlights-strip">
+  <div class="highlights-inner">
+    <a href="produto.html?id=201" class="highlight-card">
+      <div class="highlight-visual hv-greek"></div>
+      <span class="highlight-badge badge-new">Novidade</span>
+      <h3>Versace 4 Clássico Grego</h3>
+      <p>Padrão navy &amp; dourado com motivos helénicos. Tecido não-tecido TNT de fácil aplicação.</p>
+      <span class="highlight-link">
+        Ver produto
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+    <a href="catalogo-stockoff.html" class="highlight-card">
+      <div class="highlight-visual hv-marble"></div>
+      <span class="highlight-badge badge-promo">Promoção</span>
+      <h3>Stock Off — Liquidação</h3>
+      <p>Artigos em liquidação com descontos até 40%. Enquanto houver stock disponível.</p>
+      <span class="highlight-link">
+        Ver stock off
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+    <a href="produto.html?id=101" class="highlight-card">
+      <div class="highlight-visual hv-floral"></div>
+      <span class="highlight-badge badge-dest">Destaque</span>
+      <h3>Papel de Parede Infantil</h3>
+      <p>Padrões alegres e temáticos para quartos de criança. Materiais seguros e laváveis.</p>
+      <span class="highlight-link">
+        Ver produto
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<section class="section products-section" style="background:var(--white)">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">Catálogo</p>
+      <h2 class="section-title">Explorar por Categoria</h2>
+      <p class="section-subtitle">Filtra por categoria e clica num produto para ver os detalhes.</p>
+    </div>
+    <div class="products-filter" role="group" aria-label="Filtrar produtos" id="homeFilterGroup">
+      <button class="filter-btn active" data-filter="todos" onclick="homeFilter('todos',this)">Todos</button>
+      <button class="filter-btn" data-filter="papel" onclick="homeFilter('papel',this)">Papel de Parede</button>
+      <button class="filter-btn" data-filter="vinil" onclick="homeFilter('vinil',this)">Vinil</button>
+      <button class="filter-btn" data-filter="tapecaria" onclick="homeFilter('tapecaria',this)">Tapeçarias</button>
+      <button class="filter-btn" data-filter="paineis" onclick="homeFilter('paineis',this)">Painéis</button>
+      <button class="filter-btn" data-filter="impressao" onclick="homeFilter('impressao',this)">Impressão Digital</button>
+      <button class="filter-btn" data-filter="calhas" onclick="homeFilter('calhas',this)">Calhas</button>
+      <button class="filter-btn" data-filter="stockoff" onclick="homeFilter('stockoff',this)">Stock Off</button>
+      <button class="filter-btn" data-filter="varoes" onclick="homeFilter('varoes',this)">Varões</button>
+      <button class="filter-btn" data-filter="tecidos" onclick="homeFilter('tecidos',this)">Tecidos</button>
+      <button class="filter-btn" data-filter="colas" onclick="homeFilter('colas',this)">Colas</button>
+    </div>
+    <div class="products-grid" id="homeProductGrid"></div>
+    <div style="text-align:center;margin-top:2rem">
+      <a href="catalogo-hub.html" class="btn-primary" style="display:inline-flex">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Ver Catálogo Completo
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section personalization-section" style="background:var(--cream-dark)">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">Personalização</p>
+      <h2 class="section-title">Cria o teu espaço único</h2>
+      <p class="section-subtitle">Ferramentas de personalização para o teu papel de parede e tapete.</p>
+    </div>
+    <div class="pers-grid">
+      <a href="catalogo-papel-decoracao.html" class="pers-card">
+        <div class="pers-card-bg pers-card-bg-papel"></div>
+        <div class="pers-card-pattern pc-pattern-greek"></div>
+        <div class="pers-card-overlay"></div>
+        <div class="pers-card-content">
+          <p class="pers-card-eyebrow">Coleções Exclusivas</p>
+          <h3 class="pers-card-title">Papel de Parede Decoração</h3>
+          <p class="pers-card-desc">Centenas de padrões premium para transformar qualquer ambiente.</p>
+          <span class="pers-cta">
+            Ver coleção
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+      <a href="catalogo-tapecarias.html" class="pers-card">
+        <div class="pers-card-bg pers-card-bg-tapete"></div>
+        <div class="pers-card-pattern pc-pattern-tapete"></div>
+        <div class="pers-card-overlay"></div>
+        <div class="pers-card-content">
+          <p class="pers-card-eyebrow">Tapeçarias &amp; Tapetes</p>
+          <h3 class="pers-card-title">Tapeçarias à Medida</h3>
+          <p class="pers-card-desc">Clássicas, modernas e à medida para cada divisão da tua casa.</p>
+          <span class="pers-cta">
+            Ver tapeçarias
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="values-section">
+  <div class="container">
+    <div class="values-grid">
+      <div class="value-item">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="value-title">Envios Internacionais</h3>
+        <p class="value-desc">Entregamos em toda a Europa com transportadora certificada. Embalagem reforçada para máxima proteção.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="value-title">Encomendas Online</h3>
+        <p class="value-desc">Catálogo completo disponível 24 horas, 7 dias por semana. Rastreio em tempo real da tua encomenda.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <h3 class="value-title">Multibanco Disponível</h3>
+        <p class="value-desc">Aceita Multibanco, MB Way, transferência bancária e PayPal. Pagamento 100% seguro e encriptado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="promo-banner">
+  <div class="container">
+    <h2>Subscreve a nossa <em>newsletter</em></h2>
+    <p>Recebe novidades, coleções exclusivas e ofertas especiais diretamente no teu email.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="O teu endereço de email" aria-label="Email para newsletter">
+      <button type="button" onclick="subscribeNewsletter(this)">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Subscrever
+      </button>
+    </div>
+    <p class="newsletter-note">Sem spam. Podes cancelar a qualquer momento.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-col">
+      <div class="footer-col-title">Aplicações</div>
+      <ul>
+        <li><a href="aplicar-papel.html">Aplicar Papel De Parede</a></li>
+        <li><a href="aplicar-paineis.html">Aplicar Painéis Decorativos</a></li>
+        <li><a href="aplicar-vinil.html">Aplicar Vinil Decorativo</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Informação</div>
+      <ul>
+        <li><a href="condicoes.html">Condições</a></li>
+        <li><a href="condicoes-uso.html">Condições De Uso</a></li>
+        <li><a href="creditos.html">Sobre o Projeto</a></li>
+        <li><a href="https://formafantasia.pt/content/4-sobre-nos">Sobre Nós</a></li>
+        <li><a href="pagamento-seguro.html">Pagamento Seguro</a></li>
+        <li><a href="contactos.html">Contactos</a></li>
+        <li><a href="devolucoes.html">Devoluções</a></li>
+        <li><a href="reclamacoes.html">Livro De Reclamações</a></li>
+        <li><a href="contactos.html">Contate-Nos</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Área De Cliente</div>
+      <ul>
+        <li><a href="conta.html">Informação Pessoal</a></li>
+        <li><a href="conta.html#encomendas">Encomendas</a></li>
+        <li><a href="https://formafantasia.pt/index.php?controller=order-slip">Notas De Crédito</a></li>
+        <li><a href="https://formafantasia.pt/index.php?controller=address">Endereços</a></li>
+        <li><a href="https://formafantasia.pt/index.php?controller=discount">Vales De Desconto</a></li>
+        <li><a href="https://formafantasia.pt/index.php?controller=my-account">Meus Alertas</a></li>
+        <li><a href="https://formafantasia.pt/module/eugeneraldatapro/informations">Política De Cookies</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-contact">
+      <div class="footer-col-title">Contacte-Nos</div>
+      <p>FormaFantasia<br>
+      Rua Calouste Gulbenkian, Loja 28 Rch/Dirt<br>
+      3080-084 Figueira Da Foz<br>
+      Portugal — Coimbra</p>
+      <p style="margin-top:.75rem">
+        <a href="tel:233429608">233 429 608</a> (Rede Fixa)<br>
+        <a href="tel:966092180">966 092 180</a> (Rede Móvel)<br>
+        <a href="mailto:Geral@Formafantasia.Pt">Geral@Formafantasia.Pt</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-bottom-left">&copy; 2025 FormaFantasia. Todos os direitos reservados.</span>
+    <div class="payment-icons">
+      <span class="payment-icon">MB WAY</span>
+      <span class="payment-icon">Multibanco</span>
+      <span class="payment-icon">Transf. Bancária</span>
+      <span class="payment-icon">PayPal</span>
+    </div>
+    <div class="secure-badges">
+      <span class="secure-badge">Loja Protegida SSL</span>
+      <span class="secure-badge">Comodo Secure</span>
+    </div>
+  </div>
+  <div class="footer-credits">
+    Website criado por Diogo Martins e Rafael Vieira
+  </div>
+</footer>
+
+<script src="../js/nav.js"></script>
+<script src="../js/products.js"></script>
+<script src="../js/cart.js"></script>
+<script>
+const HOME_PATTERNS = {
+  greek:'repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 5px,#1a2e42 5px,#1a2e42 24px),repeating-linear-gradient(-45deg,#b8973a33 0,#b8973a33 2px,transparent 2px,transparent 24px)',
+  floral:'radial-gradient(ellipse at 30% 50%,#b8973a22,transparent 50%),linear-gradient(135deg,#f0ece2,#e8e2d5)',
+  marble:'linear-gradient(115deg,#f5f0e8,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df)',
+  berber:'repeating-linear-gradient(0deg,#c9a84c22 0,#c9a84c22 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f5e8c8,#e8d5a0)',
+  tropical:'radial-gradient(circle at 20% 80%,#2d5a27 0%,transparent 40%),linear-gradient(135deg,#1a3d16,#2d5a27)',
+  cement:'repeating-linear-gradient(0deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),linear-gradient(135deg,#d0cdc8,#b8b5b0)',
+  kilim:'repeating-linear-gradient(45deg,#8b1a1a 0,#8b1a1a 4px,#d4a017 4px,#d4a017 8px,#1a3d8b 12px,#1a3d8b 16px)',
+  plain:'linear-gradient(135deg,#f0ece2,#e8e2d5)',
+};
+const HOME_CAT_LABELS = {papel:'Papel de Parede',vinil:'Vinil Decorativo',tapecaria:'Tapeçaria',paineis:'Painéis Decorativos',impressao:'Impressão Digital',calhas:'Calhas',stockoff:'Stock Off',varoes:'Varões',tecidos:'Tecidos',colas:'Colas',acessorios:'Acessório'};
+
+function renderHomeGrid(filter){
+  const grid = document.getElementById('homeProductGrid');
+  if(!grid || typeof FF_PRODUCTS === 'undefined') return;
+  const visible = filter === 'todos' ? FF_PRODUCTS : FF_PRODUCTS.filter(p => p.category === filter || p.subcategory === filter);
+  grid.innerHTML = visible.map(p => {
+    const pat = HOME_PATTERNS[p.pattern] || HOME_PATTERNS.plain;
+    const tag = p.tag === 'new' ? '<span class="product-tag tag-new">Novo</span>' : p.tag === 'promo' ? '<span class="product-tag tag-promo">Promo</span>' : '';
+    return `
+      <article class="product-card" onclick="window.location='produto.html?id=${p.id}'" style="cursor:pointer">
+        <div class="product-card-img">
+          <div class="product-card-pattern" style="background:${pat};width:100%;height:100%"></div>
+          ${tag}
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-category">${HOME_CAT_LABELS[p.category] || p.category}</div>
+          <div class="product-card-name">${p.name}</div>
+          <div class="product-card-ref">Ref. ${p.ref}</div>
+          <div class="product-card-footer">
+            <div class="product-card-price">${Number(p.price).toFixed(2).replace('.',',') + ' €'} <small>(IVA inc.)</small></div>
+            <button class="btn-add-cart" onclick="event.stopPropagation();addToCartHome(${p.id})">
+              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              Adicionar
+            </button>
+          </div>
+        </div>
+      </article>`;
+  }).join('');
+}
+
+function addToCartHome(id){
+  if(typeof FF_PRODUCTS !== 'undefined' && typeof addToCart !== 'undefined'){
+    const p = FF_PRODUCTS.find(x => x.id === id);
+    if(p) addToCart(id, p);
+  }
+}
+
+function homeFilter(filter, btn){
+  document.querySelectorAll('#homeFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderHomeGrid(filter);
+}
+
+function subscribeNewsletter(btn){
+  const input = btn.parentElement.querySelector('input');
+  const val = input.value.trim();
+  if(!val || !val.includes('@')){ showNotif('Por favor introduz um email válido.'); return; }
+  window.location.href = 'mailto:martinssantosdiogo365@gmail.com?subject=Newsletter FormaFantasia&body=Quero subscrever a newsletter da FormaFantasia.%0A%0AEmail: ' + encodeURIComponent(val);
+  input.value = '';
+  showNotif('A abrir o teu cliente de email…');
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  const searchInput = document.getElementById('searchInput');
+  if(!searchInput) return;
+
+  function doSearch(){
+    const q = searchInput.value.trim();
+    if(q.length < 2){ document.getElementById('searchToast').classList.remove('open'); return; }
+    const ql = q.toLowerCase();
+    const results = document.getElementById('searchResults');
+    const toast = document.getElementById('searchToast');
+    const found = FF_PRODUCTS.filter(p =>
+      p.name.toLowerCase().includes(ql) ||
+      p.ref.toLowerCase().includes(ql) ||
+      p.category.toLowerCase().includes(ql)
+    ).slice(0, 5);
+
+    if(found.length === 0){
+      results.innerHTML = `<div class="search-result-item" onclick="window.location='catalogo-hub.html?q=${encodeURIComponent(q)}'">
+        <div class="search-result-swatch" style="background:var(--cream-dark)"></div>
+        <div><div class="search-result-name">Pesquisar "${q}" no catálogo</div><div style="font-size:11px;color:var(--text-muted)">Ver todos os resultados</div></div>
+        <span class="search-result-price" style="color:var(--navy)">→</span>
+      </div>`;
+    } else {
+      results.innerHTML = found.map(p => `
+        <div class="search-result-item" onclick="window.location='produto.html?id=${p.id}'">
+          <div class="search-result-swatch" style="background:${patternStyles[p.pattern]||patternStyles.plain};background-size:cover"></div>
+          <div>
+            <div class="search-result-name">${p.name}</div>
+            <div style="font-size:11px;color:var(--text-muted)">Ref. ${p.ref}</div>
+          </div>
+          <span class="search-result-price">${formatPrice(p.price)}</span>
+        </div>`).join('');
+    }
+    toast.classList.add('open');
+  }
+
+  searchInput.addEventListener('input', function(){ this.value.length > 1 ? doSearch() : document.getElementById('searchToast').classList.remove('open'); });
+  searchInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      const q = this.value.trim();
+      window.location = q ? `catalogo-hub.html?q=${encodeURIComponent(q)}` : 'catalogo-hub.html';
+    }
+    if(e.key === 'Escape') document.getElementById('searchToast').classList.remove('open');
+  });
+
+  renderHomeGrid('todos');
+});
+</script>
+</body>
+</html>
+

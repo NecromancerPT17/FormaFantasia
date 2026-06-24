@@ -25,16 +25,6 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 .header-main{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;gap:1rem}
 .logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
 .logo span{color:var(--gold)}
-.nav-primary>li{position:relative}
-.nav-primary>li>a{font-size:14px;font-weight:500;color:var(--text-primary);letter-spacing:.03em;padding:.25rem 0;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:.25rem;white-space:nowrap}
-.nav-primary>li>a:hover,.nav-primary>li>a.active{color:var(--gold);border-bottom-color:var(--gold)}
-.nav-primary>li.dd-open>.nav-arrow{transform:rotate(180deg)}
-.nav-dropdown::before{content:'';position:absolute;top:-10px;left:0;right:0;height:10px}
-.nav-primary>li.dd-open>.nav-dropdown{visibility:visible;opacity:1;pointer-events:all}
-.nav-dropdown a{display:flex;align-items:center;justify-content:space-between;padding:.5rem 1rem;font-size:13px;color:var(--text-primary);transition:all .2s;white-space:nowrap}
-.nav-dropdown a:hover{background:var(--cream);color:var(--gold)}
-.nav-dropdown-section{padding:.4rem 1rem .2rem;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-top:.25rem}
-.nav-dropdown hr{border:none;border-top:1px solid var(--border-light);margin:.3rem 0}
 .header-actions{display:flex;align-items:center;gap:.5rem}
 .search-wrapper{display:flex;align-items:center;background:var(--cream);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .2s}
 .search-wrapper:focus-within{border-color:var(--gold)}
@@ -177,7 +167,7 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
     Envios internacionais disponíveis &mdash; <a href="https://formafantasia.pt/content/1-comprar">Saiba mais</a> &nbsp;|&nbsp; Encomenda online 24/7 &nbsp;|&nbsp; Multibanco e PayPal aceites
   </div>
   <div class="header-main">
-    <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
+    <a href="index.html" class="logo">Forma<span>Fantasia</span></a>
     <nav aria-label="Navegação principal">
       <ul class="nav-primary"></ul>
     </nav>
@@ -209,7 +199,7 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
 <div class="cat-hero">
   <div class="cat-hero-inner">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="../index.html">Início</a>
+      <a href="index.html">Início</a>
       <span class="breadcrumb-sep">›</span>
       <a href="catalogo-hub.html">Catálogo</a>
       <span class="breadcrumb-sep">›</span>
@@ -264,8 +254,8 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
   <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
 </footer>
 
-<script src="../js/nav.js"></script>
 <script src="../js/products.js"></script>
+<script src="../js/nav.js"></script>
 <script src="../js/cart.js"></script>
 <script>
 const products = FF_PRODUCTS.filter(p => [201].includes(p.id));
@@ -336,16 +326,7 @@ function renderGrid(){
     </article>
   `).join('');
 }
-(function(){
-  const ddTimers = new WeakMap();
-  document.querySelectorAll('.nav-primary > li').forEach(li => {
-    if(!li.querySelector('.nav-dropdown')) return;
-    function open(){ clearTimeout(ddTimers.get(li)); li.classList.add('dd-open'); }
-    function scheduleClose(){ ddTimers.set(li, setTimeout(() => li.classList.remove('dd-open'), 180)); }
-    li.addEventListener('mouseenter', open);
-    li.addEventListener('mouseleave', scheduleClose);
-  });
-})();
+
 document.addEventListener('DOMContentLoaded', function(){
   renderGrid();
   updateCartUI();
