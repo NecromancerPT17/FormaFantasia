@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FormaFantasia.Web.Data;
 using FormaFantasia.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FormaFantasia.Web.Pages.Produtos
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly FormaFantasia.Web.Data.ApplicationDbContext _context;
@@ -24,7 +26,8 @@ namespace FormaFantasia.Web.Pages.Produtos
         public async Task OnGetAsync()
         {
             Produto = await _context.Produtos
-                .Include(p => p.Categoria).ToListAsync();
+                .Include(p => p.Categoria)
+                .ToListAsync();
         }
     }
 }

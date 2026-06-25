@@ -2,6 +2,7 @@ using System.Runtime.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using FormaFantasia.Web.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FormaFantasia.Web.Controllers;
 
@@ -37,5 +38,23 @@ public class EncomendasController : ControllerBase
             return NotFound();
         }
         return Ok(encomenda);
+    }
+
+    [HttpGet("minhas")]
+    [Authorize]
+    public async Task<IActionResult> GetMinhas()
+    {
+        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if(userId == null) return Unauthorized();
+
+        var encomendas = await _context.Encomendas
+            .Include(e => e.ItensEncomenda)
+            .ThenInclude(i => i.Produto)
+            .Where(e => e.UtilizadorId == userId)
+            .OrderByDescending(e => e.Data)
+            .ToListAsync();
+
+        return Ok(encomendas);
+        
     }
 }

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FormaFantasia.Web.Data;
 using FormaFantasia.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FormaFantasia.Web.Pages.Categorias
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly FormaFantasia.Web.Data.ApplicationDbContext _context;

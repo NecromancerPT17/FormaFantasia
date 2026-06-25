@@ -76,12 +76,23 @@ public class CheckoutModel : PageModel
 
         await _context.SaveChangesAsync();
 
+        // Calcular total a partir dos itens criados
+        decimal total = 0;
+        foreach (var item in itens)
+        {
+            var produto = await _context.Produtos.FindAsync(item.ProdutoId);
+            if (produto != null)
+            {
+                total += produto.Preco * item.Quantidade;
+            }
+        }
+
         // Notificar Admin em tempo real
         await _hubContext.Clients.All.SendAsync("NovaEncomenda", new
         {
             encomendaId = encomenda.Id,
             utilizadorEmail = user.Email,
-            total = encomenda.ItensEncomenda.Sum(i => i.Quantidade * i.PrecoUnitario)
+            total = total
         });
 
         return RedirectToPage("/EncomendaConfirmada", new { id = encomenda.Id });

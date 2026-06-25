@@ -16,7 +16,11 @@ builder.Services.AddIdentity<Utilizador, IdentityRole>(options => options.SignIn
     .AddDefaultUI();
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddSignalR();
 
 
@@ -28,6 +32,8 @@ var localizationOptions = new Microsoft.AspNetCore.Builder.RequestLocalizationOp
 
 
 var app = builder.Build();
+
+app.UseStatusCodePagesWithReExecute("/StatusCode", "?code={0}");
 
 app.UseRequestLocalization(localizationOptions);
 // Configure the HTTP request pipeline.

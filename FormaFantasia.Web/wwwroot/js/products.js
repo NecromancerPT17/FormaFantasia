@@ -9,7 +9,7 @@ const FF_PRODUCTS = [
     images:['floral','plain','berber'],
   },
   {
-    id:201, name:'Versace 4 | Clássico Grego | Navy & Dourado', ref:'37048-4',
+    id:1, name:'Versace 4 | Clássico Grego | Navy & Dourado', ref:'37048-4',
     category:'papel', subcategory:'decoracao', catalogFile:'catalogo-papel-decoracao.html',
     price:136.00, tag:'new', pattern:'greek',
     description:'Papel de parede de luxo da coleção Versace 4, com o icónico padrão Clássico Grego em tons navy e dourado. Fabricado em tecido não-tecido (TNT) para uma aplicação fácil e uma remoção limpa.',
@@ -36,7 +36,7 @@ const FF_PRODUCTS = [
     images:['marble','plain','cement'],
   },
   {
-    id:501, name:'Vinil Cimento Queimado | Cinza Industrial', ref:'VC-5503',
+    id:2, name:'Vinil Cimento Queimado | Cinza Industrial', ref:'VC-5503',
     category:'vinil', subcategory:'vinil', catalogFile:'catalogo-vinil.html',
     price:76.00, tag:'', pattern:'cement',
     description:'Vinil decorativo com efeito cimento queimado em cinza industrial. Traz um toque moderno e urbano a qualquer espaço. Fácil aplicação e remoção sem danificar a parede.',
@@ -45,7 +45,7 @@ const FF_PRODUCTS = [
     images:['cement','plain','marble'],
   },
   {
-    id:601, name:'Tapete Kilim | Tradicional Marroquino', ref:'TK-9920',
+    id:3, name:'Tapete Kilim | Tradicional Marroquino', ref:'TK-9920',
     category:'tapecaria', subcategory:'tapecarias', catalogFile:'catalogo-tapecarias.html',
     price:320.00, tag:'', pattern:'kilim',
     description:'Tapete Kilim de inspiração marroquina com padrões geométricos tradicionais. Tecido à mão com lã natural. Perfeito para salas de estar e áreas de entrada.',

@@ -7,14 +7,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using FormaFantasia.Web.Data;
 using FormaFantasia.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+
+
 
 namespace FormaFantasia.Web.Pages.Categorias
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly FormaFantasia.Web.Data.ApplicationDbContext _context;
 
-        public CreateModel(FormaFantasia.Web.Data.ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -27,7 +31,6 @@ namespace FormaFantasia.Web.Pages.Categorias
         [BindProperty]
         public Categoria Categoria { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
