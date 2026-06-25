@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Categoria.Id)
+                @(item.Categoria != null ? item.Categoria.Nome : "Sem categoria")
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

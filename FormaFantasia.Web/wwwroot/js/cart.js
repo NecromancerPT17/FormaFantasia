@@ -15,21 +15,21 @@ const patternStyles = {
 function formatPrice(p){ return Number(p).toFixed(2).replace('.',',') + ' €'; }
 
 function loadCart(){
-  try { return JSON.parse(sessionStorage.getItem(CART_KEY)) || {}; }
+  try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }
   catch(e){ return {}; }
 }
 
 function saveCart(c){
-  try { sessionStorage.setItem(CART_KEY, JSON.stringify(c)); } catch(e){}
+  try { localStorage.setItem(CART_KEY, JSON.stringify(c)); } catch(e){}
 }
 
 function loadWishlist(){
-  try { return JSON.parse(sessionStorage.getItem(WISH_KEY)) || []; }
+  try { return JSON.parse(localStorage.getItem(WISH_KEY)) || []; }
   catch(e){ return []; }
 }
 
 function saveWishlist(w){
-  try { sessionStorage.setItem(WISH_KEY, JSON.stringify(w)); } catch(e){}
+  try { localStorage.setItem(WISH_KEY, JSON.stringify(w)); } catch(e){}
 }
 
 let cart = loadCart();

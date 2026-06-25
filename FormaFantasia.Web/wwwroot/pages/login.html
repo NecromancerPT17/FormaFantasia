@@ -134,39 +134,18 @@ function switchTab(tab){
 
 function doLogin(){
   const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPassword').value.trim();
-  const banner = document.getElementById('loginError');
-  if(!email || !pass){ banner.textContent = 'Preenche o email e a password.'; banner.classList.add('show'); return; }
-  const saved = JSON.parse(sessionStorage.getItem('ff_registered') || '[]');
-  const user = saved.find(u => u.email === email && u.password === pass);
-  if(!user && !(email === 'admin@formafantasia.pt' && pass === 'Admin@123456')){
-    banner.textContent = 'Email ou password incorretos.'; banner.classList.add('show'); return;
+  const pass = document.getElementById('loginPassword').value.trim();
+  if(!email || !pass){
+    const banner = document.getElementById('loginError');
+    banner.textContent = 'Preenche o email e a password.';
+    banner.classList.add('show');
+    return;
   }
-  banner.classList.remove('show');
-  const profile = user || {firstName:'Admin', lastName:'', email};
-  sessionStorage.setItem('ff_profile', JSON.stringify({...profile, loggedIn:true}));
-  window.location.href = REDIRECT;
+  window.location.href = '/Identity/Account/Login?ReturnUrl=' + encodeURIComponent('/' + REDIRECT);
 }
 
 function doRegisto(){
-  const primeiro = document.getElementById('regPrimeiro').value.trim();
-  const apelido  = document.getElementById('regApelido').value.trim();
-  const email    = document.getElementById('regEmail').value.trim();
-  const pass     = document.getElementById('regPassword').value.trim();
-  const confirm  = document.getElementById('regConfirm').value.trim();
-  const banner   = document.getElementById('registoError');
-  if(!primeiro || !email || !pass){ banner.textContent = 'Preenche todos os campos obrigatórios.'; banner.classList.add('show'); return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ banner.textContent = 'Email inválido.'; banner.classList.add('show'); return; }
-  if(pass.length < 8){ banner.textContent = 'A password deve ter pelo menos 8 caracteres.'; banner.classList.add('show'); return; }
-  if(pass !== confirm){ banner.textContent = 'As passwords não coincidem.'; banner.classList.add('show'); return; }
-  banner.classList.remove('show');
-  const users = JSON.parse(sessionStorage.getItem('ff_registered') || '[]');
-  if(users.find(u => u.email === email)){ banner.textContent = 'Já existe uma conta com este email.'; banner.classList.add('show'); return; }
-  const profile = {firstName:primeiro, lastName:apelido, email, password:pass, loggedIn:true};
-  users.push(profile);
-  sessionStorage.setItem('ff_registered', JSON.stringify(users));
-  sessionStorage.setItem('ff_profile', JSON.stringify(profile));
-  window.location.href = REDIRECT;
+  window.location.href = '/Identity/Account/Register?ReturnUrl=' + encodeURIComponent('/' + REDIRECT);
 }
 
 function doGuest(){

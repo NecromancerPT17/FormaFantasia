@@ -116,7 +116,14 @@ namespace FormaFantasia.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+
+                    // Redirecionar por role
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    if (await _signInManager.UserManager.IsInRoleAsync(user, "Admin"))
+                        return LocalRedirect("/Admin/Utilizadores");
+
+                    // Cliente vai para a homepage
+                    return LocalRedirect("/index.html");
                 }
                 if (result.RequiresTwoFactor)
                 {
