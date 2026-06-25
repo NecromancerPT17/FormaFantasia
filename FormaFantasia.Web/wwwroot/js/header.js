@@ -135,6 +135,12 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="badge" id="cartBadge" style="display:none">0</span>
       </button>
+      <a href="${p}login.html" class="icon-btn" id="userBtn" aria-label="Conta" title="A minha conta" style="text-decoration:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </a>
     </div>
   </div>
 </header>
@@ -155,12 +161,32 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 
   /* ── INJECT HTML before first existing content in <body> ── */
   document.addEventListener('DOMContentLoaded', function(){
-    if(document.getElementById('cartDrawer')) return; // already injected
+    if(document.getElementById('cartDrawer')) return;
     const tmp = document.createElement('div');
     tmp.innerHTML = HTML;
     const body = document.body;
     const firstChild = body.firstChild;
     while(tmp.firstChild){ body.insertBefore(tmp.firstChild, firstChild); }
+
+    /* ── AUTH STATE on user icon ── */
+    try {
+      const profile = JSON.parse(sessionStorage.getItem('ff_profile') || 'null');
+      const userBtn = document.getElementById('userBtn');
+      if(userBtn && profile && !profile.guest){
+        userBtn.title = profile.firstName ? profile.firstName : 'A minha conta';
+        userBtn.style.color = 'var(--gold)';
+        if(profile.role === 'Admin'){
+          userBtn.href = p + 'admin.html';
+          userBtn.title = 'Painel Admin';
+          const dot = document.createElement('span');
+          dot.style.cssText = 'position:absolute;top:2px;right:2px;width:8px;height:8px;background:#e74c3c;border-radius:50%;border:2px solid var(--white)';
+          userBtn.style.position = 'relative';
+          userBtn.appendChild(dot);
+        } else {
+          userBtn.href = p + 'conta.html';
+        }
+      }
+    } catch(e){}
 
     /* ── SEARCH ── */
     const searchInput = document.getElementById('searchInput');

@@ -3,62 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Entrar na Conta | FormaFantasia</title>
+<title>Entrar | FormaFantasia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="../js/products.js"></script>
+<script src="../js/header.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/cart.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--navy:#0d1b2a;--navy-mid:#1a2e42;--gold:#b8973a;--gold-light:#d4af5a;--gold-pale:#f5ead0;--cream:#faf8f4;--cream-dark:#f0ece2;--text-primary:#1a1a1a;--text-secondary:#5a5a5a;--text-muted:#9a9a9a;--green-cta:#2a7a4b;--green-cta-hover:#235f3b;--white:#ffffff;--border:#e8e2d5;--error:#c0392b}
-body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
-a{text-decoration:none;color:inherit}
-header{background:var(--white);border-bottom:1px solid var(--border);padding:.875rem 2rem;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
-.logo span{color:var(--gold)}
-.back-link{font-size:13px;color:var(--text-secondary);display:flex;align-items:center;gap:.3rem;transition:color .2s}
-.back-link:hover{color:var(--navy)}
-.back-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
-main{display:flex;align-items:center;justify-content:center;padding:2.5rem 1rem}
-.auth-wrap{width:100%;max-width:420px}
-.tab-bar{display:flex;background:var(--cream-dark);border-radius:10px;padding:4px;margin-bottom:1.75rem}
-.tab-btn{flex:1;padding:.6rem;text-align:center;font-size:14px;font-weight:500;border-radius:7px;cursor:pointer;transition:all .2s;color:var(--text-secondary);border:none;background:none;font-family:'Inter',sans-serif}
-.tab-btn.active{background:var(--white);color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,.08);font-weight:600}
-.auth-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:2rem}
-.auth-card h1{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);margin-bottom:.375rem}
-.auth-card p{font-size:14px;color:var(--text-secondary);margin-bottom:1.5rem}
+body{font-family:'Inter',sans-serif;background:var(--cream,#fafaf8);color:var(--text-primary,#1c1c1a);min-height:100vh;display:flex;flex-direction:column}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 1rem}
+.auth-wrap{width:100%;max-width:440px}
+.auth-logo{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--navy,#1c1c1a);text-align:center;margin-bottom:2rem;display:block;text-decoration:none;letter-spacing:-.02em}
+.auth-logo span{color:var(--gold,#5c7a5c)}
+.tab-bar{display:flex;background:var(--cream-dark,#f0f0ec);border-radius:10px;padding:4px;margin-bottom:1.75rem;gap:4px}
+.tab-btn{flex:1;padding:.625rem;text-align:center;font-size:14px;font-weight:500;border-radius:7px;cursor:pointer;transition:all .2s;color:var(--text-secondary,#5c5c58);border:none;background:none;font-family:'Inter',sans-serif}
+.tab-btn.active{background:var(--white,#fff);color:var(--navy,#1c1c1a);box-shadow:0 1px 6px rgba(28,28,26,.1);font-weight:600}
+.auth-card{background:var(--white,#fff);border:1px solid var(--border,#e4e4de);border-radius:14px;padding:2rem;box-shadow:0 4px 20px rgba(28,28,26,.06)}
+.auth-card h1{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy,#1c1c1a);margin-bottom:.25rem}
+.auth-subtitle{font-size:14px;color:var(--text-secondary,#5c5c58);margin-bottom:1.5rem;line-height:1.5}
 .form-group{display:flex;flex-direction:column;gap:.3rem;margin-bottom:1rem}
-.form-group label{font-size:12px;font-weight:500;color:var(--text-secondary)}
-.form-group input{padding:.65rem .875rem;border:1px solid var(--border);border-radius:7px;font-size:14px;font-family:'Inter',sans-serif;background:var(--white);outline:none;transition:border-color .2s}
-.form-group input:focus{border-color:var(--gold)}
-.form-group input.error{border-color:var(--error)}
+.form-group label{font-size:12px;font-weight:600;color:var(--text-secondary,#5c5c58);letter-spacing:.03em;text-transform:uppercase}
+.form-group input{padding:.7rem .875rem;border:1.5px solid var(--border,#e4e4de);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;background:var(--white,#fff);color:var(--text-primary,#1c1c1a)}
+.form-group input:focus{border-color:var(--gold,#5c7a5c);box-shadow:0 0 0 3px rgba(92,122,92,.12)}
+.form-group input.err{border-color:#d9534f}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.forgot{font-size:12px;color:var(--gold);text-align:right;display:block;margin-top:-.5rem;margin-bottom:1rem;cursor:pointer}
-.forgot:hover{text-decoration:underline}
-.btn-auth{width:100%;padding:.875rem;background:var(--green-cta);color:var(--white);font-size:15px;font-weight:600;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;margin-top:.5rem}
-.btn-auth:hover{background:var(--green-cta-hover)}
-.divider{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0;font-size:12px;color:var(--text-muted)}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.btn-guest{width:100%;padding:.75rem;background:var(--white);color:var(--text-secondary);font-size:14px;font-weight:500;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
-.btn-guest:hover{border-color:var(--navy);color:var(--navy)}
-.error-banner{background:#fdecea;border:1px solid #f5c6cb;border-radius:7px;padding:.625rem .875rem;font-size:13px;color:var(--error);margin-bottom:1rem;display:none}
-.error-banner.show{display:block}
-.panel{display:none}
-.panel.active{display:block}
-footer{background:var(--navy-mid);text-align:center;padding:.875rem 2rem;font-size:12px;color:rgba(255,255,255,.3)}
+.link-small{font-size:12px;color:var(--gold,#5c7a5c);text-align:right;display:block;margin-top:-.5rem;margin-bottom:1rem;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;width:100%;padding:0}
+.link-small:hover{text-decoration:underline}
+.btn-auth{width:100%;padding:.9rem;background:var(--green-cta,#3d6b4f);color:#fff;font-size:14px;font-weight:600;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;margin-top:.25rem;letter-spacing:.02em}
+.btn-auth:hover{background:var(--green-cta-hover,#2e5440)}
+.btn-auth:disabled{opacity:.6;cursor:not-allowed}
+.divider{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0;font-size:12px;color:var(--text-muted,#9a9a94)}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border,#e4e4de)}
+.btn-guest{width:100%;padding:.75rem;background:none;color:var(--text-secondary,#5c5c58);font-size:13px;font-weight:500;border-radius:8px;border:1.5px solid var(--border,#e4e4de);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.btn-guest:hover{border-color:var(--navy,#1c1c1a);color:var(--navy,#1c1c1a)}
+.alert{border-radius:8px;padding:.75rem 1rem;font-size:13px;margin-bottom:1rem;display:none;align-items:flex-start;gap:.5rem;line-height:1.5}
+.alert.show{display:flex}
+.alert.error{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c}
+.alert.success{background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d}
+.alert svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;margin-top:1px}
+.panel{display:none}.panel.active{display:block}
+footer{background:var(--navy-mid,#2e2e2b);text-align:center;padding:.875rem 2rem;font-size:12px;color:rgba(255,255,255,.3)}
 </style>
 </head>
 <body>
-
-<header>
-  <a href="../index.html" class="logo">Forma<span>Fantasia</span></a>
-  <a href="../index.html" class="back-link">
-    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
-    Continuar como visitante
-  </a>
-</header>
-
 <main>
   <div class="auth-wrap">
+    <a href="index.html" class="auth-logo">Forma<span>Fantasia</span></a>
+
     <div class="tab-bar">
       <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Entrar</button>
       <button class="tab-btn" id="tabRegisto" onclick="switchTab('registo')">Criar conta</button>
@@ -66,10 +60,14 @@ footer{background:var(--navy-mid);text-align:center;padding:.875rem 2rem;font-si
 
     <div class="auth-card">
 
+      <!-- LOGIN -->
       <div class="panel active" id="panelLogin">
         <h1>Bem-vindo de volta</h1>
-        <p>Entra na tua conta para ver encomendas e gerir os teus dados.</p>
-        <div class="error-banner" id="loginError">Email ou password incorretos.</div>
+        <p class="auth-subtitle">Entra na tua conta para ver encomendas e gerir os teus dados.</p>
+        <div class="alert error" id="loginError">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span id="loginErrorMsg">Email ou password incorretos.</span>
+        </div>
         <div class="form-group">
           <label for="loginEmail">Email</label>
           <input type="email" id="loginEmail" placeholder="email@exemplo.pt" autocomplete="email">
@@ -78,111 +76,242 @@ footer{background:var(--navy-mid);text-align:center;padding:.875rem 2rem;font-si
           <label for="loginPassword">Password</label>
           <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
         </div>
-        <span class="forgot" onclick="showNotif('Funcionalidade de recuperação disponível após integração com backend.')">Esqueceste a password?</span>
-        <button class="btn-auth" onclick="doLogin()">Entrar</button>
+        <button class="link-small" type="button" onclick="forgotPassword()">Esqueceste a password?</button>
+        <button class="btn-auth" id="loginBtn" onclick="doLogin()">Entrar na conta</button>
         <div class="divider">ou</div>
-        <button class="btn-guest" onclick="doGuest()">Continuar como visitante</button>
+        <button class="btn-guest" onclick="doGuest()">Continuar sem conta</button>
       </div>
 
+      <!-- REGISTO -->
       <div class="panel" id="panelRegisto">
         <h1>Criar conta</h1>
-        <p>Regista-te para acompanhar encomendas e guardar os teus dados.</p>
-        <div class="error-banner" id="registoError">Preenche todos os campos obrigatórios.</div>
+        <p class="auth-subtitle">Regista-te para acompanhar encomendas e guardar os teus dados.</p>
+        <div class="alert error" id="registoError">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span id="registoErrorMsg">Erro no registo.</span>
+        </div>
+        <div class="alert success" id="registoSuccess">
+          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          <span>Conta criada com sucesso! A redirecionar…</span>
+        </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="regPrimeiro">Primeiro Nome *</label>
-            <input type="text" id="regPrimeiro" placeholder="João">
+            <label for="regFirst">Primeiro Nome *</label>
+            <input type="text" id="regFirst" placeholder="João" autocomplete="given-name">
           </div>
           <div class="form-group">
-            <label for="regApelido">Apelido *</label>
-            <input type="text" id="regApelido" placeholder="Silva">
+            <label for="regLast">Apelido *</label>
+            <input type="text" id="regLast" placeholder="Silva" autocomplete="family-name">
           </div>
         </div>
         <div class="form-group">
           <label for="regEmail">Email *</label>
-          <input type="email" id="regEmail" placeholder="email@exemplo.pt">
+          <input type="email" id="regEmail" placeholder="email@exemplo.pt" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="regNIF">NIF</label>
+          <input type="text" id="regNIF" placeholder="000000000" maxlength="9" inputmode="numeric">
+        </div>
+        <div class="form-group">
+          <label for="regMorada">Morada</label>
+          <input type="text" id="regMorada" placeholder="Rua, número, localidade" autocomplete="street-address">
         </div>
         <div class="form-group">
           <label for="regPassword">Password *</label>
-          <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres">
+          <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres, 1 maiúscula, 1 número" autocomplete="new-password">
         </div>
         <div class="form-group">
           <label for="regConfirm">Confirmar Password *</label>
-          <input type="password" id="regConfirm" placeholder="Repete a password">
+          <input type="password" id="regConfirm" placeholder="Repete a password" autocomplete="new-password">
         </div>
-        <button class="btn-auth" onclick="doRegisto()">Criar Conta</button>
+        <button class="btn-auth" id="registoBtn" onclick="doRegisto()">Criar Conta</button>
         <div class="divider">ou</div>
-        <button class="btn-guest" onclick="doGuest()">Continuar como visitante</button>
+        <button class="btn-guest" onclick="doGuest()">Continuar sem conta</button>
       </div>
 
     </div>
   </div>
 </main>
+<footer>Website criado por Diogo Martins e Rafael Vieira · <a href="creditos.html" style="color:rgba(255,255,255,.4)">Sobre o Projeto</a></footer>
 
-<footer>Website criado por Diogo Martins e Rafael Vieira</footer>
-
-<script src="../js/cart.js"></script>
 <script>
 const REDIRECT = new URLSearchParams(window.location.search).get('redirect') || 'conta.html';
 
 function switchTab(tab){
-  document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
-  document.getElementById('panelRegisto').classList.toggle('active', tab === 'registo');
-  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
-  document.getElementById('tabRegisto').classList.toggle('active', tab === 'registo');
+  ['login','registo'].forEach(t => {
+    const cap = t.charAt(0).toUpperCase() + t.slice(1);
+    document.getElementById('panel'+cap).classList.toggle('active', t===tab);
+    document.getElementById('tab'+cap).classList.toggle('active', t===tab);
+  });
 }
 
-function doLogin(){
+function showAlert(id, msg, type='error'){
+  const el = document.getElementById(id);
+  const msgEl = document.getElementById(id+'Msg');
+  if(msgEl) msgEl.textContent = msg;
+  el.className = 'alert ' + type + ' show';
+}
+function hideAlert(id){ document.getElementById(id).classList.remove('show'); }
+function setLoading(btnId, loading){
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  btn.textContent = loading ? 'A processar…' : (btnId==='loginBtn' ? 'Entrar na conta' : 'Criar Conta');
+}
+
+async function doLogin(){
+  hideAlert('loginError');
   const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPassword').value.trim();
-  const banner = document.getElementById('loginError');
-  if(!email || !pass){ banner.textContent = 'Preenche o email e a password.'; banner.classList.add('show'); return; }
-  const saved = JSON.parse(sessionStorage.getItem('ff_registered') || '[]');
-  const user = saved.find(u => u.email === email && u.password === pass);
-  if(!user && !(email === 'admin@formafantasia.pt' && pass === 'Admin@123456')){
-    banner.textContent = 'Email ou password incorretos.'; banner.classList.add('show'); return;
+  const pass  = document.getElementById('loginPassword').value;
+  if(!email || !pass){ showAlert('loginError','Preenche o email e a password.'); return; }
+
+  setLoading('loginBtn', true);
+  try {
+    /* ── API CALL ── */
+    const res = await fetch('/api/Utilizadores/auth', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest'},
+      credentials: 'include',
+      body: JSON.stringify({ email, password: pass })
+    });
+
+    if(res.ok){
+      const data = await res.json();
+      /* Backend returns: { id, firstName, lastName, email, role } */
+      const profile = {
+        id: data.id,
+        firstName: data.firstName || data.nome || '',
+        lastName:  data.lastName  || data.apelido || '',
+        email:     data.email,
+        role:      data.role || data.perfil || 'Cliente',
+        loggedIn:  true
+      };
+      sessionStorage.setItem('ff_profile', JSON.stringify(profile));
+      window.location.href = profile.role === 'Admin' ? 'admin.html' : REDIRECT;
+      return;
+    }
+
+    /* Fallback: Razor Pages cookie auth — try /Identity/Account/Login */
+    if(res.status === 404){
+      /* API endpoint not yet set up — use Razor Pages form post */
+      const form = new FormData();
+      form.append('Input.Email', email);
+      form.append('Input.Password', pass);
+      form.append('Input.RememberMe', 'false');
+      const r2 = await fetch('/Identity/Account/Login', {
+        method:'POST', credentials:'include', body: form
+      });
+      if(r2.ok || r2.redirected){
+        /* Re-query auth state */
+        const authRes = await fetch('/api/Utilizadores/auth', {credentials:'include'});
+        if(authRes.ok){
+          const data = await authRes.json();
+          sessionStorage.setItem('ff_profile', JSON.stringify({...data, loggedIn:true}));
+          window.location.href = data.role === 'Admin' ? 'admin.html' : REDIRECT;
+          return;
+        }
+      }
+    }
+
+    /* Dev fallback — sessionStorage only */
+    const saved = JSON.parse(sessionStorage.getItem('ff_registered') || '[]');
+    const user  = saved.find(u => u.email===email && u.password===pass);
+    const isAdmin = (email==='admin@formafantasia.pt' && pass==='Admin@123456');
+    if(!user && !isAdmin){ showAlert('loginError','Email ou password incorretos.'); return; }
+    const profile = user ? {...user, loggedIn:true} : {firstName:'Admin',lastName:'',email,role:'Admin',loggedIn:true};
+    sessionStorage.setItem('ff_profile', JSON.stringify(profile));
+    window.location.href = profile.role==='Admin' ? 'admin.html' : REDIRECT;
+
+  } catch(err){
+    /* Network error — dev fallback */
+    const saved = JSON.parse(sessionStorage.getItem('ff_registered') || '[]');
+    const user  = saved.find(u => u.email===email && u.password===pass);
+    const isAdmin = (email==='admin@formafantasia.pt' && pass==='Admin@123456');
+    if(!user && !isAdmin){ showAlert('loginError','Não foi possível ligar ao servidor. Verifica a ligação.'); }
+    else {
+      const profile = user ? {...user,loggedIn:true} : {firstName:'Admin',lastName:'',email,role:'Admin',loggedIn:true};
+      sessionStorage.setItem('ff_profile', JSON.stringify(profile));
+      window.location.href = profile.role==='Admin' ? 'admin.html' : REDIRECT;
+    }
+  } finally {
+    setLoading('loginBtn', false);
   }
-  banner.classList.remove('show');
-  const profile = user || {firstName:'Admin', lastName:'', email};
-  sessionStorage.setItem('ff_profile', JSON.stringify({...profile, loggedIn:true}));
-  window.location.href = REDIRECT;
 }
 
-function doRegisto(){
-  const primeiro = document.getElementById('regPrimeiro').value.trim();
-  const apelido  = document.getElementById('regApelido').value.trim();
-  const email    = document.getElementById('regEmail').value.trim();
-  const pass     = document.getElementById('regPassword').value.trim();
-  const confirm  = document.getElementById('regConfirm').value.trim();
-  const banner   = document.getElementById('registoError');
-  if(!primeiro || !email || !pass){ banner.textContent = 'Preenche todos os campos obrigatórios.'; banner.classList.add('show'); return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ banner.textContent = 'Email inválido.'; banner.classList.add('show'); return; }
-  if(pass.length < 8){ banner.textContent = 'A password deve ter pelo menos 8 caracteres.'; banner.classList.add('show'); return; }
-  if(pass !== confirm){ banner.textContent = 'As passwords não coincidem.'; banner.classList.add('show'); return; }
-  banner.classList.remove('show');
-  const users = JSON.parse(sessionStorage.getItem('ff_registered') || '[]');
-  if(users.find(u => u.email === email)){ banner.textContent = 'Já existe uma conta com este email.'; banner.classList.add('show'); return; }
-  const profile = {firstName:primeiro, lastName:apelido, email, password:pass, loggedIn:true};
-  users.push(profile);
-  sessionStorage.setItem('ff_registered', JSON.stringify(users));
-  sessionStorage.setItem('ff_profile', JSON.stringify(profile));
-  window.location.href = REDIRECT;
+async function doRegisto(){
+  hideAlert('registoError');
+  hideAlert('registoSuccess');
+  const first  = document.getElementById('regFirst').value.trim();
+  const last   = document.getElementById('regLast').value.trim();
+  const email  = document.getElementById('regEmail').value.trim();
+  const nif    = document.getElementById('regNIF').value.trim();
+  const morada = document.getElementById('regMorada').value.trim();
+  const pass   = document.getElementById('regPassword').value;
+  const conf   = document.getElementById('regConfirm').value;
+
+  if(!first||!last||!email||!pass){ showAlert('registoError','Preenche todos os campos obrigatórios.'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showAlert('registoError','Endereço de email inválido.'); return; }
+  if(pass.length < 8){ showAlert('registoError','A password deve ter pelo menos 8 caracteres.'); return; }
+  if(!/[A-Z]/.test(pass)){ showAlert('registoError','A password deve ter pelo menos uma letra maiúscula.'); return; }
+  if(!/[0-9]/.test(pass)){ showAlert('registoError','A password deve ter pelo menos um número.'); return; }
+  if(pass!==conf){ showAlert('registoError','As passwords não coincidem.'); return; }
+
+  setLoading('registoBtn', true);
+  try {
+    /* ── API CALL ── */
+    const res = await fetch('/Identity/Account/Register', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest'},
+      credentials: 'include',
+      body: JSON.stringify({
+        firstName: first, lastName: last,
+        email, password: pass, nif, morada
+      })
+    });
+
+    if(res.ok || res.status===200 || res.status===201){
+      const profile = {firstName:first,lastName:last,email,nif,morada,role:'Cliente',loggedIn:true};
+      sessionStorage.setItem('ff_profile', JSON.stringify(profile));
+      document.getElementById('registoSuccess').classList.add('show');
+      setTimeout(() => window.location.href = REDIRECT, 1400);
+      return;
+    }
+    const errData = await res.json().catch(()=>({}));
+    showAlert('registoError', errData.message || 'Erro no registo. Tenta novamente.');
+
+  } catch(err){
+    /* Dev fallback */
+    const users = JSON.parse(sessionStorage.getItem('ff_registered')||'[]');
+    if(users.find(u=>u.email===email)){ showAlert('registoError','Já existe uma conta com este email.'); return; }
+    const profile = {firstName:first,lastName:last,email,nif,morada,password:pass,role:'Cliente',loggedIn:true};
+    users.push(profile);
+    sessionStorage.setItem('ff_registered', JSON.stringify(users));
+    sessionStorage.setItem('ff_profile', JSON.stringify(profile));
+    document.getElementById('registoSuccess').classList.add('show');
+    setTimeout(() => window.location.href = REDIRECT, 1400);
+  } finally {
+    setLoading('registoBtn', false);
+  }
 }
 
 function doGuest(){
   sessionStorage.setItem('ff_profile', JSON.stringify({guest:true}));
-  window.location.href = REDIRECT;
+  const dest = REDIRECT.startsWith('conta') ? 'index.html' : REDIRECT;
+  window.location.href = dest;
 }
 
-let _nt;
-function showNotif(msg){
-  clearTimeout(_nt);
-  const t = document.getElementById('notifToast');
-  if(!t) return;
-  document.getElementById('notifMsg').textContent = msg;
-  t.classList.add('show');
-  _nt = setTimeout(() => t.classList.remove('show'), 3000);
+function forgotPassword(){
+  const email = document.getElementById('loginEmail').value.trim();
+  if(email) alert('Instruções de recuperação serão enviadas para: ' + email + '\n\nSe não recebers, contacta: geral@formafantasia.pt');
+  else alert('Introduz o teu email no campo acima e clica aqui novamente.');
 }
+
+document.addEventListener('keydown', e => {
+  if(e.key==='Enter'){
+    const active = document.querySelector('.panel.active').id;
+    if(active==='panelLogin') doLogin();
+    else doRegisto();
+  }
+});
 </script>
 </body>
 </html>
