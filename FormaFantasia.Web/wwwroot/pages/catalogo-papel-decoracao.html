@@ -257,82 +257,9 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
 <script src="../js/products.js"></script>
 <script src="../js/nav.js"></script>
 <script src="../js/cart.js"></script>
+<script src="../js/catalogo.js"></script>
 <script>
-const products = FF_PRODUCTS.filter(p => [201].includes(p.id));
-
-const patternStyles = {
-  greek:'repeating-linear-gradient(45deg,#1c1c1a 0,#1c1c1a 5px,#2e2e2b 5px,#2e2e2b 24px),repeating-linear-gradient(-45deg,#7a9e7a33 0,#7a9e7a33 2px,transparent 2px,transparent 24px)',
-  floral:'radial-gradient(ellipse at 30% 50%,#5c7a5c22,transparent 50%),linear-gradient(135deg,#f0f0ec,#e4e4de)',
-  marble:'linear-gradient(115deg,#f5f0e8,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df)',
-  berber:'repeating-linear-gradient(0deg,#a0896022 0,#a0896022 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f2ebe0,#e5d8c5)',
-  tropical:'radial-gradient(circle at 20% 80%,#3d6b4f 0%,transparent 40%),linear-gradient(135deg,#2a4a35,#3d6b4f)',
-  cement:'repeating-linear-gradient(0deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),linear-gradient(135deg,#d0cdc8,#b8b5b0)',
-  kilim:'repeating-linear-gradient(45deg,#7a4a3a 0,#7a4a3a 4px,#b8936a 4px,#b8936a 8px,#5c7a5c 12px,#5c7a5c 16px)',
-  plain:'linear-gradient(135deg,#f0f0ec,#e4e4de)',
-};
-
-const categoryLabels = {papel:'Papel de Parede',vinil:'Vinil Decorativo',tapecaria:'Tapeçaria',paineis:'Painéis Decorativos',impressao:'Impressão Digital',calhas:'Calhas',stockoff:'Stock Off',varoes:'Varões',tecidos:'Tecidos',colas:'Colas',acessorios:'Acessório'};
-function categoryLabel(c){ return categoryLabels[c] || c; }
-function formatPrice(p){ return Number(p).toFixed(2).replace('.',',') + ' €'; }
-
-
-
-let displayProducts = [...products];
-
-
-
-
-
-function filterByPrice(val){
-  document.getElementById('priceLabel').textContent = val;
-  displayProducts = products.filter(p => p.price <= Number(val));
-  renderGrid();
-}
-function sortProducts(val){
-  const s = [...displayProducts];
-  if(val === 'price-asc') s.sort((a,b) => a.price - b.price);
-  else if(val === 'price-desc') s.sort((a,b) => b.price - a.price);
-  else if(val === 'name-asc') s.sort((a,b) => a.name.localeCompare(b.name,'pt'));
-  displayProducts = s;
-  renderGrid();
-}
-function renderGrid(){
-  const grid = document.getElementById('productsGrid');
-  document.getElementById('productCount').textContent = products.length;
-  document.getElementById('visibleCount').textContent = displayProducts.length;
-  grid.innerHTML = displayProducts.map(p => `
-    <article class="product-card">
-      <a href="produto.html?id=${p.id}" style="text-decoration:none;color:inherit;display:contents">
-        <div class="product-card-img">
-          <div class="product-card-pattern" style="background:${patternStyles[p.pattern]||patternStyles.plain};width:100%;height:100%"></div>
-          ${p.tag ? `<span class="product-tag ${p.tag === 'new' ? 'tag-new' : 'tag-promo'}">${p.tag === 'new' ? 'Novo' : 'Promo'}</span>` : ''}
-          <button class="product-wish ${wishlist.some(w=>w.id===p.id) ? 'liked' : ''}" onclick="toggleWishItem(${p.id},p,event)" aria-label="Wishlist">
-            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-          </button>
-        </div>
-        <div class="product-card-body">
-          <div class="product-card-category">${categoryLabel(p.category)}</div>
-          <div class="product-card-name">${p.name}</div>
-          <div class="product-card-ref">Ref. ${p.ref}</div>
-          <div class="product-card-footer">
-            <div class="product-card-price">${formatPrice(p.price)} <small>(IVA inc.)</small></div>
-            <button class="btn-add-cart" onclick="addToCart(${p.id}, p);event.preventDefault();event.stopPropagation()">
-              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-              Adicionar
-            </button>
-          </div>
-        </div>
-      </a>
-    </article>
-  `).join('');
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  renderGrid();
-  updateCartUI();
-  updateWishlistUI();
-});
-
+    document.addEventListener('DOMContentLoaded', () => carregarProdutos('NOME_DA_CATEGORIA'));
 </script>
 <script src="../js/catalogo.js"></script>
 <script>
