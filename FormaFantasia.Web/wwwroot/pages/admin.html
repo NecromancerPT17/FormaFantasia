@@ -1,586 +1,1357 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Admin | FormaFantasia</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="../js/products.js"></script>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--navy:#1c1c1a;--navy-mid:#2e2e2b;--gold:#5c7a5c;--gold-light:#7a9e7a;--gold-pale:#eef3ee;--cream:#fafaf8;--cream-dark:#f0f0ec;--white:#fff;--border:#e4e4de;--border-light:#ebebf0;--text-primary:#1c1c1a;--text-secondary:#5c5c58;--text-muted:#9a9a94;--green-cta:#3d6b4f;--green-cta-hover:#2e5440;--err:#c0392b;--sidebar-w:230px}
-body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);display:flex;flex-direction:column;min-height:100vh}
-a{text-decoration:none;color:inherit}button{cursor:pointer;font-family:'Inter',sans-serif}
-.topbar{background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;position:sticky;top:0;z-index:100;gap:1rem}
-.topbar-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600}
-.topbar-logo span{color:var(--gold-light)}
-.topbar-logo small{font-size:10px;font-weight:700;letter-spacing:.1em;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:10px;margin-left:.5rem;vertical-align:middle;font-family:'Inter',sans-serif}
-.topbar-right{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
-.topbar-user{font-size:13px;color:rgba(255,255,255,.65)}
-.topbar-user strong{color:#fff}
-.tbtn{padding:.4rem .875rem;border-radius:6px;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.75);background:none;transition:all .2s}
-.tbtn:hover{background:rgba(255,255,255,.1);color:#fff}
-.tbtn.primary{background:var(--green-cta);border-color:var(--green-cta);color:#fff}
-.tbtn.primary:hover{background:var(--green-cta-hover)}
-.layout{display:flex;flex:1}
-.sidebar{width:var(--sidebar-w);background:var(--navy-mid);flex-shrink:0;display:flex;flex-direction:column}
-.sb-section{padding:.625rem 0}
-.sb-label{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:.25rem 1.25rem .5rem}
-.sb-item{display:flex;align-items:center;gap:.625rem;padding:.6rem 1.25rem;font-size:13px;font-weight:500;color:rgba(255,255,255,.6);cursor:pointer;transition:all .18s;border:none;background:none;width:100%;text-align:left}
-.sb-item:hover{background:rgba(255,255,255,.07);color:#fff}
-.sb-item.active{background:rgba(255,255,255,.13);color:#fff}
-.sb-item svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
-.sb-sep{height:1px;background:rgba(255,255,255,.07);margin:.125rem 0}
-.main{flex:1;padding:1.75rem;overflow-y:auto}
-.panel{display:none}.panel.active{display:block}
-.panel-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
-.panel-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy)}
-.panel-sub{font-size:13px;color:var(--text-muted);margin-top:3px}
-.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.875rem;margin-bottom:1.75rem}
-.stat{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.125rem 1.25rem}
-.stat-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.375rem}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--navy);line-height:1}
-.stat-sub{font-size:11px;color:var(--text-secondary);margin-top:.25rem}
-.card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.25rem}
-.card-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:.75rem}
-.card-toolbar-title{font-size:13px;font-weight:600;color:var(--navy)}
-.search-box{display:flex;align-items:center;gap:.4rem;background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:.3rem .75rem}
-.search-box svg{width:13px;height:13px;stroke:var(--text-muted);fill:none;stroke-width:2;flex-shrink:0}
-.search-box input{border:none;background:none;outline:none;font-size:13px;font-family:'Inter',sans-serif;width:180px;color:var(--text-primary)}
-.search-box input::placeholder{color:var(--text-muted)}
-.tbl-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-thead{background:var(--cream-dark)}
-th{text-align:left;padding:.5rem 1rem;font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
-td{padding:.7rem 1rem;font-size:13px;border-bottom:1px solid var(--border-light);vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--cream)}
-.td-actions{display:flex;gap:.375rem}
-.tbtn-s{padding:.28rem .625rem;border-radius:5px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--white);color:var(--text-secondary);transition:all .18s}
-.tbtn-s:hover{border-color:var(--navy);color:var(--navy)}
-.tbtn-s.danger:hover{border-color:var(--err);color:var(--err)}
-.tbtn-s.primary{background:var(--green-cta);border-color:var(--green-cta);color:#fff}
-.chip{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.chip-new{background:var(--gold-pale);color:var(--green-cta)}
-.chip-promo,.chip-admin{background:#fef2f2;color:var(--err)}
-.chip-cliente{background:var(--gold-pale);color:var(--green-cta)}
-.empty-row td{text-align:center;color:var(--text-muted);font-style:italic;padding:2rem}
-.info-banner{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.875rem 1rem;font-size:13px;color:#92400e;display:flex;gap:.5rem;align-items:flex-start;margin-bottom:1.25rem}
-.info-banner svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;margin-top:1px}
-.overlay{position:fixed;inset:0;background:rgba(28,28,26,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
-.overlay.open{display:flex}
-.modal{background:var(--white);border-radius:14px;padding:1.75rem;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(28,28,26,.2)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
-.modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)}
-.modal-close{width:30px;height:30px;border-radius:6px;border:none;background:none;display:flex;align-items:center;justify-content:center;color:var(--text-muted);cursor:pointer;transition:all .2s}
-.modal-close:hover{background:var(--cream)}
-.modal-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-.fg{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.875rem}
-.fg label{font-size:11px;font-weight:700;color:var(--text-secondary);letter-spacing:.04em;text-transform:uppercase}
-.fg input,.fg select,.fg textarea{padding:.6rem .875rem;border:1.5px solid var(--border);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;background:var(--white);color:var(--text-primary);outline:none;transition:border-color .2s;width:100%}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold)}
-.fg textarea{resize:vertical;min-height:72px}
-.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.modal-sep{border:none;border-top:1px solid var(--border);margin:.875rem 0}
-.modal-foot{display:flex;justify-content:flex-end;gap:.5rem;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)}
-.btn-m{padding:.6rem 1.25rem;border-radius:7px;font-size:13px;font-weight:600;transition:all .2s}
-.btn-m.cancel{background:none;border:1px solid var(--border);color:var(--text-secondary)}
-.btn-m.cancel:hover{border-color:var(--navy);color:var(--navy)}
-.btn-m.save{background:var(--green-cta);border:none;color:#fff}
-.btn-m.save:hover{background:var(--green-cta-hover)}
-.btn-m.danger{background:var(--err);border:none;color:#fff}
-.btn-m:disabled{opacity:.55;cursor:not-allowed}
-.file-label{display:flex;align-items:center;gap:.5rem;padding:.6rem .875rem;border:1.5px dashed var(--border);border-radius:7px;cursor:pointer;font-size:13px;color:var(--text-secondary);transition:all .2s}
-.file-label:hover{border-color:var(--gold);color:var(--gold)}
-.file-label svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
-.file-label input{display:none}
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;padding:.75rem 1.1rem;border-radius:10px;font-size:13px;font-weight:500;z-index:999;transform:translateY(100px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:.5rem;max-width:320px;box-shadow:0 6px 24px rgba(28,28,26,.2)}
-.toast.show{transform:translateY(0);opacity:1}
-.toast.ok{background:var(--green-cta)}
-.toast.err{background:var(--err)}
-.toast svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;flex-shrink:0}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin | FormaFantasia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <script src="../js/products.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --navy: #1c1c1a;
+      --navy-mid: #2e2e2b;
+      --gold: #5c7a5c;
+      --gold-light: #7a9e7a;
+      --gold-pale: #eef3ee;
+      --cream: #fafaf8;
+      --cream-dark: #f0f0ec;
+      --white: #fff;
+      --border: #e4e4de;
+      --border-light: #ebebf0;
+      --text-primary: #1c1c1a;
+      --text-secondary: #5c5c58;
+      --text-muted: #9a9a94;
+      --green-cta: #3d6b4f;
+      --green-cta-hover: #2e5440;
+      --err: #c0392b;
+      --sidebar-w: 230px
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    button {
+      cursor: pointer;
+      font-family: 'Inter', sans-serif
+    }
+
+    .topbar {
+      background: var(--navy);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .75rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 1rem
+    }
+
+    .topbar-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600
+    }
+
+    .topbar-logo span {
+      color: var(--gold-light)
+    }
+
+    .topbar-logo small {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      background: rgba(255, 255, 255, .15);
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: .5rem;
+      vertical-align: middle;
+      font-family: 'Inter', sans-serif
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap
+    }
+
+    .topbar-user {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .65)
+    }
+
+    .topbar-user strong {
+      color: #fff
+    }
+
+    .tbtn {
+      padding: .4rem .875rem;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, .2);
+      color: rgba(255, 255, 255, .75);
+      background: none;
+      transition: all .2s
+    }
+
+    .tbtn:hover {
+      background: rgba(255, 255, 255, .1);
+      color: #fff
+    }
+
+    .tbtn.primary {
+      background: var(--green-cta);
+      border-color: var(--green-cta);
+      color: #fff
+    }
+
+    .tbtn.primary:hover {
+      background: var(--green-cta-hover)
+    }
+
+    .layout {
+      display: flex;
+      flex: 1
+    }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--navy-mid);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column
+    }
+
+    .sb-section {
+      padding: .625rem 0
+    }
+
+    .sb-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .3);
+      padding: .25rem 1.25rem .5rem
+    }
+
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: .625rem;
+      padding: .6rem 1.25rem;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, .6);
+      cursor: pointer;
+      transition: all .18s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left
+    }
+
+    .sb-item:hover {
+      background: rgba(255, 255, 255, .07);
+      color: #fff
+    }
+
+    .sb-item.active {
+      background: rgba(255, 255, 255, .13);
+      color: #fff
+    }
+
+    .sb-item svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0
+    }
+
+    .sb-sep {
+      height: 1px;
+      background: rgba(255, 255, 255, .07);
+      margin: .125rem 0
+    }
+
+    .main {
+      flex: 1;
+      padding: 1.75rem;
+      overflow-y: auto
+    }
+
+    .panel {
+      display: none
+    }
+
+    .panel.active {
+      display: block
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem
+    }
+
+    .panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .panel-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 3px
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: .875rem;
+      margin-bottom: 1.75rem
+    }
+
+    .stat {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.125rem 1.25rem
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: .375rem
+    }
+
+    .stat-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: .25rem
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.25rem
+    }
+
+    .card-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .875rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: .75rem
+    }
+
+    .card-toolbar-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .3rem .75rem
+    }
+
+    .search-box svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--text-muted);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0
+    }
+
+    .search-box input {
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      width: 180px;
+      color: var(--text-primary)
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-muted)
+    }
+
+    .tbl-wrap {
+      overflow-x: auto
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    thead {
+      background: var(--cream-dark)
+    }
+
+    th {
+      text-align: left;
+      padding: .5rem 1rem;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap
+    }
+
+    td {
+      padding: .7rem 1rem;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    tr:hover td {
+      background: var(--cream)
+    }
+
+    .td-actions {
+      display: flex;
+      gap: .375rem
+    }
+
+    .tbtn-s {
+      padding: .28rem .625rem;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--text-secondary);
+      transition: all .18s
+    }
+
+    .tbtn-s:hover {
+      border-color: var(--navy);
+      color: var(--navy)
+    }
+
+    .tbtn-s.danger:hover {
+      border-color: var(--err);
+      color: var(--err)
+    }
+
+    .tbtn-s.primary {
+      background: var(--green-cta);
+      border-color: var(--green-cta);
+      color: #fff
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase
+    }
+
+    .chip-new {
+      background: var(--gold-pale);
+      color: var(--green-cta)
+    }
+
+    .chip-promo,
+    .chip-admin {
+      background: #fef2f2;
+      color: var(--err)
+    }
+
+    .chip-cliente {
+      background: var(--gold-pale);
+      color: var(--green-cta)
+    }
+
+    .empty-row td {
+      text-align: center;
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem
+    }
+
+    .info-banner {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: .875rem 1rem;
+      font-size: 13px;
+      color: #92400e;
+      display: flex;
+      gap: .5rem;
+      align-items: flex-start;
+      margin-bottom: 1.25rem
+    }
+
+    .info-banner svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 28, 26, .5);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem
+    }
+
+    .overlay.open {
+      display: flex
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 1.75rem;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(28, 28, 26, .2)
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .modal-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .modal-close:hover {
+      background: var(--cream)
+    }
+
+    .modal-close svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2
+    }
+
+    .fg {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+      margin-bottom: .875rem
+    }
+
+    .fg label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      letter-spacing: .04em;
+      text-transform: uppercase
+    }
+
+    .fg input,
+    .fg select,
+    .fg textarea {
+      padding: .6rem .875rem;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color .2s;
+      width: 100%
+    }
+
+    .fg input:focus,
+    .fg select:focus,
+    .fg textarea:focus {
+      border-color: var(--gold)
+    }
+
+    .fg textarea {
+      resize: vertical;
+      min-height: 72px
+    }
+
+    .fg-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem
+    }
+
+    .modal-sep {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: .875rem 0
+    }
+
+    .modal-foot {
+      display: flex;
+      justify-content: flex-end;
+      gap: .5rem;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border)
+    }
+
+    .btn-m {
+      padding: .6rem 1.25rem;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all .2s
+    }
+
+    .btn-m.cancel {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-secondary)
+    }
+
+    .btn-m.cancel:hover {
+      border-color: var(--navy);
+      color: var(--navy)
+    }
+
+    .btn-m.save {
+      background: var(--green-cta);
+      border: none;
+      color: #fff
+    }
+
+    .btn-m.save:hover {
+      background: var(--green-cta-hover)
+    }
+
+    .btn-m.danger {
+      background: var(--err);
+      border: none;
+      color: #fff
+    }
+
+    .btn-m:disabled {
+      opacity: .55;
+      cursor: not-allowed
+    }
+
+    .file-label {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem .875rem;
+      border: 1.5px dashed var(--border);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-secondary);
+      transition: all .2s
+    }
+
+    .file-label:hover {
+      border-color: var(--gold);
+      color: var(--gold)
+    }
+
+    .file-label svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2
+    }
+
+    .file-label input {
+      display: none
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--navy);
+      color: #fff;
+      padding: .75rem 1.1rem;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all .3s cubic-bezier(.4, 0, .2, 1);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      max-width: 320px;
+      box-shadow: 0 6px 24px rgba(28, 28, 26, .2)
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1
+    }
+
+    .toast.ok {
+      background: var(--green-cta)
+    }
+
+    .toast.err {
+      background: var(--err)
+    }
+
+    .toast svg {
+      width: 15px;
+      height: 15px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0
+    }
+  </style>
 </head>
+
 <body>
-<div class="toast" id="toast"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span id="toastMsg"></span></div>
+  <div class="toast" id="toast"><svg viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    </svg><span id="toastMsg"></span></div>
 
-<!-- PRODUCT MODAL -->
-<div class="overlay" id="prodModal">
-<div class="modal">
-<div class="modal-head">
-  <div class="modal-title" id="prodModalTitle">Novo Produto</div>
-  <button class="modal-close" onclick="closeModal('prodModal')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
-</div>
-<input type="hidden" id="pId">
-<div class="fg"><label>Nome *</label><input type="text" id="pName" placeholder="Ex: Versace 4 | Clássico Grego"></div>
-<div class="fg-row">
-  <div class="fg"><label>Referência *</label><input type="text" id="pRef" placeholder="Ex: 37048-4"></div>
-  <div class="fg"><label>Tag</label><select id="pTag"><option value="">Sem tag</option><option value="new">Novo</option><option value="promo">Promoção</option></select></div>
-</div>
-<div class="fg-row">
-  <div class="fg"><label>Categoria *</label>
-    <select id="pCat" onchange="onCatChange()">
-      <option value="">Seleciona...</option>
-      <option value="papel">Papel de Parede</option><option value="vinil">Vinil Decorativo</option>
-      <option value="tapecaria">Tapeçaria</option><option value="paineis">Painéis Decorativos</option>
-      <option value="impressao">Impressão Digital</option><option value="calhas">Calhas</option>
-      <option value="stockoff">Stock Off</option><option value="varoes">Varões</option>
-      <option value="tecidos">Tecidos</option><option value="colas">Colas</option>
-    </select>
-  </div>
-  <div class="fg"><label>Subcategoria</label><select id="pSub"><option value="">—</option></select></div>
-</div>
-<div class="fg-row">
-  <div class="fg"><label>Preço (€) *</label><input type="number" id="pPrice" placeholder="0.00" step="0.01" min="0"></div>
-  <div class="fg"><label>Preço Original (€)</label><input type="number" id="pPriceOrig" placeholder="Promoção" step="0.01" min="0"></div>
-</div>
-<hr class="modal-sep">
-<div class="fg"><label>Descrição</label><textarea id="pDesc" placeholder="Descrição detalhada..."></textarea></div>
-<div class="fg"><label>Características (uma por linha)</label><textarea id="pFeats" placeholder="Tecido não-tecido – TNT&#10;Lavável"></textarea></div>
-<div class="fg"><label>Especificações (Chave: Valor, uma por linha)</label><textarea id="pSpecs" placeholder="Material: TNT&#10;Largura: 0,70 m"></textarea></div>
-<div class="fg">
-  <label>Fotografia</label>
-  <label class="file-label">
-    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-    <span id="fileLabel">Selecionar imagem…</span>
-    <input type="file" id="pImg" accept="image/*" onchange="document.getElementById('fileLabel').textContent=this.files[0]?.name||'Selecionar imagem…'">
-  </label>
-</div>
-<div class="modal-foot">
-  <button class="btn-m cancel" onclick="closeModal('prodModal')">Cancelar</button>
-  <button class="btn-m save" id="saveProdBtn" onclick="saveProduct()">Guardar Produto</button>
-</div>
-</div></div>
-
-<!-- CATEGORY MODAL -->
-<div class="overlay" id="catModal">
-<div class="modal" style="max-width:460px">
-<div class="modal-head">
-  <div class="modal-title" id="catModalTitle">Nova Categoria</div>
-  <button class="modal-close" onclick="closeModal('catModal')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
-</div>
-<input type="hidden" id="cId">
-<div class="fg"><label>Nome *</label><input type="text" id="cName" placeholder="Ex: Papel de Parede Premium" oninput="autoSlug()"></div>
-<div class="fg"><label>Slug *</label><input type="text" id="cSlug" placeholder="papel-premium" oninput="this.value=this.value.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')"></div>
-<div class="fg"><label>Categoria Pai</label>
-  <select id="cParent">
-    <option value="">— Categoria de topo —</option>
-    <option value="papel">Papel de Parede</option><option value="vinil">Vinil Decorativo</option>
-    <option value="tapecaria">Tapeçaria</option><option value="outros">Outros</option>
-  </select>
-</div>
-<div class="fg"><label>Descrição</label><textarea id="cDesc" placeholder="Descrição da categoria…"></textarea></div>
-<div class="modal-foot">
-  <button class="btn-m cancel" onclick="closeModal('catModal')">Cancelar</button>
-  <button class="btn-m save" id="saveCatBtn" onclick="saveCategory()">Guardar Categoria</button>
-</div>
-</div></div>
-
-<!-- DELETE MODAL -->
-<div class="overlay" id="delModal">
-<div class="modal" style="max-width:400px">
-<div class="modal-head">
-  <div class="modal-title">Confirmar eliminação</div>
-  <button class="modal-close" onclick="closeModal('delModal')"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
-</div>
-<p style="font-size:14px;color:var(--text-secondary);line-height:1.6" id="delMsg">Tens a certeza?</p>
-<div class="modal-foot">
-  <button class="btn-m cancel" onclick="closeModal('delModal')">Cancelar</button>
-  <button class="btn-m danger" id="delConfirmBtn">Eliminar</button>
-</div>
-</div></div>
-
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-logo">Forma<span>Fantasia</span> <small>ADMIN</small></div>
-  <div class="topbar-right">
-    <span class="topbar-user">Sessão: <strong id="adminName">—</strong></span>
-    <a href="index.html" class="tbtn">← Ver Site</a>
-    <button class="tbtn" onclick="doLogout()">Terminar Sessão</button>
-  </div>
-</div>
-
-<div class="layout">
-<aside class="sidebar">
-  <div class="sb-section">
-    <div class="sb-label">Geral</div>
-    <button class="sb-item active" onclick="showPanel('dashboard')">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard
-    </button>
-  </div>
-  <div class="sb-sep"></div>
-  <div class="sb-section">
-    <div class="sb-label">Catálogo</div>
-    <button class="sb-item" onclick="showPanel('produtos')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Produtos
-    </button>
-    <button class="sb-item" onclick="showPanel('categorias')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>Categorias
-    </button>
-  </div>
-  <div class="sb-sep"></div>
-  <div class="sb-section">
-    <div class="sb-label">Loja</div>
-    <button class="sb-item" onclick="showPanel('encomendas')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Encomendas
-    </button>
-    <button class="sb-item" onclick="showPanel('utilizadores')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Utilizadores
-    </button>
-  </div>
-</aside>
-
-<main class="main">
-
-<div class="panel active" id="panel-dashboard">
-  <div class="panel-head"><div><div class="panel-title">Dashboard</div><div class="panel-sub">Visão geral da loja FormaFantasia</div></div></div>
-  <div class="info-banner">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    Dados carregados de <code>/api/Produtos</code>, <code>/api/Encomendas</code>, <code>/api/Utilizadores</code>. Se a API não estiver disponível, são usados dados locais da sessão como fallback.
-  </div>
-  <div class="stats">
-    <div class="stat"><div class="stat-label">Produtos</div><div class="stat-val" id="dProd">—</div><div class="stat-sub">no catálogo</div></div>
-    <div class="stat"><div class="stat-label">Categorias</div><div class="stat-val" id="dCat">—</div><div class="stat-sub">definidas</div></div>
-    <div class="stat"><div class="stat-label">Encomendas</div><div class="stat-val" id="dOrders">—</div><div class="stat-sub">total</div></div>
-    <div class="stat"><div class="stat-label">Utilizadores</div><div class="stat-val" id="dUsers">—</div><div class="stat-sub">registados</div></div>
-  </div>
-  <div class="card">
-    <div class="card-toolbar"><span class="card-toolbar-title">Últimas Encomendas</span></div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Número</th><th>Data</th><th>Cliente</th><th>Total</th><th>Estado</th></tr></thead>
-      <tbody id="dashOrders"><tr class="empty-row"><td colspan="5">A carregar…</td></tr></tbody>
-    </table></div>
-  </div>
-</div>
-
-<div class="panel" id="panel-produtos">
-  <div class="panel-head">
-    <div><div class="panel-title">Produtos</div><div class="panel-sub">Gerir o catálogo de produtos</div></div>
-    <button class="tbtn primary" onclick="openProdModal()">+ Novo Produto</button>
-  </div>
-  <div class="card">
-    <div class="card-toolbar">
-      <span class="card-toolbar-title">Todos (<span id="prodCount">0</span>)</span>
-      <div class="search-box">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
-        <input type="search" placeholder="Pesquisar…" id="prodSearch" oninput="renderProds()">
+  <!-- PRODUCT MODAL -->
+  <div class="overlay" id="prodModal">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title" id="prodModalTitle">Novo Produto</div>
+        <button class="modal-close" onclick="closeModal('prodModal')"><svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg></button>
+      </div>
+      <input type="hidden" id="pId">
+      <div class="fg"><label>Nome *</label><input type="text" id="pName" placeholder="Ex: Versace 4 | Clássico Grego">
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Referência *</label><input type="text" id="pRef" placeholder="Ex: 37048-4"></div>
+        <div class="fg"><label>Tag</label><select id="pTag">
+            <option value="">Sem tag</option>
+            <option value="new">Novo</option>
+            <option value="promo">Promoção</option>
+          </select></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Categoria *</label>
+          <select id="pCat" onchange="onCatChange()">
+            <option value="">Seleciona...</option>
+            <option value="papel">Papel de Parede</option>
+            <option value="vinil">Vinil Decorativo</option>
+            <option value="tapecaria">Tapeçaria</option>
+            <option value="paineis">Painéis Decorativos</option>
+            <option value="impressao">Impressão Digital</option>
+            <option value="calhas">Calhas</option>
+            <option value="stockoff">Stock Off</option>
+            <option value="varoes">Varões</option>
+            <option value="tecidos">Tecidos</option>
+            <option value="colas">Colas</option>
+          </select>
+        </div>
+        <div class="fg"><label>Subcategoria</label><select id="pSub">
+            <option value="">—</option>
+          </select></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Preço (€) *</label><input type="number" id="pPrice" placeholder="0.00" step="0.01"
+            min="0"></div>
+        <div class="fg"><label>Preço Original (€)</label><input type="number" id="pPriceOrig" placeholder="Promoção"
+            step="0.01" min="0"></div>
+      </div>
+      <hr class="modal-sep">
+      <div class="fg"><label>Descrição</label><textarea id="pDesc" placeholder="Descrição detalhada..."></textarea>
+      </div>
+      <div class="fg"><label>Características (uma por linha)</label><textarea id="pFeats"
+          placeholder="Tecido não-tecido – TNT&#10;Lavável"></textarea></div>
+      <div class="fg"><label>Especificações (Chave: Valor, uma por linha)</label><textarea id="pSpecs"
+          placeholder="Material: TNT&#10;Largura: 0,70 m"></textarea></div>
+      <div class="fg">
+        <label>Fotografia</label>
+        <label class="file-label">
+          <svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span id="fileLabel">Selecionar imagem…</span>
+          <input type="file" id="pImg" accept="image/*"
+            onchange="document.getElementById('fileLabel').textContent=this.files[0]?.name||'Selecionar imagem…'">
+        </label>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-m cancel" onclick="closeModal('prodModal')">Cancelar</button>
+        <button class="btn-m save" id="saveProdBtn" onclick="saveProduct()">Guardar Produto</button>
       </div>
     </div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Ref.</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Tag</th><th>Ações</th></tr></thead>
-      <tbody id="prodsTable"></tbody>
-    </table></div>
   </div>
-</div>
 
-<div class="panel" id="panel-categorias">
-  <div class="panel-head">
-    <div><div class="panel-title">Categorias</div><div class="panel-sub">Gerir categorias e subcategorias</div></div>
-    <button class="tbtn primary" onclick="openCatModal()">+ Nova Categoria</button>
+  <!-- CATEGORY MODAL -->
+  <div class="overlay" id="catModal">
+    <div class="modal" style="max-width:460px">
+      <div class="modal-head">
+        <div class="modal-title" id="catModalTitle">Nova Categoria</div>
+        <button class="modal-close" onclick="closeModal('catModal')"><svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg></button>
+      </div>
+      <input type="hidden" id="cId">
+      <div class="fg"><label>Nome *</label><input type="text" id="cName" placeholder="Ex: Papel de Parede Premium"
+          oninput="autoSlug()"></div>
+      <div class="fg"><label>Slug *</label><input type="text" id="cSlug" placeholder="papel-premium"
+          oninput="this.value=this.value.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')"></div>
+      <div class="fg"><label>Categoria Pai</label>
+        <select id="cParent">
+          <option value="">— Categoria de topo —</option>
+          <option value="papel">Papel de Parede</option>
+          <option value="vinil">Vinil Decorativo</option>
+          <option value="tapecaria">Tapeçaria</option>
+          <option value="outros">Outros</option>
+        </select>
+      </div>
+      <div class="fg"><label>Descrição</label><textarea id="cDesc" placeholder="Descrição da categoria…"></textarea>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-m cancel" onclick="closeModal('catModal')">Cancelar</button>
+        <button class="btn-m save" id="saveCatBtn" onclick="saveCategory()">Guardar Categoria</button>
+      </div>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-toolbar"><span class="card-toolbar-title">Categorias (<span id="catCount">0</span>)</span></div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Nome</th><th>Slug</th><th>Categoria Pai</th><th>Produtos</th><th>Ações</th></tr></thead>
-      <tbody id="catsTable"></tbody>
-    </table></div>
+
+  <!-- DELETE MODAL -->
+  <div class="overlay" id="delModal">
+    <div class="modal" style="max-width:400px">
+      <div class="modal-head">
+        <div class="modal-title">Confirmar eliminação</div>
+        <button class="modal-close" onclick="closeModal('delModal')"><svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg></button>
+      </div>
+      <p style="font-size:14px;color:var(--text-secondary);line-height:1.6" id="delMsg">Tens a certeza?</p>
+      <div class="modal-foot">
+        <button class="btn-m cancel" onclick="closeModal('delModal')">Cancelar</button>
+        <button class="btn-m danger" id="delConfirmBtn">Eliminar</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="panel" id="panel-encomendas">
-  <div class="panel-head"><div><div class="panel-title">Encomendas</div><div class="panel-sub">Gerir e actualizar estados</div></div></div>
-  <div class="card">
-    <div class="card-toolbar"><span class="card-toolbar-title">Todas (<span id="ordersCount">0</span>)</span></div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Nº</th><th>Data</th><th>Cliente</th><th>Itens</th><th>Total</th><th>Estado</th><th>Ações</th></tr></thead>
-      <tbody id="ordersTable"></tbody>
-    </table></div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-logo">Forma<span>Fantasia</span> <small>ADMIN</small></div>
+    <div class="topbar-right">
+      <span class="topbar-user">Sessão: <strong id="adminName">—</strong></span>
+      <a href="index.html" class="tbtn">← Ver Site</a>
+      <button class="tbtn" onclick="doLogout()">Terminar Sessão</button>
+    </div>
   </div>
-</div>
 
-<div class="panel" id="panel-utilizadores">
-  <div class="panel-head"><div><div class="panel-title">Utilizadores</div><div class="panel-sub">Gerir contas e permissões</div></div></div>
-  <div class="card">
-    <div class="card-toolbar"><span class="card-toolbar-title">Utilizadores (<span id="usersCount">0</span>)</span></div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Nome</th><th>Email</th><th>NIF</th><th>Role</th><th>Ações</th></tr></thead>
-      <tbody id="usersTable"></tbody>
-    </table></div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sb-section">
+        <div class="sb-label">Geral</div>
+        <button class="sb-item active" onclick="showPanel('dashboard')">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>Dashboard
+        </button>
+      </div>
+      <div class="sb-sep"></div>
+      <div class="sb-section">
+        <div class="sb-label">Catálogo</div>
+        <button class="sb-item" onclick="showPanel('produtos')">
+          <svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>Produtos
+        </button>
+        <button class="sb-item" onclick="showPanel('categorias')">
+          <svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>Categorias
+        </button>
+      </div>
+      <div class="sb-sep"></div>
+      <div class="sb-section">
+        <div class="sb-label">Loja</div>
+        <button class="sb-item" onclick="showPanel('encomendas')">
+          <svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>Encomendas
+        </button>
+        <button class="sb-item" onclick="showPanel('utilizadores')">
+          <svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>Utilizadores
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <div class="panel active" id="panel-dashboard">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Dashboard</div>
+            <div class="panel-sub">Visão geral da loja FormaFantasia</div>
+          </div>
+        </div>
+        <div class="info-banner">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          Dados carregados de <code>/api/Produtos</code>, <code>/api/Encomendas</code>, <code>/api/Utilizadores</code>.
+          Se a API não estiver disponível, são usados dados locais da sessão como fallback.
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">Produtos</div>
+            <div class="stat-val" id="dProd">—</div>
+            <div class="stat-sub">no catálogo</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Categorias</div>
+            <div class="stat-val" id="dCat">—</div>
+            <div class="stat-sub">definidas</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Encomendas</div>
+            <div class="stat-val" id="dOrders">—</div>
+            <div class="stat-sub">total</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Utilizadores</div>
+            <div class="stat-val" id="dUsers">—</div>
+            <div class="stat-sub">registados</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-toolbar"><span class="card-toolbar-title">Últimas Encomendas</span></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Número</th>
+                  <th>Data</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="dashOrders">
+                <tr class="empty-row">
+                  <td colspan="5">A carregar…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-produtos">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Produtos</div>
+            <div class="panel-sub">Gerir o catálogo de produtos</div>
+          </div>
+          <button class="tbtn primary" onclick="openProdModal()">+ Novo Produto</button>
+        </div>
+        <div class="card">
+          <div class="card-toolbar">
+            <span class="card-toolbar-title">Todos (<span id="prodCount">0</span>)</span>
+            <div class="search-box">
+              <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" />
+                <path stroke-linecap="round" d="m21 21-4.35-4.35" />
+              </svg>
+              <input type="search" placeholder="Pesquisar…" id="prodSearch" oninput="renderProds()">
+            </div>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ref.</th>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th>Preço</th>
+                  <th>Tag</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="prodsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-categorias">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Categorias</div>
+            <div class="panel-sub">Gerir categorias e subcategorias</div>
+          </div>
+          <button class="tbtn primary" onclick="openCatModal()">+ Nova Categoria</button>
+        </div>
+        <div class="card">
+          <div class="card-toolbar"><span class="card-toolbar-title">Categorias (<span id="catCount">0</span>)</span>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Slug</th>
+                  <th>Categoria Pai</th>
+                  <th>Produtos</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="catsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-encomendas">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Encomendas</div>
+            <div class="panel-sub">Gerir e actualizar estados</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-toolbar"><span class="card-toolbar-title">Todas (<span id="ordersCount">0</span>)</span>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nº</th>
+                  <th>Data</th>
+                  <th>Cliente</th>
+                  <th>Itens</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-utilizadores">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Utilizadores</div>
+            <div class="panel-sub">Gerir contas e permissões</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-toolbar"><span class="card-toolbar-title">Utilizadores (<span
+                id="usersCount">0</span>)</span></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>NIF</th>
+                  <th>Role</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="usersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
   </div>
-</div>
 
-</main>
-</div>
+  <script>
+    /* ── GUARD ── */
+    (function () {
+      try {
+        const p = JSON.parse(sessionStorage.getItem('ff_profile') || 'null');
+        if (!p || p.role !== 'Admin') { window.location.href = 'login.html?redirect=admin.html'; return; }
+        document.getElementById('adminName').textContent = p.firstName || p.email || 'Admin';
+      } catch (e) { window.location.href = 'login.html?redirect=admin.html'; }
+    })();
 
-<script>
-/* ── GUARD ── */
-(function(){
-  try {
-    const p = JSON.parse(sessionStorage.getItem('ff_profile')||'null');
-    if(!p||p.role!=='Admin'){ window.location.href='login.html?redirect=admin.html'; return; }
-    document.getElementById('adminName').textContent = p.firstName||p.email||'Admin';
-  } catch(e){ window.location.href='login.html?redirect=admin.html'; }
-})();
+    const CAT_LABELS = { papel: 'Papel de Parede', vinil: 'Vinil Decorativo', tapecaria: 'Tapeçaria', paineis: 'Painéis Decorativos', impressao: 'Impressão Digital', calhas: 'Calhas', stockoff: 'Stock Off', varoes: 'Varões', tecidos: 'Tecidos', colas: 'Colas' };
+    const SUBCATS = {
+      papel: [{ v: 'infantil', l: 'Infantil' }, { v: 'decoracao', l: 'Decoração' }, { v: 'economico', l: 'Económico' }, { v: 'cozinha', l: 'Cozinha & WC' }],
+      vinil: [{ v: 'liso', l: 'Liso e Texturado' }, { v: 'efeitos', l: 'Efeitos Especiais' }],
+      tapecaria: [{ v: 'classicas', l: 'Clássicas' }, { v: 'modernas', l: 'Modernas' }, { v: 'kilim', l: 'Kilim & Berber' }, { v: 'medida', l: 'À Medida' }],
+      paineis: [{ v: 'decorativos', l: 'Decorativos' }, { v: 'infantis', l: 'Infantis' }],
+      impressao: [{ v: 'digital', l: 'Digital' }, { v: 'personalizada', l: 'Personalizada' }],
+    };
 
-const CAT_LABELS = {papel:'Papel de Parede',vinil:'Vinil Decorativo',tapecaria:'Tapeçaria',paineis:'Painéis Decorativos',impressao:'Impressão Digital',calhas:'Calhas',stockoff:'Stock Off',varoes:'Varões',tecidos:'Tecidos',colas:'Colas'};
-const SUBCATS = {
-  papel:    [{v:'infantil',l:'Infantil'},{v:'decoracao',l:'Decoração'},{v:'economico',l:'Económico'},{v:'cozinha',l:'Cozinha & WC'}],
-  vinil:    [{v:'liso',l:'Liso e Texturado'},{v:'efeitos',l:'Efeitos Especiais'}],
-  tapecaria:[{v:'classicas',l:'Clássicas'},{v:'modernas',l:'Modernas'},{v:'kilim',l:'Kilim & Berber'},{v:'medida',l:'À Medida'}],
-  paineis:  [{v:'decorativos',l:'Decorativos'},{v:'infantis',l:'Infantis'}],
-  impressao:[{v:'digital',l:'Digital'},{v:'personalizada',l:'Personalizada'}],
-};
+    let products = [], categories = [], orders = [], users = [];
+    function fmt(n) { return Number(n).toFixed(2).replace('.', ',') + '\u00a0€'; }
 
-let products=[], categories=[], orders=[], users=[];
-function fmt(n){ return Number(n).toFixed(2).replace('.',',')+'\u00a0€'; }
+    async function api(method, path, body) {
+      const opts = { method, credentials: 'include', headers: {} };
+      if (body) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+      const res = await fetch(path, opts);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      if (res.status === 204) return null;
+      return res.json().catch(() => null);
+    }
 
-async function api(method,path,body){
-  const opts={method,credentials:'include',headers:{}};
-  if(body){opts.headers['Content-Type']='application/json';opts.body=JSON.stringify(body);}
-  const res=await fetch(path,opts);
-  if(!res.ok) throw new Error('HTTP '+res.status);
-  if(res.status===204) return null;
-  return res.json().catch(()=>null);
-}
+    async function loadProducts() {
+      try { const d = await api('GET', '/api/Produtos'); products = Array.isArray(d) ? d : []; }
+      catch { products = typeof FF_PRODUCTS !== 'undefined' ? [...FF_PRODUCTS] : []; }
+    }
+    async function loadCategories() {
+      try { const d = await api('GET', '/api/Categorias'); categories = Array.isArray(d) ? d : []; }
+      catch { categories = Object.entries(CAT_LABELS).map(([s, n]) => ({ id: s, nome: n, slug: s, descricao: '' })); }
+    }
+    async function loadOrders() {
+      try { const d = await api('GET', '/api/Encomendas'); orders = Array.isArray(d) ? d : []; }
+      catch { orders = JSON.parse(sessionStorage.getItem('ff_orders') || '[]'); }
+    }
+    async function loadUsers() {
+      try { const d = await api('GET', '/api/Utilizadores'); users = Array.isArray(d) ? d : []; }
+      catch { users = JSON.parse(sessionStorage.getItem('ff_registered') || '[]'); }
+    }
 
-async function loadProducts(){
-  try { const d=await api('GET','/api/Produtos'); products=Array.isArray(d)?d:[]; }
-  catch { products=typeof FF_PRODUCTS!=='undefined'?[...FF_PRODUCTS]:[]; }
-}
-async function loadCategories(){
-  try { const d=await api('GET','/api/Categorias'); categories=Array.isArray(d)?d:[]; }
-  catch { categories=Object.entries(CAT_LABELS).map(([s,n])=>({id:s,nome:n,slug:s,descricao:''})); }
-}
-async function loadOrders(){
-  try { const d=await api('GET','/api/Encomendas'); orders=Array.isArray(d)?d:[]; }
-  catch { orders=JSON.parse(sessionStorage.getItem('ff_orders')||'[]'); }
-}
-async function loadUsers(){
-  try { const d=await api('GET','/api/Utilizadores'); users=Array.isArray(d)?d:[]; }
-  catch { users=JSON.parse(sessionStorage.getItem('ff_registered')||'[]'); }
-}
+    function showPanel(id) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      document.querySelectorAll('.sb-item').forEach(b => { if (b.textContent.trim().toLowerCase().startsWith(id.slice(0, 5))) b.classList.add('active'); });
+      ({ dashboard: renderDashboard, produtos: renderProds, categorias: renderCats, encomendas: renderOrders, utilizadores: renderUsers })[id]?.();
+    }
 
-function showPanel(id){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
-  document.querySelectorAll('.sb-item').forEach(b=>{if(b.textContent.trim().toLowerCase().startsWith(id.slice(0,5)))b.classList.add('active');});
-  ({dashboard:renderDashboard,produtos:renderProds,categorias:renderCats,encomendas:renderOrders,utilizadores:renderUsers})[id]?.();
-}
-
-async function renderDashboard(){
-  await Promise.all([loadProducts(),loadCategories(),loadOrders(),loadUsers()]);
-  document.getElementById('dProd').textContent=products.length;
-  document.getElementById('dCat').textContent=categories.length;
-  document.getElementById('dOrders').textContent=orders.length;
-  document.getElementById('dUsers').textContent=users.length;
-  const tb=document.getElementById('dashOrders');
-  if(!orders.length){tb.innerHTML='<tr class="empty-row"><td colspan="5">Sem encomendas.</td></tr>';return;}
-  tb.innerHTML=orders.slice(0,6).map(o=>{
-    const date=o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
-    const client=(o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome+' '+o.utilizador.apelido : (o.utilizador?.email||'—');
-    const total=fmt((o.itensEncomenda||[]).reduce((s,i)=>s+(i.precoUnitario||0)*(i.quantidade||0),0));
-    return `<tr>
-      <td style="font-family:monospace;font-size:12px">#FF-${String(o.id).padStart(5,'0')}</td>
+    async function renderDashboard() {
+      await Promise.all([loadProducts(), loadCategories(), loadOrders(), loadUsers()]);
+      document.getElementById('dProd').textContent = products.length;
+      document.getElementById('dCat').textContent = categories.length;
+      document.getElementById('dOrders').textContent = orders.length;
+      document.getElementById('dUsers').textContent = users.length;
+      const tb = document.getElementById('dashOrders');
+      if (!orders.length) { tb.innerHTML = '<tr class="empty-row"><td colspan="5">Sem encomendas.</td></tr>'; return; }
+      tb.innerHTML = orders.slice(0, 6).map(o => {
+        const date = o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
+        const client = (o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome + ' ' + o.utilizador.apelido : (o.utilizador?.email || '—');
+        const total = fmt((o.itensEncomenda || []).reduce((s, i) => s + (i.precoUnitario || 0) * (i.quantidade || 0), 0));
+        return `<tr>
+      <td style="font-family:monospace;font-size:12px">#FF-${String(o.id).padStart(5, '0')}</td>
       <td>${date}</td><td>${client}</td><td>${total}</td>
-      <td><span class="chip chip-cliente">${o.estado||'Pendente'}</span></td>
+      <td><span class="chip chip-cliente">${o.estado || 'Pendente'}</span></td>
     </tr>`;
-  }).join('');
-}
+      }).join('');
+    }
 
-async function renderProds(){
-  if(!products.length) await loadProducts();
-  const q=(document.getElementById('prodSearch')?.value||'').toLowerCase();
-  const list=q?products.filter(p=>(p.name||p.nome||'').toLowerCase().includes(q)||(p.ref||p.referencia||'').toLowerCase().includes(q)):products;
-  document.getElementById('prodCount').textContent=list.length;
-  const tb=document.getElementById('prodsTable');
-  if(!list.length){tb.innerHTML='<tr class="empty-row"><td colspan="6">Nenhum produto.</td></tr>';return;}
-  tb.innerHTML=list.map(p=>{
-    const id=p.id||p.produtoId,name=p.name||p.nome||'—',ref=p.ref||p.referencia||'—',cat=p.category||p.categoria||'—',price=p.price||p.preco||0,tag=p.tag||'';
-    return `<tr>
+    async function renderProds() {
+      if (!products.length) await loadProducts();
+      const q = (document.getElementById('prodSearch')?.value || '').toLowerCase();
+      const list = q ? products.filter(p => (p.name || p.nome || '').toLowerCase().includes(q) || (p.ref || p.referencia || '').toLowerCase().includes(q)) : products;
+      document.getElementById('prodCount').textContent = list.length;
+      const tb = document.getElementById('prodsTable');
+      if (!list.length) { tb.innerHTML = '<tr class="empty-row"><td colspan="6">Nenhum produto.</td></tr>'; return; }
+      tb.innerHTML = list.map(p => {
+        const id = p.id || p.produtoId, name = p.name || p.nome || '—', ref = p.ref || p.referencia || '—', cat = p.category || p.categoria || '—', price = p.price || p.preco || 0, tag = p.tag || '';
+        return `<tr>
       <td style="font-family:monospace;font-size:12px">${ref}</td>
       <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</td>
-      <td>${CAT_LABELS[cat]||cat}</td><td>${fmt(price)}</td>
-      <td>${tag?`<span class="chip chip-${tag==='new'?'new':'promo'}">${tag}</span>`:'—'}</td>
+      <td>${CAT_LABELS[cat] || cat}</td><td>${fmt(price)}</td>
+      <td>${tag ? `<span class="chip chip-${tag === 'new' ? 'new' : 'promo'}">${tag}</span>` : '—'}</td>
       <td><div class="td-actions">
         <button class="tbtn-s" onclick='editProd(${JSON.stringify(id)})'>Editar</button>
-        <button class="tbtn-s danger" onclick='confirmDel("produto","${name.replace(/"/g,'\\"')}",${JSON.stringify(id)})'>Eliminar</button>
+        <button class="tbtn-s danger" onclick='confirmDel("produto","${name.replace(/"/g, '\\"')}",${JSON.stringify(id)})'>Eliminar</button>
       </div></td>
     </tr>`;
-  }).join('');
-}
+      }).join('');
+    }
 
-function onCatChange(){
-  const cat=document.getElementById('pCat').value,sel=document.getElementById('pSub'),subs=SUBCATS[cat]||[];
-  sel.innerHTML='<option value="">— Nenhuma —</option>'+subs.map(s=>`<option value="${s.v}">${s.l}</option>`).join('');
-}
+    function onCatChange() {
+      const cat = document.getElementById('pCat').value, sel = document.getElementById('pSub'), subs = SUBCATS[cat] || [];
+      sel.innerHTML = '<option value="">— Nenhuma —</option>' + subs.map(s => `<option value="${s.v}">${s.l}</option>`).join('');
+    }
 
-function openProdModal(p){
-  document.getElementById('prodModalTitle').textContent=p?'Editar Produto':'Novo Produto';
-  document.getElementById('pId').value=p?(p.id||p.produtoId||''):'';
-  document.getElementById('pName').value=p?(p.name||p.nome||''):'';
-  document.getElementById('pRef').value=p?(p.ref||p.referencia||''):'';
-  document.getElementById('pCat').value=p?(p.category||p.categoria||''):'';
-  onCatChange();
-  document.getElementById('pSub').value=p?(p.subcategory||p.subcategoria||''):'';
-  document.getElementById('pPrice').value=p?(p.price||p.preco||''):'';
-  document.getElementById('pPriceOrig').value=p?(p.priceOriginal||p.precoOriginal||''):'';
-  document.getElementById('pTag').value=p?(p.tag||''):'';
-  document.getElementById('pDesc').value=p?(p.description||p.descricao||''):'';
-  document.getElementById('pFeats').value=p?((p.features||p.caracteristicas||[]).join('\n')):'';
-  document.getElementById('pSpecs').value=p?((p.specs||p.especificacoes||[]).map(s=>Array.isArray(s)?s.join(': '):s).join('\n')):'';
-  document.getElementById('fileLabel').textContent='Selecionar imagem…';
-  document.getElementById('prodModal').classList.add('open');
-}
+    function openProdModal(p) {
+      document.getElementById('prodModalTitle').textContent = p ? 'Editar Produto' : 'Novo Produto';
+      document.getElementById('pId').value = p ? (p.id || p.produtoId || '') : '';
+      document.getElementById('pName').value = p ? (p.name || p.nome || '') : '';
+      document.getElementById('pRef').value = p ? (p.ref || p.referencia || '') : '';
+      document.getElementById('pCat').value = p ? (p.category || p.categoria || '') : '';
+      onCatChange();
+      document.getElementById('pSub').value = p ? (p.subcategory || p.subcategoria || '') : '';
+      document.getElementById('pPrice').value = p ? (p.price || p.preco || '') : '';
+      document.getElementById('pPriceOrig').value = p ? (p.priceOriginal || p.precoOriginal || '') : '';
+      document.getElementById('pTag').value = p ? (p.tag || '') : '';
+      document.getElementById('pDesc').value = p ? (p.description || p.descricao || '') : '';
+      document.getElementById('pFeats').value = p ? ((p.features || p.caracteristicas || []).join('\n')) : '';
+      document.getElementById('pSpecs').value = p ? ((p.specs || p.especificacoes || []).map(s => Array.isArray(s) ? s.join(': ') : s).join('\n')) : '';
+      document.getElementById('fileLabel').textContent = 'Selecionar imagem…';
+      document.getElementById('prodModal').classList.add('open');
+    }
 
-async function editProd(id){ const p=products.find(x=>(x.id||x.produtoId)===id); if(p) openProdModal(p); }
+    async function editProd(id) { const p = products.find(x => (x.id || x.produtoId) === id); if (p) openProdModal(p); }
 
-async function saveProduct(){
-  const name=document.getElementById('pName').value.trim(),ref=document.getElementById('pRef').value.trim(),cat=document.getElementById('pCat').value,price=parseFloat(document.getElementById('pPrice').value);
-  if(!name||!ref||!cat||isNaN(price)){notify('Preenche os campos obrigatórios.','err');return;}
-  const id=document.getElementById('pId').value||null,sub=document.getElementById('pSub').value,priceO=parseFloat(document.getElementById('pPriceOrig').value)||null,tag=document.getElementById('pTag').value,desc=document.getElementById('pDesc').value.trim();
-  const feats=document.getElementById('pFeats').value.split('\n').filter(Boolean);
-  const specs=document.getElementById('pSpecs').value.split('\n').filter(Boolean).map(l=>{const i=l.indexOf(':');return i>-1?[l.slice(0,i).trim(),l.slice(i+1).trim()]:null;}).filter(Boolean);
-  const body={nome:name,referencia:ref,categoria:cat,subcategoria:sub,preco:price,precoOriginal:priceO,tag,descricao:desc,caracteristicas:feats,especificacoes:specs,name,ref,category:cat,subcategory:sub,price,priceOriginal:priceO,description:desc,features:feats};
-  const btn=document.getElementById('saveProdBtn');btn.disabled=true;btn.textContent='A guardar…';
-  try {
-    if(id){ await api('PUT',`/api/Produtos/${id}`,body);const idx=products.findIndex(p=>(p.id||p.produtoId)===parseInt(id));if(idx>-1)products[idx]={...products[idx],...body,id:parseInt(id)};notify('Produto actualizado.','ok'); }
-    else { const c=await api('POST','/api/Produtos',body);if(c)products.push(c);notify('Produto criado.','ok'); }
-  } catch {
-    if(id){const idx=products.findIndex(p=>(p.id||p.produtoId)===parseInt(id));if(idx>-1)products[idx]={...products[idx],...body};notify('Produto actualizado (local).','ok');}
-    else {products.push({...body,id:Date.now(),pattern:'plain',images:['plain'],catalogFile:`catalogo-${cat}.html`});notify('Produto criado localmente.','ok');}
-  } finally {btn.disabled=false;btn.textContent='Guardar Produto';}
-  closeModal('prodModal');renderProds();
-}
+    async function saveProduct() {
+      const name = document.getElementById('pName').value.trim(), ref = document.getElementById('pRef').value.trim(), cat = document.getElementById('pCat').value, price = parseFloat(document.getElementById('pPrice').value);
+      if (!name || !ref || !cat || isNaN(price)) { notify('Preenche os campos obrigatórios.', 'err'); return; }
+      const id = document.getElementById('pId').value || null, sub = document.getElementById('pSub').value, priceO = parseFloat(document.getElementById('pPriceOrig').value) || null, tag = document.getElementById('pTag').value, desc = document.getElementById('pDesc').value.trim();
+      const feats = document.getElementById('pFeats').value.split('\n').filter(Boolean);
+      const specs = document.getElementById('pSpecs').value.split('\n').filter(Boolean).map(l => { const i = l.indexOf(':'); return i > -1 ? [l.slice(0, i).trim(), l.slice(i + 1).trim()] : null; }).filter(Boolean);
+      const body = { nome: name, referencia: ref, categoria: cat, subcategoria: sub, preco: price, precoOriginal: priceO, tag, descricao: desc, caracteristicas: feats, especificacoes: specs, name, ref, category: cat, subcategory: sub, price, priceOriginal: priceO, description: desc, features: feats };
+      const btn = document.getElementById('saveProdBtn'); btn.disabled = true; btn.textContent = 'A guardar…';
+      try {
+        if (id) { await api('PUT', `/api/Produtos/${id}`, body); const idx = products.findIndex(p => (p.id || p.produtoId) === parseInt(id)); if (idx > -1) products[idx] = { ...products[idx], ...body, id: parseInt(id) }; notify('Produto actualizado.', 'ok'); }
+        else { const c = await api('POST', '/api/Produtos', body); if (c) products.push(c); notify('Produto criado.', 'ok'); }
+      } catch {
+        if (id) { const idx = products.findIndex(p => (p.id || p.produtoId) === parseInt(id)); if (idx > -1) products[idx] = { ...products[idx], ...body }; notify('Produto actualizado (local).', 'ok'); }
+        else { products.push({ ...body, id: Date.now(), pattern: 'plain', images: ['plain'], catalogFile: `catalogo-${cat}.html` }); notify('Produto criado localmente.', 'ok'); }
+      } finally { btn.disabled = false; btn.textContent = 'Guardar Produto'; }
+      closeModal('prodModal'); renderProds();
+    }
 
-async function renderCats(){
-  if(!categories.length) await loadCategories();
-  if(!products.length) await loadProducts();
-  document.getElementById('catCount').textContent=categories.length;
-  const tb=document.getElementById('catsTable');
-  if(!categories.length){tb.innerHTML='<tr class="empty-row"><td colspan="5">Nenhuma categoria.</td></tr>';return;}
-  tb.innerHTML=categories.map(c=>{
-    const id=c.id||c.categoriaId||c.slug,name=c.nome||c.name||'—',slug=c.slug||id||'—',par=c.parent||c.categoriaPai||'',cnt=products.filter(p=>(p.category||p.categoria)===slug).length;
-    return `<tr><td style="font-weight:500">${name}</td><td style="font-family:monospace;font-size:12px">${slug}</td><td>${par?(CAT_LABELS[par]||par):'—'}</td><td>${cnt}</td>
+    async function renderCats() {
+      if (!categories.length) await loadCategories();
+      if (!products.length) await loadProducts();
+      document.getElementById('catCount').textContent = categories.length;
+      const tb = document.getElementById('catsTable');
+      if (!categories.length) { tb.innerHTML = '<tr class="empty-row"><td colspan="5">Nenhuma categoria.</td></tr>'; return; }
+      tb.innerHTML = categories.map(c => {
+        const id = c.id || c.categoriaId || c.slug, name = c.nome || c.name || '—', slug = c.slug || id || '—', par = c.parent || c.categoriaPai || '', cnt = products.filter(p => (p.category || p.categoria) === slug).length;
+        return `<tr><td style="font-weight:500">${name}</td><td style="font-family:monospace;font-size:12px">${slug}</td><td>${par ? (CAT_LABELS[par] || par) : '—'}</td><td>${cnt}</td>
       <td><div class="td-actions">
         <button class="tbtn-s" onclick='editCat(${JSON.stringify(id)})'>Editar</button>
         <button class="tbtn-s danger" onclick='confirmDel("categoria","${name}",${JSON.stringify(id)})'>Eliminar</button>
       </div></td></tr>`;
-  }).join('');
-}
+      }).join('');
+    }
 
-function autoSlug(){if(!document.getElementById('cId').value)document.getElementById('cSlug').value=document.getElementById('cName').value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');}
+    function autoSlug() { if (!document.getElementById('cId').value) document.getElementById('cSlug').value = document.getElementById('cName').value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''); }
 
-function openCatModal(c){
-  document.getElementById('catModalTitle').textContent=c?'Editar Categoria':'Nova Categoria';
-  document.getElementById('cId').value=c?(c.id||c.categoriaId||c.slug||''):'';
-  document.getElementById('cName').value=c?(c.nome||c.name||''):'';
-  document.getElementById('cSlug').value=c?(c.slug||''):'';
-  document.getElementById('cParent').value=c?(c.parent||c.categoriaPai||''):'';
-  document.getElementById('cDesc').value=c?(c.descricao||c.description||''):'';
-  document.getElementById('catModal').classList.add('open');
-}
-async function editCat(id){const c=categories.find(x=>(x.id||x.categoriaId||x.slug)===id);if(c)openCatModal(c);}
+    function openCatModal(c) {
+      document.getElementById('catModalTitle').textContent = c ? 'Editar Categoria' : 'Nova Categoria';
+      document.getElementById('cId').value = c ? (c.id || c.categoriaId || c.slug || '') : '';
+      document.getElementById('cName').value = c ? (c.nome || c.name || '') : '';
+      document.getElementById('cSlug').value = c ? (c.slug || '') : '';
+      document.getElementById('cParent').value = c ? (c.parent || c.categoriaPai || '') : '';
+      document.getElementById('cDesc').value = c ? (c.descricao || c.description || '') : '';
+      document.getElementById('catModal').classList.add('open');
+    }
+    async function editCat(id) { const c = categories.find(x => (x.id || x.categoriaId || x.slug) === id); if (c) openCatModal(c); }
 
-async function saveCategory(){
-  const name=document.getElementById('cName').value.trim(),slug=document.getElementById('cSlug').value.trim();
-  if(!name||!slug){notify('Preenche nome e slug.','err');return;}
-  const id=document.getElementById('cId').value||null,par=document.getElementById('cParent').value,desc=document.getElementById('cDesc').value.trim();
-  const body={nome:name,slug,parent:par,categoriaPai:par,descricao:desc,name,description:desc};
-  const btn=document.getElementById('saveCatBtn');btn.disabled=true;btn.textContent='A guardar…';
-  try {
-    if(id){await api('PUT',`/api/Categorias/${id}`,body);const idx=categories.findIndex(c=>(c.id||c.categoriaId||c.slug)===id);if(idx>-1)categories[idx]={...categories[idx],...body};notify('Categoria actualizada.','ok');}
-    else {const c=await api('POST','/api/Categorias',body);categories.push(c||{...body,id:slug});notify('Categoria criada.','ok');}
-  } catch {
-    if(id){const idx=categories.findIndex(c=>(c.id||c.categoriaId||c.slug)===id);if(idx>-1)categories[idx]={...categories[idx],...body};}
-    else {if(!categories.find(c=>c.slug===slug))categories.push({...body,id:slug});}
-    notify('Categoria guardada localmente.','ok');
-  } finally {btn.disabled=false;btn.textContent='Guardar Categoria';}
-  closeModal('catModal');renderCats();
-}
+    async function saveCategory() {
+      const name = document.getElementById('cName').value.trim(), slug = document.getElementById('cSlug').value.trim();
+      if (!name || !slug) { notify('Preenche nome e slug.', 'err'); return; }
+      const id = document.getElementById('cId').value || null, par = document.getElementById('cParent').value, desc = document.getElementById('cDesc').value.trim();
+      const body = { nome: name, slug, parent: par, categoriaPai: par, descricao: desc, name, description: desc };
+      const btn = document.getElementById('saveCatBtn'); btn.disabled = true; btn.textContent = 'A guardar…';
+      try {
+        if (id) { await api('PUT', `/api/Categorias/${id}`, body); const idx = categories.findIndex(c => (c.id || c.categoriaId || c.slug) === id); if (idx > -1) categories[idx] = { ...categories[idx], ...body }; notify('Categoria actualizada.', 'ok'); }
+        else { const c = await api('POST', '/api/Categorias', body); categories.push(c || { ...body, id: slug }); notify('Categoria criada.', 'ok'); }
+      } catch {
+        if (id) { const idx = categories.findIndex(c => (c.id || c.categoriaId || c.slug) === id); if (idx > -1) categories[idx] = { ...categories[idx], ...body }; }
+        else { if (!categories.find(c => c.slug === slug)) categories.push({ ...body, id: slug }); }
+        notify('Categoria guardada localmente.', 'ok');
+      } finally { btn.disabled = false; btn.textContent = 'Guardar Categoria'; }
+      closeModal('catModal'); renderCats();
+    }
 
-async function renderOrders(){
-  if(!orders.length) await loadOrders();
-  document.getElementById('ordersCount').textContent=orders.length;
-  const tb=document.getElementById('ordersTable');
-  if(!orders.length){tb.innerHTML='<tr class="empty-row"><td colspan="7">Sem encomendas.</td></tr>';return;}
-  const stLabel={processing:'Em processamento',shipped:'Em envio',delivered:'Entregue',cancelled:'Cancelada'};
-  tb.innerHTML=orders.map(o=>{
-    const num=o.id||'—';
-    const date=o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
-    const client=(o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome+' '+o.utilizador.apelido : (o.utilizador?.email||'—');
-    const items=(o.itensEncomenda||[]).length;
-    const total=fmt((o.itensEncomenda||[]).reduce((s,i)=>s+(i.precoUnitario||0)*(i.quantidade||0),0));
-    const estado=o.estado||'Pendente';
-    const estadoVal={'Pendente':'processing','Em Processamento':'processing','Enviado':'shipped','Entregue':'delivered','Cancelado':'cancelled'}[estado]||'processing';
-    return `<tr>
-      <td style="font-family:monospace;font-size:12px">#FF-${String(num).padStart(5,'0')}</td>
+    async function renderOrders() {
+      if (!orders.length) await loadOrders();
+      document.getElementById('ordersCount').textContent = orders.length;
+      const tb = document.getElementById('ordersTable');
+      if (!orders.length) { tb.innerHTML = '<tr class="empty-row"><td colspan="7">Sem encomendas.</td></tr>'; return; }
+      const stLabel = { processing: 'Em processamento', shipped: 'Em envio', delivered: 'Entregue', cancelled: 'Cancelada' };
+      tb.innerHTML = orders.map(o => {
+        const num = o.id || '—';
+        const date = o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
+        const client = (o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome + ' ' + o.utilizador.apelido : (o.utilizador?.email || '—');
+        const items = (o.itensEncomenda || []).length;
+        const total = fmt((o.itensEncomenda || []).reduce((s, i) => s + (i.precoUnitario || 0) * (i.quantidade || 0), 0));
+        const estado = o.estado || 'Pendente';
+        const estadoVal = { 'Pendente': 'processing', 'Em Processamento': 'processing', 'Enviado': 'shipped', 'Entregue': 'delivered', 'Cancelado': 'cancelled' }[estado] || 'processing';
+        return `<tr>
+      <td style="font-family:monospace;font-size:12px">#FF-${String(num).padStart(5, '0')}</td>
       <td>${date}</td><td>${client}</td>
       <td style="text-align:center">${items}</td><td>${total}</td>
       <td><select style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:4px;font-family:'Inter',sans-serif" onchange='updateOrderStatus(${JSON.stringify(num)},this.value)'>
-        ${['processing','shipped','delivered','cancelled'].map(s=>`<option value="${s}" ${s===estadoVal?'selected':''}>${stLabel[s]}</option>`).join('')}
+        ${['processing', 'shipped', 'delivered', 'cancelled'].map(s => `<option value="${s}" ${s === estadoVal ? 'selected' : ''}>${stLabel[s]}</option>`).join('')}
       </select></td>
       <td><button class="tbtn-s" onclick='viewOrder(${JSON.stringify(num)})'>Ver</button></td>
     </tr>`;
-  }).join('');
-}
+      }).join('');
+    }
 
-async function updateOrderStatus(num,status){
-  const o=orders.find(x=>(x.number||x.id)===num);if(!o)return;
-  try{await api('PUT',`/api/Encomendas/${o.id||o.encomendaId}`,{...o,status,estado:status});}catch{}
-  o.status=status;o.estado=status;
-  const ss=JSON.parse(sessionStorage.getItem('ff_orders')||'[]'),si=ss.findIndex(x=>x.number===num);
-  if(si>-1){ss[si].status=status;sessionStorage.setItem('ff_orders',JSON.stringify(ss));}
-  notify('Estado actualizado.','ok');
-}
-function viewOrder(num){
-  const o=orders.find(x=>x.id===num);if(!o)return;
-  const date=o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
-  const client=(o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome+' '+o.utilizador.apelido : (o.utilizador?.email||'—');
-  const total=fmt((o.itensEncomenda||[]).reduce((s,i)=>s+(i.precoUnitario||0)*(i.quantidade||0),0));
-  const items=(o.itensEncomenda||[]).map(i=>`• ${i.produto?.nome||'?'} ×${i.quantidade||1} = ${fmt((i.precoUnitario||0)*(i.quantidade||1))}`).join('\n');
-  alert(`Encomenda: #FF-${String(num).padStart(5,'0')}\nData: ${date}\nCliente: ${client}\nTotal: ${total}\n\n${items||'Sem itens.'}`);}
+    async function updateOrderStatus(num, status) {
+      const o = orders.find(x => (x.number || x.id) === num); if (!o) return;
+      try { await api('PUT', `/api/Encomendas/${o.id || o.encomendaId}`, { ...o, status, estado: status }); } catch { }
+      o.status = status; o.estado = status;
+      const ss = JSON.parse(sessionStorage.getItem('ff_orders') || '[]'), si = ss.findIndex(x => x.number === num);
+      if (si > -1) { ss[si].status = status; sessionStorage.setItem('ff_orders', JSON.stringify(ss)); }
+      notify('Estado actualizado.', 'ok');
+    }
+    function viewOrder(num) {
+      const o = orders.find(x => x.id === num); if (!o) return;
+      const date = o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
+      const client = (o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome + ' ' + o.utilizador.apelido : (o.utilizador?.email || '—');
+      const total = fmt((o.itensEncomenda || []).reduce((s, i) => s + (i.precoUnitario || 0) * (i.quantidade || 0), 0));
+      const items = (o.itensEncomenda || []).map(i => `• ${i.produto?.nome || '?'} ×${i.quantidade || 1} = ${fmt((i.precoUnitario || 0) * (i.quantidade || 1))}`).join('\n');
+      alert(`Encomenda: #FF-${String(num).padStart(5, '0')}\nData: ${date}\nCliente: ${client}\nTotal: ${total}\n\n${items || 'Sem itens.'}`);
+    }
 
-async function renderUsers(){
-  if(!users.length) await loadUsers();
-  document.getElementById('usersCount').textContent=users.length;
-  const tb=document.getElementById('usersTable');
-  if(!users.length){tb.innerHTML='<tr class="empty-row"><td colspan="5">Sem utilizadores.</td></tr>';return;}
-  tb.innerHTML=users.map((u,i)=>{
-    const id=u.id||u.utilizadorId||i,nome=(u.firstName||u.nome||'')+' '+(u.lastName||u.apelido||''),email=u.email||'—',nif=u.nif||'—',role=u.role||u.perfil||'Cliente';
-    return `<tr><td>${nome.trim()||'—'}</td><td>${email}</td><td>${nif}</td><td><span class="chip chip-${role==='Admin'?'admin':'cliente'}">${role}</span></td>
-      <td><button class="tbtn-s" onclick='toggleRole(${JSON.stringify(id)},${JSON.stringify(role)})'>${role==='Admin'?'→ Cliente':'→ Admin'}</button></td></tr>`;
-  }).join('');
-}
-async function toggleRole(id,cur){
-  const nr=cur==='Admin'?'Cliente':'Admin';
-  try{await api('PUT',`/api/Utilizadores/${id}/role`,{role:nr});}catch{}
-  const u=users.find(x=>(x.id||x.utilizadorId)===id||(typeof id==='number'&&users.indexOf(x)===id));
-  if(u){u.role=nr;u.perfil=nr;}
-  const ss=JSON.parse(sessionStorage.getItem('ff_registered')||'[]'),si=ss.findIndex(x=>x.email===u?.email);
-  if(si>-1){ss[si].role=nr;sessionStorage.setItem('ff_registered',JSON.stringify(ss));}
-  notify(`Role alterado para ${nr}.`,'ok');renderUsers();
-}
+    async function renderUsers() {
+      if (!users.length) await loadUsers();
+      document.getElementById('usersCount').textContent = users.length;
+      const tb = document.getElementById('usersTable');
+      if (!users.length) { tb.innerHTML = '<tr class="empty-row"><td colspan="5">Sem utilizadores.</td></tr>'; return; }
+      tb.innerHTML = users.map((u, i) => {
+        const id = u.id || u.utilizadorId || i, nome = (u.firstName || u.nome || '') + ' ' + (u.lastName || u.apelido || ''), email = u.email || '—', nif = u.nif || '—', role = u.role || u.perfil || 'Cliente';
+        return `<tr><td>${nome.trim() || '—'}</td><td>${email}</td><td>${nif}</td><td><span class="chip chip-${role === 'Admin' ? 'admin' : 'cliente'}">${role}</span></td>
+      <td><button class="tbtn-s" onclick='toggleRole(${JSON.stringify(id)},${JSON.stringify(role)})'>${role === 'Admin' ? '→ Cliente' : '→ Admin'}</button></td></tr>`;
+      }).join('');
+    }
+    async function toggleRole(id, cur) {
+      const nr = cur === 'Admin' ? 'Cliente' : 'Admin';
+      try { await api('PUT', `/api/Utilizadores/${id}/role`, { role: nr }); } catch { }
+      const u = users.find(x => (x.id || x.utilizadorId) === id || (typeof id === 'number' && users.indexOf(x) === id));
+      if (u) { u.role = nr; u.perfil = nr; }
+      const ss = JSON.parse(sessionStorage.getItem('ff_registered') || '[]'), si = ss.findIndex(x => x.email === u?.email);
+      if (si > -1) { ss[si].role = nr; sessionStorage.setItem('ff_registered', JSON.stringify(ss)); }
+      notify(`Role alterado para ${nr}.`, 'ok'); renderUsers();
+    }
 
-let _delFn=null;
-function confirmDel(type,name,id){
-  document.getElementById('delMsg').textContent=`Eliminar ${type==='produto'?'o produto':'a categoria'} "${name}"?`;
-  _delFn=async()=>{
-    try{await api('DELETE',`/api/${type==='produto'?'Produtos':'Categorias'}/${id}`);}catch{}
-    if(type==='produto'){products=products.filter(p=>(p.id||p.produtoId)!==id);renderProds();}
-    else{categories=categories.filter(c=>(c.id||c.categoriaId||c.slug)!==id);renderCats();}
-    notify((type==='produto'?'Produto':'Categoria')+' eliminado/a.','ok');closeModal('delModal');};
-  document.getElementById('delConfirmBtn').onclick=_delFn;
-  document.getElementById('delModal').classList.add('open');
-}
+    let _delFn = null;
+    function confirmDel(type, name, id) {
+      document.getElementById('delMsg').textContent = `Eliminar ${type === 'produto' ? 'o produto' : 'a categoria'} "${name}"?`;
+      _delFn = async () => {
+        try { await api('DELETE', `/api/${type === 'produto' ? 'Produtos' : 'Categorias'}/${id}`); } catch { }
+        if (type === 'produto') { products = products.filter(p => (p.id || p.produtoId) !== id); renderProds(); }
+        else { categories = categories.filter(c => (c.id || c.categoriaId || c.slug) !== id); renderCats(); }
+        notify((type === 'produto' ? 'Produto' : 'Categoria') + ' eliminado/a.', 'ok'); closeModal('delModal');
+      };
+      document.getElementById('delConfirmBtn').onclick = _delFn;
+      document.getElementById('delModal').classList.add('open');
+    }
 
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-let _tt;function notify(msg,type='ok'){clearTimeout(_tt);const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.className='toast show '+type;_tt=setTimeout(()=>t.classList.remove('show'),3200);}
-function doLogout(){sessionStorage.removeItem('ff_profile');window.location.href='login.html';}
-document.addEventListener('click',e=>{['prodModal','catModal','delModal'].forEach(id=>{if(e.target===document.getElementById(id))closeModal(id);});});
-document.addEventListener('DOMContentLoaded',renderDashboard);
-</script>
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    let _tt; function notify(msg, type = 'ok') { clearTimeout(_tt); const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg; t.className = 'toast show ' + type; _tt = setTimeout(() => t.classList.remove('show'), 3200); }
+    async function doLogout() {
+      try {
+        // 1. Pede à API para destruir o Cookie no servidor
+        await fetch('/api/Utilizadores/logout-api', { method: 'POST' });
+      } catch (e) { console.error(e); }
+
+      // 2. Apaga a memória local e manda-te para a montra principal
+      sessionStorage.removeItem('ff_profile');
+      window.location.href = '../index.html';
+    }
+    document.addEventListener('click', e => { ['prodModal', 'catModal', 'delModal'].forEach(id => { if (e.target === document.getElementById(id)) closeModal(id); }); });
+    document.addEventListener('DOMContentLoaded', renderDashboard);
+  </script>
 </body>
+
 </html>

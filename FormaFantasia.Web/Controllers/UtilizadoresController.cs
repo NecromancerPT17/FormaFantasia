@@ -22,7 +22,12 @@ public class UtilizadoresController : ControllerBase
     {
         var utilizadores = _userManager.Users.Select(u => new
         {
-            u.Id, u.Email, u.Nome, u.Apelido, u.Morada, u.NIF
+            u.Id,
+            u.Email,
+            u.Nome,
+            u.Apelido,
+            u.Morada,
+            u.NIF
         }).ToList();
         return Ok(utilizadores);
     }
@@ -42,10 +47,16 @@ public class UtilizadoresController : ControllerBase
     {
         var user = await _userManager.GetUserAsync(User);
         if (user == null) return Unauthorized();
-        return Ok(new {
-            user.Id, user.Email, user.UserName,
-            user.PhoneNumber, user.Morada, user.NIF,
-            user.Nome, user.Apelido
+        return Ok(new
+        {
+            user.Id,
+            user.Email,
+            user.UserName,
+            user.PhoneNumber,
+            user.Morada,
+            user.NIF,
+            user.Nome,
+            user.Apelido
         });
     }
 
@@ -65,10 +76,16 @@ public class UtilizadoresController : ControllerBase
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded) return BadRequest(result.Errors);
 
-        return Ok(new {
-            user.Id, user.Email, user.UserName,
-            user.PhoneNumber, user.Morada, user.NIF,
-            user.Nome, user.Apelido
+        return Ok(new
+        {
+            user.Id,
+            user.Email,
+            user.UserName,
+            user.PhoneNumber,
+            user.Morada,
+            user.NIF,
+            user.Nome,
+            user.Apelido
         });
     }
 
@@ -93,7 +110,8 @@ public class UtilizadoresController : ControllerBase
         {
             var user = await _userManager.GetUserAsync(User);
             var role = User.IsInRole("Admin") ? "Admin" : "Cliente";
-            return Ok(new {
+            return Ok(new
+            {
                 isAuthenticated = true,
                 role,
                 nome = user?.Nome ?? "",
@@ -115,11 +133,19 @@ public class UtilizadoresController : ControllerBase
         if (result.Succeeded)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            var isAdmin = user != null && await _userManager.IsInRoleAsync(user, "Admin"); 
+            var isAdmin = user != null && await _userManager.IsInRoleAsync(user, "Admin");
             return Ok(new { success = true, role = isAdmin ? "Admin" : "Cliente" });
         }
 
         return Unauthorized(new { message = "Email ou password incorretos." });
+    }
+
+    [HttpPost("logout-api")]
+    public async Task<IActionResult> LogoutApi([FromServices] SignInManager<Utilizador> signInManager)
+    {
+        // Esta linha destrói o cookie oficial do utilizador no servidor
+        await signInManager.SignOutAsync();
+        return Ok(new { success = true });
     }
 }
 
