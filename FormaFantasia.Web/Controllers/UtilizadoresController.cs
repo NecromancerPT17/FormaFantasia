@@ -16,7 +16,6 @@ public class UtilizadoresController : ControllerBase
         _userManager = userManager;
     }
 
-    // GET /api/Utilizadores
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public IActionResult Get()
@@ -28,7 +27,6 @@ public class UtilizadoresController : ControllerBase
         return Ok(utilizadores);
     }
 
-    // GET /api/Utilizadores/{id}
     [HttpGet("{id}")]
     [Authorize(Roles = "Admin")]
     public IActionResult Get(string id)
@@ -38,7 +36,6 @@ public class UtilizadoresController : ControllerBase
         return Ok(new { u.Id, u.Email, u.Nome, u.Apelido, u.Morada, u.NIF });
     }
 
-    // GET /api/Utilizadores/me
     [HttpGet("me")]
     [Authorize]
     public async Task<IActionResult> GetMe()
@@ -52,7 +49,6 @@ public class UtilizadoresController : ControllerBase
         });
     }
 
-    // PUT /api/Utilizadores/me
     [HttpPut("me")]
     [Authorize]
     public async Task<IActionResult> UpdateMe([FromBody] UpdateMeDto dto)
@@ -76,7 +72,6 @@ public class UtilizadoresController : ControllerBase
         });
     }
 
-    // PUT /api/Utilizadores/{id}/role
     [HttpPut("{id}/role")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleDto dto)
@@ -91,7 +86,6 @@ public class UtilizadoresController : ControllerBase
         return Ok(new { user.Id, user.Email, role = dto.Role });
     }
 
-    // GET /api/Utilizadores/auth
     [HttpGet("auth")]
     public async Task<IActionResult> GetAuthStatus()
     {
@@ -109,6 +103,24 @@ public class UtilizadoresController : ControllerBase
         }
         return Ok(new { isAuthenticated = false, role = "", nome = "", apelido = "", email = "" });
     }
+
+    [HttpPost("login-api")]
+    public async Task<IActionResult> LoginApi([FromBody] LoginDto model, [FromServices] SignInManager<Utilizador> signInManager)
+    {
+        if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
+            return BadRequest(new { message = "Dados inválidos." });
+
+        var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
+
+        if (result.Succeeded)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            var isAdmin = user != null && await _userManager.IsInRoleAsync(user, "Admin"); 
+            return Ok(new { success = true, role = isAdmin ? "Admin" : "Cliente" });
+        }
+
+        return Unauthorized(new { message = "Email ou password incorretos." });
+    }
 }
 
 public class UpdateMeDto
@@ -123,4 +135,10 @@ public class UpdateMeDto
 public class RoleDto
 {
     public string Role { get; set; } = string.Empty;
+}
+
+public class LoginDto
+{
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }

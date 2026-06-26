@@ -169,7 +169,6 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
     while (tmp.firstChild) { body.insertBefore(tmp.firstChild, firstChild); }
 
     /* ── AUTH STATE on user icon ── */
-    /* ── AUTH STATE on user icon ── */
     fetch('/api/Utilizadores/auth')
       .then(res => {
         if (res.ok) return res.json();
@@ -189,6 +188,10 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
             dot.style.cssText = 'position:absolute;top:2px;right:2px;width:8px;height:8px;background:#e74c3c;border-radius:50%;border:2px solid var(--white)';
             userBtn.style.position = 'relative';
             userBtn.appendChild(dot);
+            // NOVO: Esconde o botão de Checkout no Carrinho para o Admin!
+            const style = document.createElement('style');
+            style.textContent = '.btn-checkout { display: none !important; }';
+            document.head.appendChild(style);
           } else {
             // Se for cliente, vai para a página de gestão de conta do Identity
             userBtn.href = p + 'conta.html';

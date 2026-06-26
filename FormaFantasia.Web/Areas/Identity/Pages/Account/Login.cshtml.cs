@@ -26,7 +26,6 @@ namespace FormaFantasia.Web.Areas.Identity.Pages.Account
         public InputModel Input { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
         public string ReturnUrl { get; set; }
 
         [TempData]
@@ -49,24 +48,13 @@ namespace FormaFantasia.Web.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
             returnUrl ??= "/pages/index.html";
-
-            // Redirecionar GET para a página de login bonita
-            // exceto se já viemos de lá (para evitar loop)
-            var referer = Request.Headers["Referer"].ToString();
-            if (!referer.Contains("/pages/login.html") && !referer.Contains("Identity/Account/Login"))
-            {
-                return LocalRedirect("/pages/login.html?redirect=" + Uri.EscapeDataString(returnUrl));
-            }
-
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            ReturnUrl = returnUrl;
-            return Page();
+            return LocalRedirect($"/pages/login.html?redirect={Uri.EscapeDataString(returnUrl)}");
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= "/pages/index.html";
+            returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
@@ -74,25 +62,16 @@ namespace FormaFantasia.Web.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-
                     var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
                     var isAdmin = await _signInManager.UserManager.IsInRoleAsync(user, "Admin");
 
-                    // ReturnUrl válido tem prioridade
-                    if (!string.IsNullOrEmpty(returnUrl) && returnUrl != "/" && Url.IsLocalUrl(returnUrl))
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl != "/")
                         return LocalRedirect(returnUrl);
 
-                    // Fallback por role
                     return LocalRedirect(isAdmin ? "/pages/admin.html" : "/pages/index.html");
                 }
-                if (result.IsLockedOut)
-                    return RedirectToPage("./Lockout");
-
                 ModelState.AddModelError(string.Empty, "Email ou password incorretos.");
-                return Page();
             }
-
             return Page();
         }
     }
