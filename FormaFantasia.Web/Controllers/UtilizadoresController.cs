@@ -17,17 +17,17 @@ public class UtilizadoresController : ControllerBase
 
     [HttpGet]
     public IActionResult Get()
-{
-    var utilizadores = _userManager.Users.Select(u => new
     {
-        u.Id,
-        u.Email,
-        u.Morada,
-        u.NIF
-    }).ToList();
+        var utilizadores = _userManager.Users.Select(u => new
+        {
+            u.Id,
+            u.Email,
+            u.Morada,
+            u.NIF
+        }).ToList();
 
-    return Ok(utilizadores);
-}
+        return Ok(utilizadores);
+    }
 
     [HttpGet("{id}")]
     public IActionResult Get(string id)
@@ -40,8 +40,13 @@ public class UtilizadoresController : ControllerBase
 
     // GET /api/Utilizadores/auth
     [HttpGet("auth")]
-    public IActionResult GetAuthStatus()
+public async Task<IActionResult> GetAuthStatus()
+{
+    if (User.Identity?.IsAuthenticated == true)
     {
-        return Ok(new { isAuthenticated = User.Identity?.IsAuthenticated ?? false });
+        var role = User.IsInRole("Admin") ? "Admin" : "Cliente";
+        return Ok(new { isAuthenticated = true, role = role });
     }
+    return Ok(new { isAuthenticated = false, role = "" });
+}
 }

@@ -1,5 +1,5 @@
-(function(){
-  function base(){ return window.location.pathname.includes('/pages/') ? '../' : './'; }
+(function () {
+  function base() { return window.location.pathname.includes('/pages/') ? '../' : './'; }
   const b = base();
   const p = b + 'pages/';
 
@@ -135,7 +135,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="badge" id="cartBadge" style="display:none">0</span>
       </button>
-      <a href="${p}login.html" class="icon-btn" id="userBtn" aria-label="Conta" title="A minha conta" style="text-decoration:none">
+      <a href="/Identity/Account/Login" class="icon-btn" id="userBtn" aria-label="Conta" title="A minha conta" style="text-decoration:none">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"/>
           <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
@@ -152,7 +152,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 `;
 
   /* ── INJECT CSS ── */
-  if(!document.getElementById('ff-header-styles')){
+  if (!document.getElementById('ff-header-styles')) {
     const style = document.createElement('style');
     style.id = 'ff-header-styles';
     style.textContent = CSS;
@@ -160,52 +160,64 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
   }
 
   /* ── INJECT HTML before first existing content in <body> ── */
-  document.addEventListener('DOMContentLoaded', function(){
-    if(document.getElementById('cartDrawer')) return;
+  document.addEventListener('DOMContentLoaded', function () {
+    if (document.getElementById('cartDrawer')) return;
     const tmp = document.createElement('div');
     tmp.innerHTML = HTML;
     const body = document.body;
     const firstChild = body.firstChild;
-    while(tmp.firstChild){ body.insertBefore(tmp.firstChild, firstChild); }
+    while (tmp.firstChild) { body.insertBefore(tmp.firstChild, firstChild); }
 
     /* ── AUTH STATE on user icon ── */
-    try {
-      const profile = JSON.parse(sessionStorage.getItem('ff_profile') || 'null');
-      const userBtn = document.getElementById('userBtn');
-      if(userBtn && profile && !profile.guest){
-        userBtn.title = profile.firstName ? profile.firstName : 'A minha conta';
-        userBtn.style.color = 'var(--gold)';
-        if(profile.role === 'Admin'){
-          userBtn.href = p + 'admin.html';
-          userBtn.title = 'Painel Admin';
-          const dot = document.createElement('span');
-          dot.style.cssText = 'position:absolute;top:2px;right:2px;width:8px;height:8px;background:#e74c3c;border-radius:50%;border:2px solid var(--white)';
-          userBtn.style.position = 'relative';
-          userBtn.appendChild(dot);
-        } else {
-          userBtn.href = p + 'conta.html';
+    /* ── AUTH STATE on user icon ── */
+    fetch('/api/Utilizadores/auth')
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error('Não autenticado');
+      })
+      .then(data => {
+        const userBtn = document.getElementById('userBtn');
+        if (userBtn && data.isAuthenticated) {
+          userBtn.title = data.nome || 'A minha conta';
+          userBtn.style.color = 'var(--gold)';
+
+          if (data.role === 'Admin') {
+            // Se for Admin, vai para o painel de administração
+            userBtn.href = p + 'admin.html';
+            userBtn.title = 'Painel Admin';
+            const dot = document.createElement('span');
+            dot.style.cssText = 'position:absolute;top:2px;right:2px;width:8px;height:8px;background:#e74c3c;border-radius:50%;border:2px solid var(--white)';
+            userBtn.style.position = 'relative';
+            userBtn.appendChild(dot);
+          } else {
+            // Se for cliente, vai para a página de gestão de conta do Identity
+            userBtn.href = '/Identity/Account/Manage';
+          }
         }
-      }
-    } catch(e){}
+      })
+      .catch(e => {
+        // Se der erro (não está logado), mantém o link a apontar para o /Identity/Account/Login
+        console.log("Utilizador não autenticado no Identity.");
+      });
 
     /* ── SEARCH ── */
     const searchInput = document.getElementById('searchInput');
-    const searchBtn   = document.getElementById('searchBtn');
-    if(searchInput){
-      function doSearch(){
+    const searchBtn = document.getElementById('searchBtn');
+    if (searchInput) {
+      function doSearch() {
         const q = searchInput.value.trim();
         const toast = document.getElementById('searchToast');
         const results = document.getElementById('searchResults');
-        if(q.length < 2){ toast.classList.remove('open'); return; }
+        if (q.length < 2) { toast.classList.remove('open'); return; }
         const ql = q.toLowerCase();
         const prods = typeof FF_PRODUCTS !== 'undefined' ? FF_PRODUCTS : [];
         const found = prods.filter(pr =>
           pr.name.toLowerCase().includes(ql) ||
           pr.ref.toLowerCase().includes(ql) ||
           pr.category.toLowerCase().includes(ql)
-        ).slice(0,5);
+        ).slice(0, 5);
         const patStyles = typeof patternStyles !== 'undefined' ? patternStyles : {};
-        if(found.length === 0){
+        if (found.length === 0) {
           results.innerHTML = `<div class="search-result-item" onclick="window.location='${p}catalogo-hub.html?q=${encodeURIComponent(q)}'">
             <div class="search-result-swatch" style="background:var(--cream-dark)"></div>
             <div><div class="search-result-name">Pesquisar &ldquo;${q}&rdquo; no catálogo</div><div style="font-size:11px;color:var(--text-muted)">Ver todos os resultados</div></div>
@@ -214,29 +226,29 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
         } else {
           results.innerHTML = found.map(pr => `
             <div class="search-result-item" onclick="window.location='${p}produto.html?id=${pr.id}'">
-              <div class="search-result-swatch" style="background:${patStyles[pr.pattern]||'var(--cream-dark)'};background-size:cover"></div>
+              <div class="search-result-swatch" style="background:${patStyles[pr.pattern] || 'var(--cream-dark)'};background-size:cover"></div>
               <div><div class="search-result-name">${pr.name}</div><div style="font-size:11px;color:var(--text-muted)">Ref. ${pr.ref}</div></div>
-              <span class="search-result-price">${Number(pr.price).toFixed(2).replace('.',',')} €</span>
+              <span class="search-result-price">${Number(pr.price).toFixed(2).replace('.', ',')} €</span>
             </div>`).join('');
         }
         toast.classList.add('open');
       }
-      searchInput.addEventListener('input', function(){ this.value.length>1?doSearch():document.getElementById('searchToast').classList.remove('open'); });
-      searchInput.addEventListener('keydown', function(e){
-        if(e.key==='Enter'){ const q=this.value.trim(); window.location=q?`${p}catalogo-hub.html?q=${encodeURIComponent(q)}`:`${p}catalogo-hub.html`; }
-        if(e.key==='Escape') document.getElementById('searchToast').classList.remove('open');
+      searchInput.addEventListener('input', function () { this.value.length > 1 ? doSearch() : document.getElementById('searchToast').classList.remove('open'); });
+      searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { const q = this.value.trim(); window.location = q ? `${p}catalogo-hub.html?q=${encodeURIComponent(q)}` : `${p}catalogo-hub.html`; }
+        if (e.key === 'Escape') document.getElementById('searchToast').classList.remove('open');
       });
-      if(searchBtn) searchBtn.addEventListener('click', doSearch);
+      if (searchBtn) searchBtn.addEventListener('click', doSearch);
     }
 
     /* ── CLOSE DROPDOWNS ON OUTSIDE CLICK ── */
-    document.addEventListener('click', function(e){
-      const dd  = document.getElementById('wishlistDropdown');
+    document.addEventListener('click', function (e) {
+      const dd = document.getElementById('wishlistDropdown');
       const btn = document.getElementById('wishBtn');
-      if(dd && dd.classList.contains('open') && !dd.contains(e.target) && btn && !btn.contains(e.target)) dd.classList.remove('open');
+      if (dd && dd.classList.contains('open') && !dd.contains(e.target) && btn && !btn.contains(e.target)) dd.classList.remove('open');
       const st = document.getElementById('searchToast');
       const si = document.getElementById('searchInput');
-      if(st && st.classList.contains('open') && !st.contains(e.target) && si && !si.contains(e.target)) st.classList.remove('open');
+      if (st && st.classList.contains('open') && !st.contains(e.target) && si && !si.contains(e.target)) st.classList.remove('open');
     });
   });
 })();

@@ -347,6 +347,12 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px}
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="badge" id="cartBadge" style="display:none">0</span>
       </button>
+      <a href="/pages/login.html" class="icon-btn" id="userBtn" aria-label="Conta" title="A minha conta" style="text-decoration:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </a>
     </div>
   </div>
 </header>
@@ -745,6 +751,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
   renderHomeGrid('todos');
 });
+</script>
+<script src="../js/header.js"></script>
+<script>
+fetch('/api/Utilizadores/auth', {credentials:'include'})
+  .then(r => r.json())
+  .then(data => {
+    const btn = document.getElementById('userBtn');
+    if(btn && data.isAuthenticated) {
+      btn.style.color = 'var(--gold)';
+      btn.href = data.role === 'Admin' ? '/pages/admin.html' : '/pages/conta.html';
+    }
+  }).catch(()=>{});
 </script>
 </body>
 </html>

@@ -441,7 +441,29 @@ const ORDERS_KEY  = 'ff_orders';
 
 function loadProfile(){ try{ return JSON.parse(sessionStorage.getItem(PROFILE_KEY)) || {}; }catch(e){ return {}; } }
 function saveProfile(p){ try{ sessionStorage.setItem(PROFILE_KEY, JSON.stringify(p)); }catch(e){} }
-function loadOrders(){ try{ return JSON.parse(sessionStorage.getItem(ORDERS_KEY)) || []; }catch(e){ return []; } }
+async function loadOrders(){
+  try {
+    const response = await fetch('/api/Encomendas/minhas', {credentials:'include'});
+    if(!response.ok) return [];
+    const encomendas = await response.json();
+    // Converter formato da API para o formato que o renderOrders espera
+    return encomendas.map(e => ({
+      number: '#FF-' + String(e.id).padStart(5,'0'),
+      date: new Date(e.data).toLocaleDateString('pt-PT', {day:'numeric', month:'long', year:'numeric'}),
+      status: e.estado === 'Pendente' ? 'processing' : e.estado === 'Enviado' ? 'shipped' : 'delivered',
+      total: e.itensEncomenda.reduce((s,i) => s + i.precoUnitario * i.quantidade, 0),
+      items: e.itensEncomenda.map(i => ({
+        name: i.produto?.nome || 'Produto',
+        ref: i.produto?.id || '',
+        qty: i.quantidade,
+        price: i.precoUnitario,
+        pattern: 'plain'
+      }))
+    }));
+  } catch(e) {
+    return [];
+  }
+}
 
 function fmt(n){ return Number(n).toFixed(2).replace('.',',') + ' €'; }
 
@@ -462,8 +484,8 @@ function initPage(){
   renderAddress();
 }
 
-function renderOrders(){
-  const orders = loadOrders();
+async function renderOrders(){
+  const orders = await loadOrders();
   const list = document.getElementById('ordersList');
   if(!list) return;
   if(orders.length === 0){
@@ -597,7 +619,20 @@ function showNotif(msg){
   notifTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', async function(){
+  // Verificar se está logado
+  try {
+    const auth = await fetch('/api/Utilizadores/auth', {credentials:'include'});
+    const data = await auth.json();
+    if(!data.isAuthenticated) {
+      window.location.href = '/pages/login.html?redirect=conta.html';
+      return;
+    }
+  } catch(e) {
+    window.location.href = '/pages/login.html?redirect=conta.html';
+    return;
+  }
+
   if(window.location.hash === '#encomendas') showPanel('encomendas');
   initPage();
   updateCartUI();

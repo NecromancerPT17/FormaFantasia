@@ -120,10 +120,13 @@ namespace FormaFantasia.Web.Areas.Identity.Pages.Account
                     // Redirecionar por role
                     var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
                     if (await _signInManager.UserManager.IsInRoleAsync(user, "Admin"))
-                        return LocalRedirect("/Admin/Utilizadores");
+                        return LocalRedirect("/Admin/Index");
 
-                    // Cliente vai para a homepage
-                    return LocalRedirect("/index.html");
+                    // Cliente — usar ReturnUrl se existir, senão vai para o index
+                    if (!string.IsNullOrEmpty(returnUrl) && returnUrl != "/" && Url.IsLocalUrl(returnUrl))
+                        return LocalRedirect(returnUrl);
+
+                    return LocalRedirect("/pages/index.html");
                 }
                 if (result.RequiresTwoFactor)
                 {

@@ -135,17 +135,19 @@ function switchTab(tab){
 function doLogin(){
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPassword').value.trim();
+  const banner = document.getElementById('loginError');
+  
   if(!email || !pass){
-    const banner = document.getElementById('loginError');
     banner.textContent = 'Preenche o email e a password.';
     banner.classList.add('show');
     return;
   }
-  window.location.href = '/Identity/Account/Login?ReturnUrl=' + encodeURIComponent('/' + REDIRECT);
+
+  window.location.href = '/Identity/Account/Login?ReturnUrl=' + encodeURIComponent('/pages/' + REDIRECT);
 }
 
 function doRegisto(){
-  window.location.href = '/Identity/Account/Register?ReturnUrl=' + encodeURIComponent('/' + REDIRECT);
+  window.location.href = '/Identity/Account/Register?ReturnUrl=' + encodeURIComponent('/pages/index.html');
 }
 
 function doGuest(){
