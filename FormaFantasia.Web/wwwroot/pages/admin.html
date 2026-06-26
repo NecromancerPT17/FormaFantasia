@@ -378,13 +378,16 @@ async function renderDashboard(){
   document.getElementById('dUsers').textContent=users.length;
   const tb=document.getElementById('dashOrders');
   if(!orders.length){tb.innerHTML='<tr class="empty-row"><td colspan="5">Sem encomendas.</td></tr>';return;}
-  tb.innerHTML=orders.slice(0,6).map(o=>`<tr>
-    <td style="font-family:monospace;font-size:12px">${o.number||o.id||'—'}</td>
-    <td>${o.date||o.dataEncomenda||'—'}</td>
-    <td>${o.address?.name||o.nomeCliente||'—'}</td>
-    <td>${fmt(o.total||o.valorTotal||0)}</td>
-    <td><span class="chip chip-cliente">${o.status||o.estado||'—'}</span></td>
-  </tr>`).join('');
+  tb.innerHTML=orders.slice(0,6).map(o=>{
+    const date=o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
+    const client=(o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome+' '+o.utilizador.apelido : (o.utilizador?.email||'—');
+    const total=fmt((o.itensEncomenda||[]).reduce((s,i)=>s+(i.precoUnitario||0)*(i.quantidade||0),0));
+    return `<tr>
+      <td style="font-family:monospace;font-size:12px">#FF-${String(o.id).padStart(5,'0')}</td>
+      <td>${date}</td><td>${client}</td><td>${total}</td>
+      <td><span class="chip chip-cliente">${o.estado||'Pendente'}</span></td>
+    </tr>`;
+  }).join('');
 }
 
 async function renderProds(){
@@ -505,11 +508,19 @@ async function renderOrders(){
   if(!orders.length){tb.innerHTML='<tr class="empty-row"><td colspan="7">Sem encomendas.</td></tr>';return;}
   const stLabel={processing:'Em processamento',shipped:'Em envio',delivered:'Entregue',cancelled:'Cancelada'};
   tb.innerHTML=orders.map(o=>{
-    const num=o.number||o.id||'—',date=o.date||o.dataEncomenda||'—',client=o.address?.name||o.nomeCliente||'—',items=(o.items||o.itensEncomenda||[]).length,total=fmt(o.total||o.valorTotal||0),status=o.status||o.estado||'processing';
+    const num=o.id||'—';
+    const date=o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
+    const client=(o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome+' '+o.utilizador.apelido : (o.utilizador?.email||'—');
+    const items=(o.itensEncomenda||[]).length;
+    const total=fmt((o.itensEncomenda||[]).reduce((s,i)=>s+(i.precoUnitario||0)*(i.quantidade||0),0));
+    const estado=o.estado||'Pendente';
+    const estadoVal={'Pendente':'processing','Em Processamento':'processing','Enviado':'shipped','Entregue':'delivered','Cancelado':'cancelled'}[estado]||'processing';
     return `<tr>
-      <td style="font-family:monospace;font-size:12px">${num}</td><td>${date}</td><td>${client}</td><td style="text-align:center">${items}</td><td>${total}</td>
+      <td style="font-family:monospace;font-size:12px">#FF-${String(num).padStart(5,'0')}</td>
+      <td>${date}</td><td>${client}</td>
+      <td style="text-align:center">${items}</td><td>${total}</td>
       <td><select style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:4px;font-family:'Inter',sans-serif" onchange='updateOrderStatus(${JSON.stringify(num)},this.value)'>
-        ${['processing','shipped','delivered','cancelled'].map(s=>`<option value="${s}" ${s===status?'selected':''}>${stLabel[s]}</option>`).join('')}
+        ${['processing','shipped','delivered','cancelled'].map(s=>`<option value="${s}" ${s===estadoVal?'selected':''}>${stLabel[s]}</option>`).join('')}
       </select></td>
       <td><button class="tbtn-s" onclick='viewOrder(${JSON.stringify(num)})'>Ver</button></td>
     </tr>`;
@@ -525,9 +536,12 @@ async function updateOrderStatus(num,status){
   notify('Estado actualizado.','ok');
 }
 function viewOrder(num){
-  const o=orders.find(x=>(x.number||x.id)===num);if(!o)return;
-  const items=(o.items||o.itensEncomenda||[]).map(i=>`• ${i.name||i.nomeProduto||'?'} ×${i.qty||i.quantidade||1} = ${fmt((i.price||i.preco||0)*(i.qty||i.quantidade||1))}`).join('\n');
-  alert(`Encomenda: ${num}\nData: ${o.date||o.dataEncomenda||'—'}\nCliente: ${o.address?.name||o.nomeCliente||'—'}\nTotal: ${fmt(o.total||o.valorTotal||0)}\n\n${items||'Sem itens.'}`);}
+  const o=orders.find(x=>x.id===num);if(!o)return;
+  const date=o.data ? new Date(o.data).toLocaleDateString('pt-PT') : '—';
+  const client=(o.utilizador?.nome && o.utilizador?.apelido) ? o.utilizador.nome+' '+o.utilizador.apelido : (o.utilizador?.email||'—');
+  const total=fmt((o.itensEncomenda||[]).reduce((s,i)=>s+(i.precoUnitario||0)*(i.quantidade||0),0));
+  const items=(o.itensEncomenda||[]).map(i=>`• ${i.produto?.nome||'?'} ×${i.quantidade||1} = ${fmt((i.precoUnitario||0)*(i.quantidade||1))}`).join('\n');
+  alert(`Encomenda: #FF-${String(num).padStart(5,'0')}\nData: ${date}\nCliente: ${client}\nTotal: ${total}\n\n${items||'Sem itens.'}`);}
 
 async function renderUsers(){
   if(!users.length) await loadUsers();

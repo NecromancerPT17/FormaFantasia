@@ -10,19 +10,28 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-builder.Services.AddIdentity<Utilizador, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentity<Utilizador, IdentityRole>(options => {
+    options.SignIn.RequireConfirmedAccount = false;
+})
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
-// Add services to the container.
+
+builder.Services.ConfigureApplicationCookie(options => {
+    // Após login, redirecionar para a página de redirecionamento bonita
+    options.LoginPath = "/Identity/Account/Login";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.AccessDeniedPath = "/pages/erro.html";
+});
+
 builder.Services.AddRazorPages();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
     });
 builder.Services.AddSignalR();
-
 
 var supportedCultures = new[] { "en-US" };
 var localizationOptions = new Microsoft.AspNetCore.Builder.RequestLocalizationOptions()
@@ -30,30 +39,26 @@ var localizationOptions = new Microsoft.AspNetCore.Builder.RequestLocalizationOp
     .AddSupportedCultures(supportedCultures)
     .AddSupportedUICultures(supportedCultures);
 
-
 var app = builder.Build();
 
 app.UseStatusCodePagesWithReExecute("/StatusCode", "?code={0}");
-
 app.UseRequestLocalization(localizationOptions);
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseRouting();
 
+// CRÍTICO: Authentication ANTES de Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
-
+app.MapRazorPages().WithStaticAssets();
 app.MapControllers();
 app.MapHub<EncomendaHub>("/hubs/encomendas");
 

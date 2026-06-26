@@ -191,7 +191,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
             userBtn.appendChild(dot);
           } else {
             // Se for cliente, vai para a página de gestão de conta do Identity
-            userBtn.href = '/Identity/Account/Manage';
+            userBtn.href = p + 'conta.html';
           }
         }
       })

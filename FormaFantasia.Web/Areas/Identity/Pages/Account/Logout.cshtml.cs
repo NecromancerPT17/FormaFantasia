@@ -34,9 +34,8 @@ namespace FormaFantasia.Web.Areas.Identity.Pages.Account
             }
             else
             {
-                // This needs to be a redirect so that the browser performs a new
-                // request and the identity for the user gets updated.
-                return RedirectToPage();
+                // Redirecionar para a homepage bonita após logout
+                return LocalRedirect("/pages/index.html");
             }
         }
     }

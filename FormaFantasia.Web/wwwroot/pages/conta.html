@@ -428,19 +428,12 @@ footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;marg
 const PROFILE_KEY = 'ff_profile';
 const ORDERS_KEY  = 'ff_orders';
 
-(function authGuard(){
-  try {
-    const profile = JSON.parse(sessionStorage.getItem(PROFILE_KEY) || 'null');
-    if(!profile || profile.guest){
-      window.location.href = 'login.html?redirect=conta.html';
-    }
-  } catch(e){
-    window.location.href = 'login.html?redirect=conta.html';
-  }
-})();
+// Auth verificada via API no DOMContentLoaded
 
-function loadProfile(){ try{ return JSON.parse(sessionStorage.getItem(PROFILE_KEY)) || {}; }catch(e){ return {}; } }
-function saveProfile(p){ try{ sessionStorage.setItem(PROFILE_KEY, JSON.stringify(p)); }catch(e){} }
+// Cache local do perfil (preenchido pela API no DOMContentLoaded)
+let _profileCache = {};
+function loadProfile(){ return _profileCache; }
+function saveProfile(p){ _profileCache = p; }
 async function loadOrders(){
   try {
     const response = await fetch('/api/Encomendas/minhas', {credentials:'include'});
@@ -467,17 +460,43 @@ async function loadOrders(){
 
 function fmt(n){ return Number(n).toFixed(2).replace('.',',') + ' €'; }
 
-function initPage(){
+async function initPage(){
+  // Buscar dados frescos à API
+  try {
+    const resp = await fetch('/api/Utilizadores/me', {credentials:'include'});
+    if(resp.ok){
+      const u = await resp.json();
+      _profileCache = {
+        firstName: u.nome || '',
+        lastName: u.apelido || '',
+        email: u.email || '',
+        phone: u.phoneNumber || '',
+        nif: u.nif || '',
+        address: u.morada ? {line: u.morada} : null
+      };
+    }
+  } catch(e) {}
+
   const profile = loadProfile();
-  if(profile.firstName){
-    document.getElementById('heroName').textContent = profile.firstName + ' ' + (profile.lastName || '');
-    document.getElementById('heroEmail').textContent = (profile.email || 'Email não definido');
+
+  // Popular hero com nome real
+  const heroName = document.getElementById('heroName');
+  const heroEmail = document.getElementById('heroEmail');
+  if(heroName){
+    const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(' ');
+    heroName.textContent = fullName || profile.email || 'A minha conta';
   }
-  const fields = ['firstName','lastName','email','phone','dob','nif'];
+  if(heroEmail) heroEmail.textContent = profile.email || '';
+
+  // Popular campos view e edit
+  const fields = ['firstName','lastName','email','phone','nif'];
   fields.forEach(f => {
     const el = document.getElementById('view-' + f);
     const editEl = document.getElementById('edit-' + f);
-    if(el && profile[f]) { el.textContent = profile[f]; el.classList.remove('placeholder'); }
+    if(el){ 
+      if(profile[f]){ el.textContent = profile[f]; el.classList.remove('placeholder'); }
+      else { el.textContent = '—'; }
+    }
     if(editEl && profile[f]) editEl.value = profile[f];
   });
   renderOrders();
@@ -590,24 +609,48 @@ function cancelEdit(section){
   document.getElementById(section + '-edit').style.display = 'none';
 }
 
-function saveSection(section){
+async function saveSection(section){
   if(section === 'personal'){
-    const p = loadProfile();
-    ['firstName','lastName','email','phone','dob','nif'].forEach(f => {
-      const el = document.getElementById('edit-' + f);
-      if(el && el.value.trim()) p[f] = el.value.trim();
-    });
-    saveProfile(p);
-    initPage();
+    const nome = document.getElementById('edit-firstName')?.value.trim() || '';
+    const apelido = document.getElementById('edit-lastName')?.value.trim() || '';
+    const phone = document.getElementById('edit-phone')?.value.trim() || '';
+    const nif = document.getElementById('edit-nif')?.value.trim() || '';
+    const morada = _profileCache.address?.line || '';
+    try {
+      const resp = await fetch('/api/Utilizadores/me', {
+        method: 'PUT',
+        headers: {'Content-Type':'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({nome, apelido, phoneNumber: phone, nif, morada})
+      });
+      if(!resp.ok) throw new Error('Erro ao guardar');
+    } catch(e) {
+      showNotif('Erro ao guardar. Tenta novamente.');
+      return;
+    }
+    await initPage();
   }
   cancelEdit(section);
   showNotif('Informação guardada com sucesso.');
 }
 
-function handleLogout(){
+async function handleLogout(){
   sessionStorage.removeItem(PROFILE_KEY);
+  // Fazer POST ao endpoint de logout do ASP.NET Identity
+  try {
+    const tokenResp = await fetch('/Identity/Account/Logout', {credentials:'include'});
+    const html = await tokenResp.text();
+    const match = html.match(/name="__RequestVerificationToken"[^>]*value="([^"]+)"/);
+    if(match){
+      const fd = new FormData();
+      fd.append('__RequestVerificationToken', match[1]);
+      await fetch('/Identity/Account/Logout?returnUrl=%2Fpages%2Findex.html', {
+        method:'POST', body:fd, credentials:'include', redirect:'manual'
+      });
+    }
+  } catch(e){}
   showNotif('Sessão terminada.');
-  setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+  setTimeout(() => { window.location.href = '/pages/index.html'; }, 1200);
 }
 
 let notifTimer;
@@ -620,17 +663,27 @@ function showNotif(msg){
 }
 
 document.addEventListener('DOMContentLoaded', async function(){
-  // Verificar se está logado
+  // Verificar se está logado via API
+  let authData = null;
   try {
     const auth = await fetch('/api/Utilizadores/auth', {credentials:'include'});
-    const data = await auth.json();
-    if(!data.isAuthenticated) {
+    authData = await auth.json();
+    if(!authData.isAuthenticated) {
       window.location.href = '/pages/login.html?redirect=conta.html';
       return;
     }
   } catch(e) {
     window.location.href = '/pages/login.html?redirect=conta.html';
     return;
+  }
+
+  // Popular o hero com o nome vindo da API (atualizado depois pelo initPage)
+  if(authData){
+    const heroName = document.getElementById('heroName');
+    const heroEmail = document.getElementById('heroEmail');
+    const fullName = [authData.nome, authData.apelido].filter(Boolean).join(' ');
+    if(heroName) heroName.textContent = fullName || authData.email || 'A minha conta';
+    if(heroEmail) heroEmail.textContent = authData.email || '';
   }
 
   if(window.location.hash === '#encomendas') showPanel('encomendas');
