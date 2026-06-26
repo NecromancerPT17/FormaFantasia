@@ -147,6 +147,31 @@ public class UtilizadoresController : ControllerBase
         await signInManager.SignOutAsync();
         return Ok(new { success = true });
     }
+
+    [HttpPost("register-api")]
+    public async Task<IActionResult> RegisterApi([FromBody] RegisterDto model, [FromServices] SignInManager<Utilizador> signInManager)
+    {
+        if (!ModelState.IsValid) return BadRequest(new { message = "Dados inválidos." });
+
+        var user = new Utilizador
+        {
+            UserName = model.Email,
+            Email = model.Email,
+            Nome = model.PrimeiroNome,
+            Apelido = model.Apelido
+        };
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+
+        if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(user, "Cliente");
+            await signInManager.SignInAsync(user, isPersistent: true);
+            return Ok(new { success = true, role = "Cliente" });
+        }
+
+        return BadRequest(new { message = string.Join(", ", result.Errors.Select(e => e.Description)) });
+    }
 }
 
 public class UpdateMeDto
@@ -165,6 +190,14 @@ public class RoleDto
 
 public class LoginDto
 {
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+}
+
+public class RegisterDto
+{
+    public string PrimeiroNome { get; set; } = string.Empty;
+    public string Apelido { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 }

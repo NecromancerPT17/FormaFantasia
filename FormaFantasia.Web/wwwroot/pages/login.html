@@ -170,6 +170,8 @@
     }
 
     .form-group input {
+      width: 100%;
+      box-sizing: border-box;
       padding: .65rem .875rem;
       border: 1px solid var(--border);
       border-radius: 7px;
@@ -191,7 +193,8 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: .75rem
+      gap: .75rem;
+      width: 100%;
     }
 
     .forgot {
@@ -442,21 +445,60 @@
       }
     }
 
-    function doRegisto() {
+    async function doRegisto() {
       const primeiro = document.getElementById('regPrimeiro').value.trim();
       const apelido = document.getElementById('regApelido').value.trim();
       const email = document.getElementById('regEmail').value.trim();
       const pass = document.getElementById('regPassword').value.trim();
       const confirm = document.getElementById('regConfirm').value.trim();
       const banner = document.getElementById('registoError');
+
       if (!primeiro || !apelido || !email || !pass || !confirm) {
-        banner.textContent = 'Preenche todos os campos obrigatórios.'; banner.classList.add('show'); return;
+        banner.textContent = 'Preenche todos os campos obrigatórios.';
+        banner.classList.add('show');
+        return;
       }
       if (pass !== confirm) {
-        banner.textContent = 'As passwords não coincidem.'; banner.classList.add('show'); return;
+        banner.textContent = 'As passwords não coincidem.';
+        banner.classList.add('show');
+        return;
       }
+
       banner.classList.remove('show');
-      window.location.href = '/Identity/Account/Register?ReturnUrl=' + encodeURIComponent('/pages/auth-redirect.html?redirect=index.html');
+
+      try {
+        const res = await fetch('/api/Utilizadores/register-api', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            primeiroNome: primeiro,
+            apelido: apelido,
+            email: email,
+            password: pass
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          sessionStorage.setItem('ff_profile', JSON.stringify({
+            guest: false,
+            role: data.role
+          }));
+
+          let destino = REDIRECT;
+          if (!destino || destino.includes('login') || destino.includes('index')) {
+            destino = 'conta.html';
+          }
+          window.location.href = destino;
+        } else {
+          const err = await res.json();
+          banner.textContent = err.message || 'Erro ao criar conta. A password precisa de maiúsculas, minúsculas, números e um caracter especial.';
+          banner.classList.add('show');
+        }
+      } catch (e) {
+        banner.textContent = 'Erro de ligação ao servidor.';
+        banner.classList.add('show');
+      }
     }
 
     function doGuest() {

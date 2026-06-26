@@ -2043,19 +2043,18 @@
           <li><a href="contactos.html">Contactos</a></li>
           <li><a href="devolucoes.html">Devoluções</a></li>
           <li><a href="reclamacoes.html">Livro De Reclamações</a></li>
-          <li><a href="contactos.html">Contate-Nos</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <div class="footer-col-title">Área De Cliente</div>
         <ul>
-            <li><a href="/Conta">Informação pessoal</a></li>
-            <li><a href="/Conta">Encomendas</a></li>
-            <li><a href="/Conta">Notas de crédito</a></li>
-            <li><a href="/Conta">Endereços</a></li>
-            <li><a href="/Conta">Vales de desconto</a></li>
-            <li><a href="/Conta">Meus Alertas</a></li>
-            <li><a href="cookies.html">Política de Cookies</a></li>
+          <li><a href="conta.html">Informação pessoal</a></li>
+          <li><a href="conta.html">Encomendas</a></li>
+          <li><a href="conta.html">Notas de crédito</a></li>
+          <li><a href="conta.html">Endereços</a></li>
+          <li><a href="conta.html">Vales de desconto</a></li>
+          <li><a href="conta.html">Meus Alertas</a></li>
+          <li><a href="cookies.html">Política de Cookies</a></li>
         </ul>
       </div>
       <div class="footer-col footer-contact">
@@ -2089,132 +2088,72 @@
     </div>
   </footer>
 
-  <script src="../js/products.js"></script>
+  <script src="../js/header.js"></script>
   <script src="../js/nav.js"></script>
   <script src="../js/cart.js"></script>
   <script>
-    const HOME_PATTERNS = {
-      greek: 'repeating-linear-gradient(45deg,#1c1c1a 0,#1c1c1a 5px,#2e2e2b 5px,#2e2e2b 24px),repeating-linear-gradient(-45deg,#7a9e7a33 0,#7a9e7a33 2px,transparent 2px,transparent 24px)',
-      floral: 'radial-gradient(ellipse at 30% 50%,#5c7a5c22,transparent 50%),linear-gradient(135deg,#f0f0ec,#e4e4de)',
-      marble: 'linear-gradient(115deg,#f5f0e8,#e8dece 30%,#f0ebe0 50%,#d4c9b4 70%,#ede8df)',
-      berber: 'repeating-linear-gradient(0deg,#a0896022 0,#a0896022 2px,transparent 2px,transparent 16px),linear-gradient(135deg,#f2ebe0,#e5d8c5)',
-      tropical: 'radial-gradient(circle at 20% 80%,#3d6b4f 0%,transparent 40%),linear-gradient(135deg,#2a4a35,#3d6b4f)',
-      cement: 'repeating-linear-gradient(0deg,#8a8a8a22 0,#8a8a8a22 1px,transparent 1px,transparent 20px),linear-gradient(135deg,#d0cdc8,#b8b5b0)',
-      kilim: 'repeating-linear-gradient(45deg,#7a4a3a 0,#7a4a3a 4px,#b8936a 4px,#b8936a 8px,#5c7a5c 12px,#5c7a5c 16px)',
-      plain: 'linear-gradient(135deg,#f0f0ec,#e4e4de)',
-    };
-    const HOME_CAT_LABELS = { papel: 'Papel de Parede', vinil: 'Vinil Decorativo', tapecaria: 'Tapeçaria', paineis: 'Painéis Decorativos', impressao: 'Impressão Digital', calhas: 'Calhas', stockoff: 'Stock Off', varoes: 'Varões', tecidos: 'Tecidos', colas: 'Colas', acessorios: 'Acessório' };
-
-    function renderHomeGrid(filter) {
+    async function carregarDestaques(filtro = 'todos') {
       const grid = document.getElementById('homeProductGrid');
-      if (!grid || typeof FF_PRODUCTS === 'undefined') return;
-      const visible = filter === 'todos' ? FF_PRODUCTS : FF_PRODUCTS.filter(p => p.category === filter || p.subcategory === filter);
-      grid.innerHTML = visible.map(p => {
-        const pat = HOME_PATTERNS[p.pattern] || HOME_PATTERNS.plain;
-        const tag = p.tag === 'new' ? '<span class="product-tag tag-new">Novo</span>' : p.tag === 'promo' ? '<span class="product-tag tag-promo">Promo</span>' : '';
-        return `
-      <article class="product-card" onclick="window.location='produto.html?id=${p.id}'" style="cursor:pointer">
-        <div class="product-card-img">
-          <div class="product-card-pattern" style="background:${pat};width:100%;height:100%"></div>
-          ${tag}
-        </div>
-        <div class="product-card-body">
-          <div class="product-card-category">${HOME_CAT_LABELS[p.category] || p.category}</div>
-          <div class="product-card-name">${p.name}</div>
-          <div class="product-card-ref">Ref. ${p.ref}</div>
-          <div class="product-card-footer">
-            <div class="product-card-price">${Number(p.price).toFixed(2).replace('.', ',') + ' €'} <small>(IVA inc.)</small></div>
-            <button class="btn-add-cart" onclick="event.stopPropagation();addToCartHome(${p.id})">
-              <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-              Adicionar
-            </button>
-          </div>
-        </div>
-      </article>`;
-      }).join('');
-    }
+      if (!grid) return;
+      grid.innerHTML = '<p style="grid-column:1/-1;text-align:center">A carregar novidades...</p>';
 
-    function addToCartHome(id) {
-      if (typeof FF_PRODUCTS !== 'undefined' && typeof addToCart !== 'undefined') {
-        const p = FF_PRODUCTS.find(x => x.id === id);
-        if (p) addToCart(id, p);
+      try {
+        const res = await fetch('/api/Produtos');
+        let produtos = await res.json();
+
+        if (filtro !== 'todos') {
+          produtos = produtos.filter(p => p.categoria.toLowerCase() === filtro.toLowerCase());
+        }
+
+        const visiveis = produtos.slice(0, 8);
+
+        if (visiveis.length === 0) {
+          grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Sem produtos nesta categoria no momento.</p>';
+          return;
+        }
+
+        grid.innerHTML = visiveis.map(p => `
+                <article class="product-card" onclick="window.location='produto.html?id=${p.id}'" style="cursor:pointer">
+                    <div class="product-card-img">
+                        <img src="${p.fotoUrl || '/images/default.jpg'}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-category">${p.categoria}</div>
+                        <div class="product-card-name">${p.nome}</div>
+                        <div class="product-card-ref">Ref. ${p.referencia || 'N/A'}</div>
+                        <div class="product-card-footer">
+                            <div class="product-card-price">${Number(p.preco).toFixed(2).replace('.', ',')} € <small>(IVA inc.)</small></div>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${p.id}, {id: ${p.id}, name: '${p.nome.replace(/'/g, "\\'")}', price: ${p.preco}, ref: '${p.referencia || ''}', pattern: 'plain'})">
+                                <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+      } catch (e) {
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center">Erro ao carregar produtos.</p>';
       }
     }
 
-    function homeFilter(filter, btn) {
+    function homeFilter(categoria, btn) {
       document.querySelectorAll('#homeFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderHomeGrid(filter);
+      carregarDestaques(categoria);
     }
 
     function subscribeNewsletter(btn) {
       const input = btn.parentElement.querySelector('input');
       const val = input.value.trim();
-      if (!val || !val.includes('@')) { showNotif('Por favor introduz um email válido.'); return; }
-      window.location.href = 'mailto:martinssantosdiogo365@gmail.com?subject=Newsletter FormaFantasia&body=Quero subscrever a newsletter da FormaFantasia.%0A%0AEmail: ' + encodeURIComponent(val);
+      if (!val || !val.includes('@')) {
+        alert('Por favor introduz um email válido.');
+        return;
+      }
+      window.location.href = 'mailto:geral@formafantasia.pt?subject=Newsletter FormaFantasia&body=Quero subscrever a newsletter da FormaFantasia.%0A%0AEmail: ' + encodeURIComponent(val);
       input.value = '';
-      showNotif('A abrir o teu cliente de email…');
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const searchInput = document.getElementById('searchInput');
-      if (!searchInput) return;
-
-      function doSearch() {
-        const q = searchInput.value.trim();
-        if (q.length < 2) { document.getElementById('searchToast').classList.remove('open'); return; }
-        const ql = q.toLowerCase();
-        const results = document.getElementById('searchResults');
-        const toast = document.getElementById('searchToast');
-        const found = FF_PRODUCTS.filter(p =>
-          p.name.toLowerCase().includes(ql) ||
-          p.ref.toLowerCase().includes(ql) ||
-          p.category.toLowerCase().includes(ql)
-        ).slice(0, 5);
-
-        if (found.length === 0) {
-          results.innerHTML = `<div class="search-result-item" onclick="window.location='catalogo-hub.html?q=${encodeURIComponent(q)}'">
-        <div class="search-result-swatch" style="background:var(--cream-dark)"></div>
-        <div><div class="search-result-name">Pesquisar "${q}" no catálogo</div><div style="font-size:11px;color:var(--text-muted)">Ver todos os resultados</div></div>
-        <span class="search-result-price" style="color:var(--navy)">→</span>
-      </div>`;
-        } else {
-          results.innerHTML = found.map(p => `
-        <div class="search-result-item" onclick="window.location='produto.html?id=${p.id}'">
-          <div class="search-result-swatch" style="background:${patternStyles[p.pattern] || patternStyles.plain};background-size:cover"></div>
-          <div>
-            <div class="search-result-name">${p.name}</div>
-            <div style="font-size:11px;color:var(--text-muted)">Ref. ${p.ref}</div>
-          </div>
-          <span class="search-result-price">${formatPrice(p.price)}</span>
-        </div>`).join('');
-        }
-        toast.classList.add('open');
-      }
-
-      searchInput.addEventListener('input', function () { this.value.length > 1 ? doSearch() : document.getElementById('searchToast').classList.remove('open'); });
-      searchInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-          const q = this.value.trim();
-          window.location = q ? `catalogo-hub.html?q=${encodeURIComponent(q)}` : 'catalogo-hub.html';
-        }
-        if (e.key === 'Escape') document.getElementById('searchToast').classList.remove('open');
-      });
-
-      renderHomeGrid('todos');
-    });
-  </script>
-  <script src="../js/header.js"></script>
-  <script>
-    fetch('/api/Utilizadores/auth', { credentials: 'include' })
-      .then(r => r.json())
-      .then(data => {
-        const btn = document.getElementById('userBtn');
-        if (btn && data.isAuthenticated) {
-          btn.style.color = 'var(--gold)';
-          btn.href = data.role === 'Admin' ? '/pages/admin.html' : '/pages/conta.html';
-        }
-      }).catch(() => { });
+    document.addEventListener('DOMContentLoaded', () => carregarDestaques('todos'));
   </script>
 </body>
 
