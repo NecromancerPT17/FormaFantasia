@@ -1,4 +1,5 @@
-(function(){
+(function () {
+  // Aplica css ao menu de navegação
   const CSS = `
 .nav-primary{display:flex;gap:2rem;list-style:none}
 .nav-primary>li{position:relative}
@@ -23,15 +24,17 @@
 .nav-sub a{display:flex;align-items:center;padding:.5rem 1rem;font-size:13px;color:var(--text-primary);transition:all .2s;white-space:nowrap}
 .nav-sub a:hover{background:var(--cream);color:var(--gold)}
 `;
-
+  // Injetar css na página
   const style = document.createElement('style');
   style.id = 'ff-nav-styles';
   style.textContent = CSS;
   document.head.appendChild(style);
 
+  // Icones SVG
   const DD_ARROW = `<svg class="nav-dd-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>`;
   const NAV_ARROW = `<svg class="nav-arrow" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>`;
 
+  //Construtor submenu
   function buildSub(items){
     return `<div class="nav-sub">${items.map(([label, href]) => `<a href="${href}">${label}</a>`).join('')}</div>`;
   }
@@ -39,11 +42,12 @@
   function buildHasSub(label, href, subItems){
     return `<div class="nav-has-sub"><a href="${href}">${label} ${DD_ARROW}</a>${buildSub(subItems)}</div>`;
   }
-
+  // Determinar o caminho base
   function resolveBase(){
     return window.location.pathname.includes('/pages/') ? '../' : './';
   }
 
+  // Estrutura principal do menu
   function buildNav(activeSection){
     const b = resolveBase();
     const p = b + 'pages/';
@@ -118,6 +122,7 @@
       </li>`).join('') + '</ul>';
   }
 
+  // Destacar menu ativo
   function getActiveSection(){
     const path = window.location.pathname;
     if(path.includes('vinil')) return 'vinil';
@@ -126,11 +131,12 @@
     return '';
   }
 
+  // Controlar tempo de menus suspensos
   function initNav(){
     const ddTimers = new WeakMap();
     const subTimers = new WeakMap();
 
-    // Level 1: main nav items → dropdown
+    // Menus principais
     document.querySelectorAll('.nav-primary > li').forEach(li => {
       if(!li.querySelector('.nav-dropdown')) return;
       li.addEventListener('mouseenter', () => {
@@ -142,7 +148,7 @@
       });
     });
 
-    // Level 2: items inside dropdown that have a flyout → nav-sub
+    // Submenus
     document.querySelectorAll('.nav-has-sub').forEach(el => {
       el.addEventListener('mouseenter', () => {
         clearTimeout(subTimers.get(el));
@@ -158,6 +164,7 @@
     });
   }
 
+  // Injetar menu quando pagina carregar
   document.addEventListener('DOMContentLoaded', function(){
     const navEl = document.querySelector('nav[aria-label="Navegação principal"]');
     if(!navEl) return;

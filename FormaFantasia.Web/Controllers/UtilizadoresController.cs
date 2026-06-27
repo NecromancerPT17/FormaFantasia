@@ -4,18 +4,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FormaFantasia.Web.Controllers;
-
+// Configuração do controlador da API para utilizadores
 [ApiController]
 [Route("api/[controller]")]
 public class UtilizadoresController : ControllerBase
 {
     private readonly UserManager<Utilizador> _userManager;
-
+    // Ligar ao gestor de utilizadores 
     public UtilizadoresController(UserManager<Utilizador> userManager)
     {
         _userManager = userManager;
     }
-
+    // Ligar se admin
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public IActionResult Get()
@@ -31,7 +31,7 @@ public class UtilizadoresController : ControllerBase
         }).ToList();
         return Ok(utilizadores);
     }
-
+    // Obter dados de utilizador com ID
     [HttpGet("{id}")]
     [Authorize(Roles = "Admin")]
     public IActionResult Get(string id)
@@ -40,7 +40,7 @@ public class UtilizadoresController : ControllerBase
         if (u == null) return NotFound();
         return Ok(new { u.Id, u.Email, u.Nome, u.Apelido, u.Morada, u.NIF });
     }
-
+    // Dados de utilizadores com sessão iniciada 
     [HttpGet("me")]
     [Authorize]
     public async Task<IActionResult> GetMe()
@@ -59,7 +59,7 @@ public class UtilizadoresController : ControllerBase
             user.Apelido
         });
     }
-
+    // Atualizar dados de utilizador com sessão iniciada 
     [HttpPut("me")]
     [Authorize]
     public async Task<IActionResult> UpdateMe([FromBody] UpdateMeDto dto)
@@ -88,7 +88,7 @@ public class UtilizadoresController : ControllerBase
             user.Apelido
         });
     }
-
+    // Alterar nivel de acesso de um utilizador
     [HttpPut("{id}/role")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleDto dto)
@@ -102,7 +102,7 @@ public class UtilizadoresController : ControllerBase
 
         return Ok(new { user.Id, user.Email, role = dto.Role });
     }
-
+    // Verificar se sessão está ativa e devolver dados
     [HttpGet("auth")]
     public async Task<IActionResult> GetAuthStatus()
     {
@@ -121,7 +121,7 @@ public class UtilizadoresController : ControllerBase
         }
         return Ok(new { isAuthenticated = false, role = "", nome = "", apelido = "", email = "" });
     }
-
+    // Login
     [HttpPost("login-api")]
     public async Task<IActionResult> LoginApi([FromBody] LoginDto model, [FromServices] SignInManager<Utilizador> signInManager)
     {
@@ -139,7 +139,7 @@ public class UtilizadoresController : ControllerBase
 
         return Unauthorized(new { message = "Email ou password incorretos." });
     }
-
+    // Logout
     [HttpPost("logout-api")]
     public async Task<IActionResult> LogoutApi([FromServices] SignInManager<Utilizador> signInManager)
     {
@@ -147,7 +147,7 @@ public class UtilizadoresController : ControllerBase
         await signInManager.SignOutAsync();
         return Ok(new { success = true });
     }
-
+    // Criar conta nova
     [HttpPost("register-api")]
     public async Task<IActionResult> RegisterApi([FromBody] RegisterDto model, [FromServices] SignInManager<Utilizador> signInManager)
     {
@@ -173,7 +173,7 @@ public class UtilizadoresController : ControllerBase
         return BadRequest(new { message = string.Join(", ", result.Errors.Select(e => e.Description)) });
     }
 }
-
+// Estrutura de Dados recebidas e enviadas para o Frontend
 public class UpdateMeDto
 {
     public string? PhoneNumber { get; set; }

@@ -1,3 +1,4 @@
+// Padrao placeholder para produtos sem imagem
 const patternStyles = {
   greek:'repeating-linear-gradient(45deg,#0d1b2a 0,#0d1b2a 5px,#1a2e42 5px,#1a2e42 24px),repeating-linear-gradient(-45deg,#b8973a33 0,#b8973a33 2px,transparent 2px,transparent 24px)',
   floral:'radial-gradient(ellipse at 30% 50%,#b8973a22,transparent 50%),radial-gradient(ellipse at 70% 30%,#b8973a33,transparent 40%),linear-gradient(135deg,#f0ece2,#e8e2d5)',
@@ -10,6 +11,7 @@ const patternStyles = {
   plain:'linear-gradient(135deg,#f0ece2,#e8e2d5)',
 };
 
+// Nomes das categorias
 const categoryLabels = {
   papel:'Papel de Parede',
   vinil:'Vinil Decorativo',
@@ -24,14 +26,17 @@ const categoryLabels = {
   acessorios:'Acessório',
 };
 
+// Nome da categoria formatado
 function categoryLabel(cat){
   return categoryLabels[cat] || cat;
 }
 
+// Formatar preco
 function formatPrice(p){
   return Number(p).toFixed(2).replace('.',',') + ' €';
 }
 
+// Variaveis carrinho de compras e lista de desejos
 let cart = {};
 let wishlist = [];
 
@@ -39,6 +44,7 @@ let wishlist = [];
 const _savedCart = localStorage.getItem('ff_cart');
 if (_savedCart) try { cart = JSON.parse(_savedCart); } catch(e) {}
 
+// Adicionar produto ao carrinho
 function addToCart(id, productData){
   const allProducts = typeof products !== 'undefined' ? products : (productData ? [productData] : []);
   const p = allProducts.find(x => x.id === id) || productData;
@@ -53,12 +59,14 @@ function addToCart(id, productData){
   showNotif('Adicionado: ' + p.name.substring(0,35) + (p.name.length > 35 ? '…' : ''));
 }
 
+// Remover produto do carrinho
 function removeFromCart(id){
   delete cart[id];
   localStorage.setItem('ff_cart', JSON.stringify(cart));
   updateCartUI();
 }
 
+// Alterar quantidade de um produto no carrinho
 function changeQty(id, delta){
   if(!cart[id]) return;
   cart[id].qty += delta;
@@ -67,6 +75,7 @@ function changeQty(id, delta){
   updateCartUI();
 }
 
+// Atualizar ui do carrinho
 function updateCartUI(){
   const items = Object.values(cart);
   const totalQty = items.reduce((s,i) => s + i.qty, 0);
@@ -109,6 +118,7 @@ function updateCartUI(){
   }
 }
 
+// Abrir e fechar painel do carrinho
 function toggleCart(){
   const drawer = document.getElementById('cartDrawer');
   const overlay = document.getElementById('cartOverlay');
@@ -119,6 +129,7 @@ function toggleCart(){
   if(!isOpen) updateCartUI();
 }
 
+// Abrir e fechar painel liste de desejos
 function toggleWishItem(id, e, productData){
   if(e) e.preventDefault();
   const allProducts = typeof products !== 'undefined' ? products : (productData ? [productData] : []);
@@ -138,6 +149,7 @@ function toggleWishItem(id, e, productData){
   });
 }
 
+// Atualizar interface lista de desejos
 function updateWishlistUI(){
   const badge = document.getElementById('wishBadge');
   if(badge){
@@ -157,11 +169,13 @@ function updateWishlistUI(){
   }
 }
 
+// Abrir e fechar lista de desejos
 function toggleWishlist(){
   const dd = document.getElementById('wishlistDropdown');
   if(dd) dd.classList.toggle('open');
 }
 
+// Render html do produto para grelhas
 function renderProductCard(p){
   const pattern = patternStyles[p.pattern] || patternStyles.plain;
   const isLiked = wishlist.includes(p.id);
@@ -192,6 +206,7 @@ function renderProductCard(p){
   `;
 }
 
+// Inicializar barra de pesquisa
 function initSearch(productList){
   const input = document.getElementById('searchInput');
   if(!input) return;
@@ -233,6 +248,7 @@ function initSearch(productList){
   });
 }
 
+// Inicializar menus dropdown
 function initNavDropdowns(){
   const ddTimers = new WeakMap();
   document.querySelectorAll('.nav-primary > li').forEach(li => {
@@ -244,6 +260,7 @@ function initNavDropdowns(){
   });
 }
 
+// Logica do newsteller
 function subscribeNewsletter(btn){
   const input = btn.parentElement.querySelector('input');
   const val = input.value.trim();
@@ -252,6 +269,7 @@ function subscribeNewsletter(btn){
   showNotif('Subscrito com sucesso! Obrigado.');
 }
 
+// Mostrar popups
 let notifTimer;
 function showNotif(msg){
   clearTimeout(notifTimer);

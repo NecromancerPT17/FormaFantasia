@@ -2092,6 +2092,7 @@
   <script src="../js/nav.js"></script>
   <script src="../js/cart.js"></script>
   <script>
+    // Carregar no máximo 8 produtos em destaque
     async function carregarDestaques(filtro = 'todos') {
       const grid = document.getElementById('homeProductGrid');
       if (!grid) return;
@@ -2135,13 +2136,13 @@
         grid.innerHTML = '<p style="grid-column:1/-1;text-align:center">Erro ao carregar produtos.</p>';
       }
     }
-
+    // Alterar a categoria ativa e atualizar lista de produtos
     function homeFilter(categoria, btn) {
       document.querySelectorAll('#homeFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       carregarDestaques(categoria);
     }
-
+    // Validar o email e abrir o cliente de email padrao para o newsletter
     function subscribeNewsletter(btn) {
       const input = btn.parentElement.querySelector('input');
       const val = input.value.trim();
@@ -2152,7 +2153,7 @@
       window.location.href = 'mailto:geral@formafantasia.pt?subject=Newsletter FormaFantasia&body=Quero subscrever a newsletter da FormaFantasia.%0A%0AEmail: ' + encodeURIComponent(val);
       input.value = '';
     }
-
+    // Carregar produtos quando a pagina abrir
     document.addEventListener('DOMContentLoaded', () => carregarDestaques('todos'));
   </script>
 </body>

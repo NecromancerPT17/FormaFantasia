@@ -1,9 +1,10 @@
 (function () {
+   // Determinar o caminho base
   function base() { return window.location.pathname.includes('/pages/') ? '../' : './'; }
   const b = base();
   const p = b + 'pages/';
 
-  /* ── CSS ── */
+   // Estilos CSS
   const CSS = `
 :root{--navy:#1c1c1a;--navy-mid:#2e2e2b;--gold:#5c7a5c;--gold-light:#7a9e7a;--gold-pale:#eef3ee;--cream:#fafaf8;--cream-dark:#f0f0ec;--text-primary:#1c1c1a;--text-secondary:#5c5c58;--text-muted:#9a9a94;--green-cta:#3d6b4f;--green-cta-hover:#2e5440;--white:#ffffff;--border:#e4e4de;--border-light:#ebebf0;--shadow:0 2px 12px rgba(28,28,26,0.08);--shadow-hover:0 6px 24px rgba(28,28,26,0.14)}
 header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
@@ -79,7 +80,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 @media(max-width:768px){.header-main{padding:.75rem 1rem}.search-wrapper input{width:140px}.cart-drawer{width:100%}}
 `;
 
-  /* ── HTML ── */
+  // Estrutura HTML
   const HTML = `
 <div class="notif-toast" id="notifToast">
   <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
@@ -151,7 +152,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
 </div>
 `;
 
-  /* ── INJECT CSS ── */
+  // Injetar css na página
   if (!document.getElementById('ff-header-styles')) {
     const style = document.createElement('style');
     style.id = 'ff-header-styles';
@@ -159,7 +160,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
     document.head.appendChild(style);
   }
 
-  /* ── INJECT HTML before first existing content in <body> ── */
+  // Injetar HTML no <body> da página
   document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('cartDrawer')) return;
     const tmp = document.createElement('div');
@@ -168,7 +169,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
     const firstChild = body.firstChild;
     while (tmp.firstChild) { body.insertBefore(tmp.firstChild, firstChild); }
 
-    /* ── AUTH STATE on user icon ── */
+    // Verificar se o utilizador deu login
     fetch('/api/Utilizadores/auth')
       .then(res => {
         if (res.ok) return res.json();
@@ -181,29 +182,28 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
           userBtn.style.color = 'var(--gold)';
 
           if (data.role === 'Admin') {
-            // Se for Admin, vai para o painel de administração
+            // Se for Admin vai para o painel de administração
             userBtn.href = p + 'admin.html';
             userBtn.title = 'Painel Admin';
             const dot = document.createElement('span');
             dot.style.cssText = 'position:absolute;top:2px;right:2px;width:8px;height:8px;background:#e74c3c;border-radius:50%;border:2px solid var(--white)';
             userBtn.style.position = 'relative';
             userBtn.appendChild(dot);
-            // NOVO: Esconde o botão de Checkout no Carrinho para o Admin!
             const style = document.createElement('style');
             style.textContent = '.btn-checkout { display: none !important; }';
             document.head.appendChild(style);
           } else {
-            // Se for cliente, vai para a página de gestão de conta do Identity
+            // Se for cliente vai para a página de gestão de conta
             userBtn.href = p + 'conta.html';
           }
         }
       })
       .catch(e => {
-        // Se der erro (não está logado), mantém o link a apontar para o /Identity/Account/Login
+        // Se der erro mantém o link a apontar para o /Identity/Account/Login
         console.log("Utilizador não autenticado no Identity.");
       });
 
-    /* ── SEARCH ── */
+    // Pesquisar produtos no catalogo
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
     if (searchInput) {
@@ -244,7 +244,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);position:st
       if (searchBtn) searchBtn.addEventListener('click', doSearch);
     }
 
-    /* ── CLOSE DROPDOWNS ON OUTSIDE CLICK ── */
+    // Fechar menus ao clicar fora deles
     document.addEventListener('click', function (e) {
       const dd = document.getElementById('wishlistDropdown');
       const btn = document.getElementById('wishBtn');

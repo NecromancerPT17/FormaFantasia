@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FormaFantasia.Web.Controllers;
-
+// Configuração do controlador da API para controlar categorias
 [ApiController]
 [Route("api/[controller]")]
 public class CategoriasController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
-
+    // Ligar a base de dados
     public CategoriasController(ApplicationDbContext context)
     {
         _context = context;

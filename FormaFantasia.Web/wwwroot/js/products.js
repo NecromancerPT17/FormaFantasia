@@ -1,3 +1,4 @@
+// Produtos Placeholder (apagar quando trocar por items verdadeiros)
 const FF_PRODUCTS = [
   {
     id:101, name:'Abracazoo | Safari Colorido', ref:'ABZ-101',

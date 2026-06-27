@@ -17,21 +17,27 @@ body{font-family:'Inter',sans-serif;background:#faf8f4;display:flex;align-items:
 </div>
 <script>
 (async function(){
+    // Obter pagina de destino com base no url
   const params = new URLSearchParams(window.location.search);
   const redirect = params.get('redirect') || 'index.html';
   try {
+      //Verificar autenticacao no servidor
     const r = await fetch('/api/Utilizadores/auth', {credentials:'include'});
     const d = await r.json();
     if(d.isAuthenticated){
+        // se for admin redireciona painel admin
       if(d.role === 'Admin'){
         window.location.href = '/pages/admin.html';
       } else {
+          // se for cliente pagina normal
         window.location.href = '/pages/' + redirect;
       }
     } else {
+        // se nao autenticado redireciona para login
       window.location.href = '/pages/login.html';
     }
   } catch(e){
+      // em caso de erro, redireciona login
     window.location.href = '/pages/login.html';
   }
 })();

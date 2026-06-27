@@ -379,22 +379,23 @@
 
   <script src="../js/cart.js"></script>
   <script>
-    const REDIRECT = new URLSearchParams(window.location.search).get('redirect') || 'conta.html';
-    // AUTO-RESGATE: Se já estiver logado noutro separador, sai do login imediatamente!
+      // Procurar pagina destino apos autenticar
+      const REDIRECT = new URLSearchParams(window.location.search).get('redirect') || 'conta.html';
+      // Verificar se esta autenticado e redirecionar
     fetch('/api/Utilizadores/auth').then(r => r.json()).then(data => {
       if (data.isAuthenticated) {
         sessionStorage.setItem('ff_profile', JSON.stringify({ guest: false, role: data.role }));
         window.location.href = data.role === 'Admin' ? 'admin.html' : 'conta.html';
       }
     }).catch(() => { });
-
+    // Alternar entre login e registo
     function switchTab(tab) {
       document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
       document.getElementById('panelRegisto').classList.toggle('active', tab === 'registo');
       document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
       document.getElementById('tabRegisto').classList.toggle('active', tab === 'registo');
     }
-
+    // Processar formulario login e autenticar com API
     async function doLogin() {
       const email = document.getElementById('loginEmail').value.trim();
       const pass = document.getElementById('loginPassword').value.trim();
@@ -417,13 +418,11 @@
         if (res.ok) {
           const data = await res.json();
 
-          // A PEÇA QUE FALTAVA: Criar o crachá na memória para o admin.html não nos expulsar!
           sessionStorage.setItem('ff_profile', JSON.stringify({
             guest: false,
             role: data.role
           }));
 
-          // Agora sim, avançamos para as páginas com autorização máxima
           if (data.role === 'Admin') {
             window.location.href = 'admin.html';
             return;
@@ -444,7 +443,7 @@
         banner.classList.add('show');
       }
     }
-
+    // Processar formulario de registo via API
     async function doRegisto() {
       const primeiro = document.getElementById('regPrimeiro').value.trim();
       const apelido = document.getElementById('regApelido').value.trim();
@@ -500,12 +499,12 @@
         banner.classList.add('show');
       }
     }
-
+    // Continuar como convidado
     function doGuest() {
       sessionStorage.setItem('ff_profile', JSON.stringify({ guest: true }));
       window.location.href = REDIRECT;
     }
-
+    // Popup
     let _nt;
     function showNotif(msg) {
       clearTimeout(_nt);

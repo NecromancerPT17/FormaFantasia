@@ -1014,6 +1014,7 @@
 
 
   <script>
+      // Impedir que admins façam compras
     const perfilAdmin = JSON.parse(sessionStorage.getItem('ff_profile') || '{}');
     if (perfilAdmin.role === 'Admin') {
       alert('Acesso Negado: Os administradores não podem realizar encomendas na loja.');
@@ -1022,9 +1023,11 @@
     let shippingCost = 0;
     let discountAmount = 0;
 
-    const COUPONS = { 'BEMVINDO15': 0.15, 'FF10': 0.10 };
+    // cupon para teste, remover
+    const COUPONS = { 'BEMVINDO15': 0.15, 'FF10': 0.10 }; 
+    // Formatar valor para euros
     function fmt(n) { return Number(n).toFixed(2).replace('.', ',') + ' €'; }
-
+    // Render da lista de produtos no carrinho
     function renderSummary() {
       const items = Object.values(cart);
       const container = document.getElementById('summaryItems');
@@ -1046,7 +1049,7 @@
       }
       updateTotals();
     }
-
+    // Atualizar calculos do subtotal, portes, descontos e total
     function updateTotals() {
       const items = Object.values(cart);
       const subtotal = items.reduce((s, i) => s + i.product.price * i.qty, 0);
@@ -1059,27 +1062,27 @@
       if (discount > 0) document.getElementById('discountValue').textContent = '−' + fmt(discount);
       document.getElementById('summaryTotal').textContent = fmt(total);
     }
-
+    // Selecionar metodo de envio e atualizar custos
     function selectShipping(el, cost) {
       document.querySelectorAll('#shippingGroup .radio-option').forEach(o => o.classList.remove('selected'));
       el.classList.add('selected');
       shippingCost = cost;
       updateTotals();
     }
-
+    // Selecionar metodo de pagamento
     function selectPayment(el) {
       document.querySelectorAll('.radio-group .radio-option').forEach(o => {
         if (o.querySelector('input[name=payment]')) o.classList.remove('selected');
       });
       el.classList.add('selected');
     }
-
+    // Validar e aplicar cupao de desconto
     function applyCoupon() {
       const code = document.getElementById('couponInput').value.trim().toUpperCase();
       if (COUPONS[code]) { discountAmount = COUPONS[code]; showNotif('Código "' + code + '" aplicado — ' + (discountAmount * 100) + '% de desconto!'); updateTotals(); }
       else { showNotif('Código inválido ou já utilizado.'); }
     }
-
+    // validar campos obrigatorios do formulario
     function validateForm() {
       const fields = [
         { id: 'firstName', test: v => v.length >= 2 },
@@ -1101,12 +1104,12 @@
       if (!valid) showNotif('Verifica os campos assinalados a vermelho.');
       return valid;
     }
-
+    // processar e enviar encomenda para o servidor
     async function confirmOrder() {
       if (!validateForm()) return;
       if (Object.keys(cart).length === 0) { showNotif('O teu carrinho está vazio.'); return; }
 
-      // Verificar se está logado
+      // Verificar se está logado antes de pagar
       try {
         const authResponse = await fetch('/api/Utilizadores/auth');
         const authData = await authResponse.json();
@@ -1121,7 +1124,7 @@
         showNotif('Erro de ligação. Tenta novamente.');
         return;
       }
-
+      // Confirmar dados e enviar pedido POST para API
       const items = Object.values(cart).map(i => ({
         produtoId: i.product.id,
         quantidade: i.qty
@@ -1161,9 +1164,8 @@
         showNotif('Erro de ligação. Tenta novamente.');
       }
     }
-
+    // Inicializar pagina, validar login, e aplicar mascara ao codigo postal
     document.addEventListener('DOMContentLoaded', async function () {
-      // Verificar login logo ao entrar na página
       try {
         const authResponse = await fetch('/api/Utilizadores/auth', { credentials: 'include' });
         const authData = await authResponse.json();

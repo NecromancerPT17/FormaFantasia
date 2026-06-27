@@ -2,11 +2,12 @@ using FormaFantasia.Web.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace FormaFantasia.Web.Data;
-
+// Injetar dados iniciais na BD
 public static class SeedData
 {
     public static async Task InicializarAsync(IServiceProvider serviceProvider)
     {
+        // Permissoes de sistema e gestores
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = serviceProvider.GetRequiredService<UserManager<Utilizador>>();
 

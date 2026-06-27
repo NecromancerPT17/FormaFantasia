@@ -8,17 +8,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* Aplicar css */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--navy:#0d1b2a;--gold:#b8973a;--gold-light:#d4af5a;--cream:#faf8f4;--border:#e8e2d5;--text-secondary:#5a5a5a;--text-muted:#9a9a9a;--white:#ffffff}
 body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+/* Logo e Texto */
 .logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--navy);margin-bottom:3rem;letter-spacing:-.02em}
 .logo span{color:var(--gold)}
 .code{font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:600;line-height:1;color:var(--navy);opacity:.08;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;user-select:none}
+/* Card e icon*/
 .card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:3rem 2.5rem;max-width:480px;width:100%;position:relative;overflow:hidden}
 .icon{width:64px;height:64px;border-radius:50%;background:#f0ece2;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}
 .icon svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.8}
 h1{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin-bottom:.625rem}
 p{font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:2rem}
+/* Botoes */
 .btn-home{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.75rem;background:var(--navy);color:var(--white);border-radius:7px;font-size:14px;font-weight:600;text-decoration:none;transition:opacity .2s;margin-bottom:.75rem}
 .btn-home:hover{opacity:.85}
 .btn-back{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.5rem;color:var(--text-secondary);border:1px solid var(--border);border-radius:7px;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s;margin-left:.5rem}
