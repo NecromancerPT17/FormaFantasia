@@ -1,3 +1,4 @@
+//Função faz fetch à API para obter os produtos e filtra-os pela categoria selecionada, depois atualiza o HTML da página com os produtos filtrados.
 async function carregarProdutos(categoria) {
     const grid = document.querySelector('.product-grid');
     grid.innerHTML = '<p>A carregar produtos...</p>';
