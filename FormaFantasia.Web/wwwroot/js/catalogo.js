@@ -3,12 +3,13 @@ async function carregarProdutos(categoria) {
     grid.innerHTML = '<p>A carregar produtos...</p>';
 
     try {
-        // Pede os produtos ao backend
         const res = await fetch('/api/Produtos');
         const todosOsProdutos = await res.json();
-        // Filtra os pedidos nas categorias
-        const filtrados = todosOsProdutos.filter(p => p.categoria.toLowerCase() === categoria.toLowerCase());
-        // Faz o visual com os produtos
+        
+        const filtrados = todosOsProdutos.filter(p => 
+            p.categoria && p.categoria.nome.toLowerCase() === categoria.toLowerCase()
+        );
+        
         grid.innerHTML = filtrados.map(p => `
             <div class="product-card">
                 <a href="produto.html?id=${p.id}">
@@ -19,7 +20,6 @@ async function carregarProdutos(categoria) {
             </div>
         `).join('');
     } catch (e) {
-        // Erro se nao conseguir carregar produto
         grid.innerHTML = '<p>Erro ao carregar produtos.</p>';
     }
 }

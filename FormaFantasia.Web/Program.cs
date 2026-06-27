@@ -10,14 +10,16 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-builder.Services.AddIdentity<Utilizador, IdentityRole>(options => {
+builder.Services.AddIdentity<Utilizador, IdentityRole>(options =>
+{
     options.SignIn.RequireConfirmedAccount = false;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
 
-builder.Services.ConfigureApplicationCookie(options => {
+builder.Services.ConfigureApplicationCookie(options =>
+{
     // Após login, redirecionar para a página de redirecionamento bonita
     options.LoginPath = "/Identity/Account/Login";
     options.LogoutPath = "/Identity/Account/Logout";
@@ -51,6 +53,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseRouting();
 
 // CRÍTICO: Authentication ANTES de Authorization
@@ -67,5 +71,6 @@ using (var scope = app.Services.CreateScope())
 {
     await SeedData.InicializarAsync(scope.ServiceProvider);
 }
+
 
 app.Run();

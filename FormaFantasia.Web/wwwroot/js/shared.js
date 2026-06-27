@@ -179,8 +179,14 @@ function toggleWishlist(){
 function renderProductCard(p){
   const pattern = patternStyles[p.pattern] || patternStyles.plain;
   const isLiked = wishlist.includes(p.id);
+  
+  const catName = p.categoria ? p.categoria.nome : p.category;
+  const prodName = p.nome || p.name;
+  const prodPrice = p.preco || p.price;
+  const prodRef = p.ref || p.referencia || "N/A";
+
   return `
-    <article class="product-card" data-id="${p.id}" data-category="${p.category}">
+    <article class="product-card" data-id="${p.id}" data-category="${catName}">
       <div class="product-card-img">
         <div class="product-card-pattern" style="background:${pattern};width:100%;height:100%"></div>
         ${p.tag ? `<span class="product-tag ${p.tag === 'new' ? 'tag-new' : 'tag-promo'}">${p.tag === 'new' ? 'Novo' : 'Promo'}</span>` : ''}
@@ -189,12 +195,12 @@ function renderProductCard(p){
         </button>
       </div>
       <div class="product-card-body">
-        <div class="product-card-category">${categoryLabel(p.category)}</div>
-        <div class="product-card-name">${p.name}</div>
-        <div class="product-card-ref">Ref. ${p.ref}</div>
+        <div class="product-card-category">${categoryLabel(catName)}</div>
+        <div class="product-card-name">${prodName}</div>
+        <div class="product-card-ref">Ref. ${prodRef}</div>
         <div class="product-card-footer">
           <div>
-            <div class="product-card-price">${formatPrice(p.price)} <small>(IVA inc.)</small></div>
+            <div class="product-card-price">${formatPrice(prodPrice)} <small>(IVA inc.)</small></div>
           </div>
           <button class="btn-add-cart" onclick="addToCart(${p.id})">
             <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>

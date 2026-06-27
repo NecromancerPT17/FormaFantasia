@@ -2,8 +2,27 @@
 <html lang="pt">
 
 <head>
+  <script>
+    // 1. Armadilha para a Cache do Botão Voltar (BFCache)
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) { window.location.reload(); }
+    });
+
+    // 2. Verificação instantânea à velocidade da luz
+    const perfilGuardado = sessionStorage.getItem('ff_profile');
+    if (perfilGuardado) {
+      const dados = JSON.parse(perfilGuardado);
+      if (dados && dados.guest === false) {
+        // O comando 'replace' não deixa rasto no histórico!
+        window.location.replace(dados.role === 'Admin' ? 'admin.html' : 'conta.html');
+      }
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Entrar na Conta | FormaFantasia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -379,13 +398,22 @@
 
   <script src="../js/cart.js"></script>
   <script>
-      // Procurar pagina destino apos autenticar
-      const REDIRECT = new URLSearchParams(window.location.search).get('redirect') || 'conta.html';
-      // Verificar se esta autenticado e redirecionar
+    // 1. Armadilha para o Botão "Voltar" do Browser
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        window.location.reload(); // Se vier do histórico, força o recarregamento!
+      }
+    });
+
+    // 2. Procurar pagina destino apos autenticar
+    const REDIRECT = new URLSearchParams(window.location.search).get('redirect') || 'conta.html';
+
+    // 3. Verificar se esta autenticado e redirecionar
     fetch('/api/Utilizadores/auth').then(r => r.json()).then(data => {
       if (data.isAuthenticated) {
         sessionStorage.setItem('ff_profile', JSON.stringify({ guest: false, role: data.role }));
-        window.location.href = data.role === 'Admin' ? 'admin.html' : 'conta.html';
+        // Usar .replace em vez de .href não adiciona o login ao histórico!
+        window.location.replace(data.role === 'Admin' ? 'admin.html' : 'conta.html');
       }
     }).catch(() => { });
     // Alternar entre login e registo

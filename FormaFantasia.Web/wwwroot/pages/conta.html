@@ -1,526 +1,1582 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Minha Conta | FormaFantasia</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --navy:#0d1b2a;--navy-mid:#1a2e42;--gold:#b8973a;--gold-light:#d4af5a;--gold-pale:#f5ead0;
-  --cream:#faf8f4;--cream-dark:#f0ece2;--text-primary:#1a1a1a;--text-secondary:#5a5a5a;
-  --text-muted:#9a9a9a;--green-cta:#2a7a4b;--green-cta-hover:#235f3b;--white:#ffffff;
-  --border:#e8e2d5;--border-light:#f0ece2;--shadow:0 2px 12px rgba(13,27,42,0.08);
-  --shadow-hover:0 6px 24px rgba(13,27,42,0.14);
-}
-body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);line-height:1.6}
-a{text-decoration:none;color:inherit}
-img{display:block;max-width:100%}
-button{cursor:pointer;border:none;background:none;font-family:inherit}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Minha Conta | FormaFantasia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.header-top{background:var(--navy);color:var(--white);font-size:12px;text-align:center;padding:7px 1rem;letter-spacing:.04em}
-.header-top a{color:var(--gold-light)}
-.header-main{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;gap:1rem}
-.logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--navy);letter-spacing:-.02em}
-.logo span{color:var(--gold)}
-.header-actions{display:flex;align-items:center;gap:.5rem}
-.icon-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;transition:background .2s;position:relative;color:var(--text-primary)}
-.icon-btn:hover{background:var(--cream-dark);color:var(--gold)}
-.icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
-.badge{position:absolute;top:2px;right:2px;background:var(--gold);color:var(--white);font-size:10px;font-weight:600;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1}
+    :root {
+      --navy: #0d1b2a;
+      --navy-mid: #1a2e42;
+      --gold: #b8973a;
+      --gold-light: #d4af5a;
+      --gold-pale: #f5ead0;
+      --cream: #faf8f4;
+      --cream-dark: #f0ece2;
+      --text-primary: #1a1a1a;
+      --text-secondary: #5a5a5a;
+      --text-muted: #9a9a9a;
+      --green-cta: #2a7a4b;
+      --green-cta-hover: #235f3b;
+      --white: #ffffff;
+      --border: #e8e2d5;
+      --border-light: #f0ece2;
+      --shadow: 0 2px 12px rgba(13, 27, 42, 0.08);
+      --shadow-hover: 0 6px 24px rgba(13, 27, 42, 0.14);
+    }
 
-.notif-toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:var(--white);padding:.75rem 1.25rem;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-hover);z-index:400;transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:.5rem;max-width:300px}
-.notif-toast.show{transform:translateY(0);opacity:1}
-.notif-toast svg{width:16px;height:16px;stroke:var(--gold-light);fill:none;stroke-width:2;flex-shrink:0}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text-primary);
+      line-height: 1.6
+    }
 
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
-.cart-overlay.open{opacity:1;pointer-events:all}
-.cart-drawer{position:fixed;top:0;right:0;width:380px;max-width:100%;height:100%;background:var(--white);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-4px 0 24px rgba(0,0,0,.12)}
-.cart-drawer.open{transform:translateX(0)}
-.cart-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
-.cart-header h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy)}
-.cart-close{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary)}
-.cart-close svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
-.cart-body{flex:1;overflow-y:auto;padding:1rem 1.5rem}
-.cart-empty{text-align:center;padding:3rem 1rem;color:var(--text-muted)}
-.cart-empty svg{width:48px;height:48px;stroke:currentColor;fill:none;stroke-width:1.2;margin:0 auto 1rem}
-.cart-footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem}
-.cart-total-row{display:flex;justify-content:space-between;margin-bottom:1rem}
-.cart-total-label{font-size:14px;color:var(--text-secondary)}
-.cart-total-note{font-size:11px;color:var(--text-muted);margin-top:2px}
-.cart-total-value{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy)}
-.btn-checkout{display:block;width:100%;padding:.85rem;background:var(--green-cta);color:var(--white);font-size:15px;font-weight:600;text-align:center;border-radius:8px;margin-bottom:.5rem;transition:background .2s}
-.btn-checkout:hover{background:var(--green-cta-hover)}
-.btn-continue{display:block;width:100%;padding:.7rem;color:var(--text-secondary);font-size:13px;text-align:center;border-radius:8px;border:1px solid var(--border);transition:all .2s}
-.btn-continue:hover{border-color:var(--navy);color:var(--navy)}
+    a {
+      text-decoration: none;
+      color: inherit
+    }
 
-.account-hero{background:var(--navy);padding:2.5rem 2rem}
-.account-hero-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1.5rem}
-.account-avatar{width:64px;height:64px;border-radius:50%;background:rgba(184,151,58,.2);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.account-avatar svg{width:28px;height:28px;stroke:var(--gold-light);fill:none;stroke-width:1.6}
-.account-hero-info h1{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--white);margin-bottom:.2rem}
-.account-hero-info p{font-size:13px;color:rgba(255,255,255,.55)}
-.account-hero-actions{margin-left:auto;display:flex;gap:.75rem}
-.btn-edit-profile{padding:.5rem 1.25rem;background:rgba(255,255,255,.1);color:var(--white);font-size:13px;font-weight:500;border-radius:6px;border:1px solid rgba(255,255,255,.2);transition:all .2s}
-.btn-edit-profile:hover{background:rgba(255,255,255,.18)}
-.btn-logout{padding:.5rem 1.25rem;background:transparent;color:rgba(255,255,255,.5);font-size:13px;font-weight:500;border-radius:6px;border:1px solid rgba(255,255,255,.15);transition:all .2s}
-.btn-logout:hover{color:var(--white);border-color:rgba(255,255,255,.3)}
+    img {
+      display: block;
+      max-width: 100%
+    }
 
-.account-body{max-width:1100px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start}
-.account-nav{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;position:sticky;top:80px}
-.account-nav-item{display:flex;align-items:center;gap:.75rem;padding:.875rem 1.25rem;font-size:14px;font-weight:500;color:var(--text-secondary);border-bottom:1px solid var(--border-light);cursor:pointer;transition:all .2s}
-.account-nav-item:last-child{border-bottom:none}
-.account-nav-item:hover{background:var(--cream);color:var(--navy)}
-.account-nav-item.active{background:var(--gold-pale);color:var(--navy);border-left:3px solid var(--gold)}
-.account-nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit
+    }
 
-.account-panel{display:none}
-.account-panel.active{display:block}
-.panel-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--navy);margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100
+    }
 
-.info-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem}
-.info-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
-.info-card-title{font-size:15px;font-weight:600;color:var(--navy)}
-.btn-edit{padding:.375rem .875rem;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:500;color:var(--text-secondary);transition:all .2s}
-.btn-edit:hover{border-color:var(--navy);color:var(--navy)}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.875rem}
-.info-field{display:flex;flex-direction:column;gap:.2rem}
-.info-field-label{font-size:11px;color:var(--text-muted);letter-spacing:.04em;text-transform:uppercase}
-.info-field-value{font-size:14px;color:var(--text-primary);font-weight:500}
-.info-field-value.placeholder{color:var(--text-muted);font-weight:400;font-style:italic}
+    .header-top {
+      background: var(--navy);
+      color: var(--white);
+      font-size: 12px;
+      text-align: center;
+      padding: 7px 1rem;
+      letter-spacing: .04em
+    }
 
-.form-group{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.75rem}
-.form-group label{font-size:12px;font-weight:500;color:var(--text-secondary)}
-.form-group input{padding:.6rem .875rem;border:1px solid var(--border);border-radius:7px;font-size:14px;font-family:'Inter',sans-serif;background:var(--white);outline:none;transition:border-color .2s}
-.form-group input:focus{border-color:var(--gold)}
-.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.btn-save{padding:.65rem 1.5rem;background:var(--navy);color:var(--white);font-size:13px;font-weight:600;border-radius:7px;border:none;cursor:pointer;transition:background .2s}
-.btn-save:hover{background:var(--navy-mid)}
-.btn-cancel{padding:.65rem 1.25rem;background:var(--white);color:var(--text-secondary);font-size:13px;font-weight:500;border-radius:7px;border:1px solid var(--border);cursor:pointer;margin-left:.5rem;transition:all .2s}
-.btn-cancel:hover{border-color:var(--navy);color:var(--navy)}
+    .header-top a {
+      color: var(--gold-light)
+    }
 
-.orders-list{display:flex;flex-direction:column;gap:1rem}
-.order-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.order-card-header{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border-light);flex-wrap:wrap}
-.order-num{font-size:14px;font-weight:600;color:var(--navy)}
-.order-date{font-size:12px;color:var(--text-muted)}
-.order-status{display:inline-flex;align-items:center;gap:.3rem;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.25rem .625rem;border-radius:12px}
-.status-processing{background:#fff3cd;color:#856404}
-.status-shipped{background:#cff4fc;color:#0a4d68}
-.status-delivered{background:#d1e7dd;color:#0a4d1a}
-.status-cancelled{background:#f8d7da;color:#721c24}
-.order-total-label{font-size:12px;color:var(--text-muted);margin-left:auto}
-.order-total-value{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--navy)}
-.order-card-items{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.625rem}
-.order-item-row{display:flex;align-items:center;gap:.75rem}
-.order-item-thumb{width:44px;height:44px;border-radius:6px;background:var(--cream-dark);flex-shrink:0}
-.order-item-info{flex:1}
-.order-item-name{font-size:13px;font-weight:500;color:var(--text-primary)}
-.order-item-ref{font-size:11px;color:var(--text-muted)}
-.order-item-price{font-size:13px;font-weight:600;color:var(--navy);margin-left:auto}
-.order-card-footer{padding:.75rem 1.25rem;border-top:1px solid var(--border-light);display:flex;gap:.625rem;justify-content:flex-end}
-.btn-track{padding:.45rem 1rem;background:var(--navy);color:var(--white);font-size:12px;font-weight:600;border-radius:6px;display:inline-flex;align-items:center;gap:.3rem;border:none;cursor:pointer;transition:background .2s}
-.btn-track:hover{background:var(--navy-mid)}
-.btn-track svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-.btn-reorder{padding:.45rem 1rem;background:var(--white);color:var(--text-secondary);font-size:12px;font-weight:500;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all .2s}
-.btn-reorder:hover{border-color:var(--navy);color:var(--navy)}
+    .header-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .75rem 2rem;
+      gap: 1rem
+    }
 
-.tracking-bar{padding:.875rem 1.25rem;background:var(--cream);border-top:1px solid var(--border-light)}
-.tracking-steps{display:flex;align-items:flex-start;justify-content:space-between;position:relative}
-.tracking-steps::before{content:'';position:absolute;top:12px;left:12px;right:12px;height:2px;background:var(--border);z-index:0}
-.tracking-step{display:flex;flex-direction:column;align-items:center;gap:.375rem;position:relative;z-index:1;flex:1}
-.tracking-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center}
-.tracking-dot.done{background:var(--green-cta);border-color:var(--green-cta)}
-.tracking-dot.current{background:var(--gold);border-color:var(--gold)}
-.tracking-dot svg{width:12px;height:12px;stroke:var(--white);fill:none;stroke-width:3}
-.tracking-label{font-size:10px;color:var(--text-muted);text-align:center;max-width:60px;line-height:1.3}
-.tracking-label.done{color:var(--green-cta)}
-.tracking-label.current{color:var(--gold);font-weight:600}
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: -.02em
+    }
 
-.address-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.address-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem;position:relative}
-.address-card.default{border-color:var(--gold)}
-.address-default-badge{position:absolute;top:.75rem;right:.75rem;background:var(--gold-pale);color:var(--gold);font-size:10px;font-weight:600;letter-spacing:.06em;padding:2px 7px;border-radius:10px;text-transform:uppercase}
-.address-name{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:.375rem}
-.address-text{font-size:13px;color:var(--text-secondary);line-height:1.6}
-.address-actions{display:flex;gap:.5rem;margin-top:.875rem}
-.btn-address-action{padding:.35rem .875rem;font-size:12px;font-weight:500;border-radius:5px;border:1px solid var(--border);color:var(--text-secondary);transition:all .2s;cursor:pointer}
-.btn-address-action:hover{border-color:var(--navy);color:var(--navy)}
-.btn-add-address{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:1.25rem;border:2px dashed var(--border);border-radius:10px;color:var(--text-muted);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;background:none;width:100%}
-.btn-add-address:hover{border-color:var(--gold);color:var(--gold)}
-.btn-add-address svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+    .logo span {
+      color: var(--gold)
+    }
 
-.empty-panel{text-align:center;padding:3rem 1rem;color:var(--text-muted)}
-.empty-panel svg{width:48px;height:48px;stroke:currentColor;fill:none;stroke-width:1.2;margin:0 auto 1rem;opacity:.4}
-.empty-panel h3{font-size:16px;font-weight:500;color:var(--text-secondary);margin-bottom:.5rem}
-.empty-panel p{font-size:13px}
-.empty-panel a{color:var(--gold)}
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: .5rem
+    }
 
-footer{background:var(--navy-mid);color:rgba(255,255,255,.8);font-size:13px;margin-top:3rem}
-.footer-main{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1200px;margin:0 auto;padding:3rem 2rem 2rem}
-.footer-col-title{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1rem}
-.footer-col ul{list-style:none}
-.footer-col li{margin-bottom:.5rem}
-.footer-col a{color:rgba(255,255,255,.65);transition:color .2s;font-size:13px}
-.footer-col a:hover{color:var(--gold-light)}
-.footer-contact p{color:rgba(255,255,255,.65);line-height:1.7;font-size:13px}
-.footer-contact a{color:var(--gold-light)}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:1.5rem 2rem;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.footer-bottom-left{font-size:12px;color:rgba(255,255,255,.45)}
-.payment-icons{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
-.payment-icon{background:rgba(255,255,255,.15);border-radius:5px;padding:4px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8);letter-spacing:.04em}
-.secure-badges{display:flex;gap:.5rem;align-items:center}
-.secure-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.6)}
-.footer-credits{border-top:1px solid rgba(255,255,255,.07);text-align:center;padding:.75rem 2rem;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.02em}
+    .icon-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      transition: background .2s;
+      position: relative;
+      color: var(--text-primary)
+    }
 
-@media(max-width:860px){
-  .account-body{grid-template-columns:1fr}
-  .account-nav{position:static;display:flex;overflow-x:auto;border-radius:8px}
-  .account-nav-item{flex-direction:column;gap:.25rem;font-size:11px;padding:.75rem .875rem;border-bottom:none;border-right:1px solid var(--border-light);flex-shrink:0;text-align:center;min-width:80px}
-  .account-nav-item:last-child{border-right:none}
-  .account-nav-item.active{border-left:none;border-bottom:3px solid var(--gold)}
-  .address-grid,.info-grid,.form-row-2{grid-template-columns:1fr}
-  .footer-main{grid-template-columns:1fr 1fr}
-}
-@media(max-width:560px){
-  .header-main{padding:.75rem 1rem}
-  nav ul{display:none}
-  .account-hero-inner{flex-wrap:wrap}
-  .account-hero-actions{margin-left:0}
-  .footer-main{grid-template-columns:1fr}
-}
-</style>
+    .icon-btn:hover {
+      background: var(--cream-dark);
+      color: var(--gold)
+    }
+
+    .icon-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8
+    }
+
+    .badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: var(--gold);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 600;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      line-height: 1
+    }
+
+    .notif-toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--navy);
+      color: var(--white);
+      padding: .75rem 1.25rem;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: var(--shadow-hover);
+      z-index: 400;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all .35s cubic-bezier(.4, 0, .2, 1);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      max-width: 300px
+    }
+
+    .notif-toast.show {
+      transform: translateY(0);
+      opacity: 1
+    }
+
+    .notif-toast svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--gold-light);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0
+    }
+
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s
+    }
+
+    .cart-overlay.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 380px;
+      max-width: 100%;
+      height: 100%;
+      background: var(--white);
+      z-index: 201;
+      transform: translateX(100%);
+      transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 24px rgba(0, 0, 0, .12)
+    }
+
+    .cart-drawer.open {
+      transform: translateX(0)
+    }
+
+    .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .cart-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .cart-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary)
+    }
+
+    .cart-close svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2
+    }
+
+    .cart-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 1.5rem
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted)
+    }
+
+    .cart-empty svg {
+      width: 48px;
+      height: 48px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.2;
+      margin: 0 auto 1rem
+    }
+
+    .cart-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 1.5rem
+    }
+
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem
+    }
+
+    .cart-total-label {
+      font-size: 14px;
+      color: var(--text-secondary)
+    }
+
+    .cart-total-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px
+    }
+
+    .cart-total-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .btn-checkout {
+      display: block;
+      width: 100%;
+      padding: .85rem;
+      background: var(--green-cta);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: .5rem;
+      transition: background .2s
+    }
+
+    .btn-checkout:hover {
+      background: var(--green-cta-hover)
+    }
+
+    .btn-continue {
+      display: block;
+      width: 100%;
+      padding: .7rem;
+      color: var(--text-secondary);
+      font-size: 13px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      transition: all .2s
+    }
+
+    .btn-continue:hover {
+      border-color: var(--navy);
+      color: var(--navy)
+    }
+
+    .account-hero {
+      background: var(--navy);
+      padding: 2.5rem 2rem
+    }
+
+    .account-hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem
+    }
+
+    .account-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(184, 151, 58, .2);
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .account-avatar svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--gold-light);
+      fill: none;
+      stroke-width: 1.6
+    }
+
+    .account-hero-info h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: .2rem
+    }
+
+    .account-hero-info p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .55)
+    }
+
+    .account-hero-actions {
+      margin-left: auto;
+      display: flex;
+      gap: .75rem
+    }
+
+    .btn-edit-profile {
+      padding: .5rem 1.25rem;
+      background: rgba(255, 255, 255, .1);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, .2);
+      transition: all .2s
+    }
+
+    .btn-edit-profile:hover {
+      background: rgba(255, 255, 255, .18)
+    }
+
+    .btn-logout {
+      padding: .5rem 1.25rem;
+      background: transparent;
+      color: rgba(255, 255, 255, .5);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      transition: all .2s
+    }
+
+    .btn-logout:hover {
+      color: var(--white);
+      border-color: rgba(255, 255, 255, .3)
+    }
+
+    .account-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 2rem;
+      align-items: start
+    }
+
+    .account-nav {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      position: sticky;
+      top: 80px
+    }
+
+    .account-nav-item {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .875rem 1.25rem;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .account-nav-item:last-child {
+      border-bottom: none
+    }
+
+    .account-nav-item:hover {
+      background: var(--cream);
+      color: var(--navy)
+    }
+
+    .account-nav-item.active {
+      background: var(--gold-pale);
+      color: var(--navy);
+      border-left: 3px solid var(--gold)
+    }
+
+    .account-nav-item svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0
+    }
+
+    .account-panel {
+      display: none
+    }
+
+    .account-panel.active {
+      display: block
+    }
+
+    .panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 1.5rem;
+      padding-bottom: .75rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem
+    }
+
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem
+    }
+
+    .info-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .btn-edit {
+      padding: .375rem .875rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all .2s
+    }
+
+    .btn-edit:hover {
+      border-color: var(--navy);
+      color: var(--navy)
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .875rem
+    }
+
+    .info-field {
+      display: flex;
+      flex-direction: column;
+      gap: .2rem
+    }
+
+    .info-field-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: .04em;
+      text-transform: uppercase
+    }
+
+    .info-field-value {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500
+    }
+
+    .info-field-value.placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-style: italic
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+      margin-bottom: .75rem
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary)
+    }
+
+    .form-group input {
+      padding: .6rem .875rem;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      outline: none;
+      transition: border-color .2s
+    }
+
+    .form-group input:focus {
+      border-color: var(--gold)
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem
+    }
+
+    .btn-save {
+      padding: .65rem 1.5rem;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 7px;
+      border: none;
+      cursor: pointer;
+      transition: background .2s
+    }
+
+    .btn-save:hover {
+      background: var(--navy-mid)
+    }
+
+    .btn-cancel {
+      padding: .65rem 1.25rem;
+      background: var(--white);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      margin-left: .5rem;
+      transition: all .2s
+    }
+
+    .btn-cancel:hover {
+      border-color: var(--navy);
+      color: var(--navy)
+    }
+
+    .orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem
+    }
+
+    .order-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden
+    }
+
+    .order-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-light);
+      flex-wrap: wrap
+    }
+
+    .order-num {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .order-date {
+      font-size: 12px;
+      color: var(--text-muted)
+    }
+
+    .order-status {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: .25rem .625rem;
+      border-radius: 12px
+    }
+
+    .status-processing {
+      background: #fff3cd;
+      color: #856404
+    }
+
+    .status-shipped {
+      background: #cff4fc;
+      color: #0a4d68
+    }
+
+    .status-delivered {
+      background: #d1e7dd;
+      color: #0a4d1a
+    }
+
+    .status-cancelled {
+      background: #f8d7da;
+      color: #721c24
+    }
+
+    .order-total-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: auto
+    }
+
+    .order-total-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .order-card-items {
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: .625rem
+    }
+
+    .order-item-row {
+      display: flex;
+      align-items: center;
+      gap: .75rem
+    }
+
+    .order-item-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      background: var(--cream-dark);
+      flex-shrink: 0
+    }
+
+    .order-item-info {
+      flex: 1
+    }
+
+    .order-item-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary)
+    }
+
+    .order-item-ref {
+      font-size: 11px;
+      color: var(--text-muted)
+    }
+
+    .order-item-price {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-left: auto
+    }
+
+    .order-card-footer {
+      padding: .75rem 1.25rem;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      gap: .625rem;
+      justify-content: flex-end
+    }
+
+    .btn-track {
+      padding: .45rem 1rem;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      border: none;
+      cursor: pointer;
+      transition: background .2s
+    }
+
+    .btn-track:hover {
+      background: var(--navy-mid)
+    }
+
+    .btn-track svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2
+    }
+
+    .btn-reorder {
+      padding: .45rem 1rem;
+      background: var(--white);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-reorder:hover {
+      border-color: var(--navy);
+      color: var(--navy)
+    }
+
+    .tracking-bar {
+      padding: .875rem 1.25rem;
+      background: var(--cream);
+      border-top: 1px solid var(--border-light)
+    }
+
+    .tracking-steps {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative
+    }
+
+    .tracking-steps::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      height: 2px;
+      background: var(--border);
+      z-index: 0
+    }
+
+    .tracking-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .375rem;
+      position: relative;
+      z-index: 1;
+      flex: 1
+    }
+
+    .tracking-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .tracking-dot.done {
+      background: var(--green-cta);
+      border-color: var(--green-cta)
+    }
+
+    .tracking-dot.current {
+      background: var(--gold);
+      border-color: var(--gold)
+    }
+
+    .tracking-dot svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--white);
+      fill: none;
+      stroke-width: 3
+    }
+
+    .tracking-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 60px;
+      line-height: 1.3
+    }
+
+    .tracking-label.done {
+      color: var(--green-cta)
+    }
+
+    .tracking-label.current {
+      color: var(--gold);
+      font-weight: 600
+    }
+
+    .address-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem
+    }
+
+    .address-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      position: relative
+    }
+
+    .address-card.default {
+      border-color: var(--gold)
+    }
+
+    .address-default-badge {
+      position: absolute;
+      top: .75rem;
+      right: .75rem;
+      background: var(--gold-pale);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      padding: 2px 7px;
+      border-radius: 10px;
+      text-transform: uppercase
+    }
+
+    .address-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: .375rem
+    }
+
+    .address-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6
+    }
+
+    .address-actions {
+      display: flex;
+      gap: .5rem;
+      margin-top: .875rem
+    }
+
+    .btn-address-action {
+      padding: .35rem .875rem;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: all .2s;
+      cursor: pointer
+    }
+
+    .btn-address-action:hover {
+      border-color: var(--navy);
+      color: var(--navy)
+    }
+
+    .btn-add-address {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: 1.25rem;
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      background: none;
+      width: 100%
+    }
+
+    .btn-add-address:hover {
+      border-color: var(--gold);
+      color: var(--gold)
+    }
+
+    .btn-add-address svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2
+    }
+
+    .empty-panel {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted)
+    }
+
+    .empty-panel svg {
+      width: 48px;
+      height: 48px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.2;
+      margin: 0 auto 1rem;
+      opacity: .4
+    }
+
+    .empty-panel h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: .5rem
+    }
+
+    .empty-panel p {
+      font-size: 13px
+    }
+
+    .empty-panel a {
+      color: var(--gold)
+    }
+
+    footer {
+      background: var(--navy-mid);
+      color: rgba(255, 255, 255, .8);
+      font-size: 13px;
+      margin-top: 3rem
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem 2rem
+    }
+
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 1rem
+    }
+
+    .footer-col ul {
+      list-style: none
+    }
+
+    .footer-col li {
+      margin-bottom: .5rem
+    }
+
+    .footer-col a {
+      color: rgba(255, 255, 255, .65);
+      transition: color .2s;
+      font-size: 13px
+    }
+
+    .footer-col a:hover {
+      color: var(--gold-light)
+    }
+
+    .footer-contact p {
+      color: rgba(255, 255, 255, .65);
+      line-height: 1.7;
+      font-size: 13px
+    }
+
+    .footer-contact a {
+      color: var(--gold-light)
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      padding: 1.5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem
+    }
+
+    .footer-bottom-left {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .45)
+    }
+
+    .payment-icons {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap
+    }
+
+    .payment-icon {
+      background: rgba(255, 255, 255, .15);
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .8);
+      letter-spacing: .04em
+    }
+
+    .secure-badges {
+      display: flex;
+      gap: .5rem;
+      align-items: center
+    }
+
+    .secure-badge {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, .6)
+    }
+
+    .footer-credits {
+      border-top: 1px solid rgba(255, 255, 255, .07);
+      text-align: center;
+      padding: .75rem 2rem;
+      font-size: 11px;
+      color: rgba(255, 255, 255, .3);
+      letter-spacing: .02em
+    }
+
+    @media(max-width:860px) {
+      .account-body {
+        grid-template-columns: 1fr
+      }
+
+      .account-nav {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+        border-radius: 8px
+      }
+
+      .account-nav-item {
+        flex-direction: column;
+        gap: .25rem;
+        font-size: 11px;
+        padding: .75rem .875rem;
+        border-bottom: none;
+        border-right: 1px solid var(--border-light);
+        flex-shrink: 0;
+        text-align: center;
+        min-width: 80px
+      }
+
+      .account-nav-item:last-child {
+        border-right: none
+      }
+
+      .account-nav-item.active {
+        border-left: none;
+        border-bottom: 3px solid var(--gold)
+      }
+
+      .address-grid,
+      .info-grid,
+      .form-row-2 {
+        grid-template-columns: 1fr
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:560px) {
+      .header-main {
+        padding: .75rem 1rem
+      }
+
+      nav ul {
+        display: none
+      }
+
+      .account-hero-inner {
+        flex-wrap: wrap
+      }
+
+      .account-hero-actions {
+        margin-left: 0
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="notif-toast" id="notifToast">
-  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-  <span id="notifMsg"></span>
-</div>
+  <div class="notif-toast" id="notifToast">
+    <svg viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+    <span id="notifMsg"></span>
+  </div>
 
-<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Carrinho de compras">
-  <div class="cart-header">
-    <h2>Carrinho</h2>
-    <button class="cart-close" onclick="toggleCart()" aria-label="Fechar carrinho">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-  </div>
-  <div class="cart-body" id="cartBody"></div>
-  <div class="cart-footer" id="cartFooter" style="display:none">
-    <div class="cart-total-row">
-      <div><div class="cart-total-label">Total</div><div class="cart-total-note">IVA incluído</div></div>
-      <div class="cart-total-value" id="cartTotal">0,00 €</div>
-    </div>
-    <a href="checkout.html" class="btn-checkout">Finalizar Encomenda</a>
-    <button class="btn-continue" onclick="toggleCart()">Continuar a Comprar</button>
-  </div>
-</aside>
-
-<header>
-  <div class="header-top">
-    Envios internacionais disponíveis &mdash; <a href="https://formafantasia.pt/content/1-comprar">Saiba mais</a> &nbsp;|&nbsp; Encomenda online 24/7 &nbsp;|&nbsp; Multibanco e PayPal aceites
-  </div>
-  <div class="header-main">
-    <a href="index.html" class="logo">Forma<span>Fantasia</span></a>
-    <nav aria-label="Navegação principal">
-      <ul class="nav-primary"></ul>
-    </nav>
-    <div class="header-actions">
-      <button class="icon-btn" onclick="toggleCart()" aria-label="Carrinho">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0"/></svg>
-        <span class="badge" id="cartBadge" style="display:none">0</span>
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Carrinho de compras">
+    <div class="cart-header">
+      <h2>Carrinho</h2>
+      <button class="cart-close" onclick="toggleCart()" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
       </button>
     </div>
-  </div>
-</header>
-
-<div class="account-hero">
-  <div class="account-hero-inner">
-    <div class="account-avatar">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    </div>
-    <div class="account-hero-info">
-      <h1 id="heroName">A minha conta</h1>
-      <p id="heroEmail">Sessão não iniciada &nbsp;·&nbsp; Faça login para ver os seus dados</p>
-    </div>
-    <div class="account-hero-actions">
-      <button class="btn-edit-profile" onclick="showPanel('informacao')">Editar Perfil</button>
-      <button class="btn-logout" onclick="handleLogout()">Terminar Sessão</button>
-    </div>
-  </div>
-</div>
-
-<div class="account-body">
-
-  <nav class="account-nav" aria-label="Menu da conta">
-    <div class="account-nav-item active" onclick="showPanel('encomendas')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-      Encomendas
-    </div>
-    <div class="account-nav-item" onclick="showPanel('informacao')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-      Informação Pessoal
-    </div>
-    <div class="account-nav-item" onclick="showPanel('moradas')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-      Moradas
-    </div>
-    <div class="account-nav-item" onclick="showPanel('vales')">
-      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
-      Vales de Desconto
-    </div>
-    <div class="account-nav-item" onclick="showPanel('seguranca')">
-      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path stroke-linecap="round" d="M7 11V7a5 5 0 0110 0v4"/></svg>
-      Segurança
-    </div>
-  </nav>
-
-  <main>
-
-    <div class="account-panel active" id="panel-encomendas">
-      <div class="panel-title">As Minhas Encomendas</div>
-      <div class="orders-list" id="ordersList"></div>
-    </div>
-
-    <div class="account-panel" id="panel-informacao">
-      <div class="panel-title">Informação Pessoal</div>
-      <div class="info-card">
-        <div class="info-card-header">
-          <div class="info-card-title">Dados Pessoais</div>
-          <button class="btn-edit" onclick="toggleEditMode('personal')">Editar</button>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total-row">
+        <div>
+          <div class="cart-total-label">Total</div>
+          <div class="cart-total-note">IVA incluído</div>
         </div>
-        <div id="personal-view">
-          <div class="info-grid">
-            <div class="info-field"><div class="info-field-label">Primeiro Nome</div><div class="info-field-value placeholder" id="view-firstName">—</div></div>
-            <div class="info-field"><div class="info-field-label">Apelido</div><div class="info-field-value placeholder" id="view-lastName">—</div></div>
-            <div class="info-field"><div class="info-field-label">Email</div><div class="info-field-value placeholder" id="view-email">—</div></div>
-            <div class="info-field"><div class="info-field-label">Telemóvel</div><div class="info-field-value placeholder" id="view-phone">—</div></div>
-            <div class="info-field"><div class="info-field-label">Data de Nascimento</div><div class="info-field-value placeholder" id="view-dob">Não definida</div></div>
-            <div class="info-field"><div class="info-field-label">NIF</div><div class="info-field-value placeholder" id="view-nif">Não definido</div></div>
-          </div>
-        </div>
-        <div id="personal-edit" style="display:none">
-          <div class="form-row-2">
-            <div class="form-group"><label>Primeiro Nome</label><input type="text" id="edit-firstName" placeholder="Primeiro nome"></div>
-            <div class="form-group"><label>Apelido</label><input type="text" id="edit-lastName" placeholder="Apelido"></div>
-          </div>
-          <div class="form-group"><label>Email</label><input type="email" id="edit-email" placeholder="email@exemplo.pt"></div>
-          <div class="form-row-2">
-            <div class="form-group"><label>Telemóvel</label><input type="tel" id="edit-phone" placeholder="9XX XXX XXX"></div>
-            <div class="form-group"><label>Data de Nascimento</label><input type="date" id="edit-dob"></div>
-          </div>
-          <div class="form-group"><label>NIF</label><input type="text" id="edit-nif" placeholder="000 000 000"></div>
-          <div style="margin-top:.5rem">
-            <button class="btn-save" onclick="saveSection('personal')">Guardar Alterações</button>
-            <button class="btn-cancel" onclick="cancelEdit('personal')">Cancelar</button>
-          </div>
-        </div>
+        <div class="cart-total-value" id="cartTotal">0,00 €</div>
       </div>
+      <a href="checkout.html" class="btn-checkout">Finalizar Encomenda</a>
+      <button class="btn-continue" onclick="toggleCart()">Continuar a Comprar</button>
     </div>
+  </aside>
 
-    <div class="account-panel" id="panel-moradas">
-      <div class="panel-title">As Minhas Moradas</div>
-      <div class="address-grid" id="addressGrid">
-        <button class="btn-add-address" onclick="showNotif('Funcionalidade disponível após login.')">
-          <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-          Adicionar Morada
+  <header>
+    <div class="header-top">
+      Envios internacionais disponíveis &mdash; <a href="condicoes.html">Saiba mais</a> &nbsp;|&nbsp; Encomenda online
+      24/7 &nbsp;|&nbsp; Multibanco e PayPal aceites
+    </div>
+    <div class="header-main">
+      <a href="index.html" class="logo">Forma<span>Fantasia</span></a>
+      <nav aria-label="Navegação principal">
+        <ul class="nav-primary"></ul>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="toggleCart()" aria-label="Carrinho">
+          <svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span class="badge" id="cartBadge" style="display:none">0</span>
         </button>
       </div>
     </div>
+  </header>
 
-    <div class="account-panel" id="panel-vales">
-      <div class="panel-title">Vales de Desconto</div>
-      <div class="empty-panel">
-        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
-        <h3>Nenhum vale de desconto ativo</h3>
-        <p>Os teus vales aparecerão aqui. Consulta a nossa <a href="index.html#newsletter">newsletter</a> para receberes ofertas exclusivas.</p>
+  <div class="account-hero">
+    <div class="account-hero-inner">
+      <div class="account-avatar">
+        <svg viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      </div>
+      <div class="account-hero-info">
+        <h1 id="heroName">A minha conta</h1>
+        <p id="heroEmail">Sessão não iniciada &nbsp;·&nbsp; Faça login para ver os seus dados</p>
+      </div>
+      <div class="account-hero-actions">
+        <button class="btn-edit-profile" onclick="showPanel('informacao')">Editar Perfil</button>
+        <button class="btn-logout" onclick="handleLogout()">Terminar Sessão</button>
       </div>
     </div>
+  </div>
 
-    <div class="account-panel" id="panel-seguranca">
-      <div class="panel-title">Segurança</div>
-      <div class="info-card">
-        <div class="info-card-header">
-          <div class="info-card-title">Alterar Password</div>
-        </div>
-        <div class="form-group"><label>Password Atual</label><input type="password" placeholder="••••••••"></div>
-        <div class="form-group"><label>Nova Password</label><input type="password" placeholder="••••••••"></div>
-        <div class="form-group"><label>Confirmar Nova Password</label><input type="password" placeholder="••••••••"></div>
-        <div style="margin-top:.5rem">
-          <button class="btn-save" onclick="showNotif('Password alterada com sucesso.')">Alterar Password</button>
+  <div class="account-body">
+
+    <nav class="account-nav" aria-label="Menu da conta">
+      <div class="account-nav-item active" onclick="showPanel('encomendas')">
+        <svg viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+        Encomendas
+      </div>
+      <div class="account-nav-item" onclick="showPanel('informacao')">
+        <svg viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        Informação Pessoal
+      </div>
+      <div class="account-nav-item" onclick="showPanel('moradas')">
+        <svg viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        Moradas
+      </div>
+      <div class="account-nav-item" onclick="showPanel('vales')">
+        <svg viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+        Vales de Desconto
+      </div>
+      <div class="account-nav-item" onclick="showPanel('seguranca')">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="11" width="18" height="11" rx="2" />
+          <path stroke-linecap="round" d="M7 11V7a5 5 0 0110 0v4" />
+        </svg>
+        Segurança
+      </div>
+    </nav>
+
+    <main>
+
+      <div class="account-panel active" id="panel-encomendas">
+        <div class="panel-title">As Minhas Encomendas</div>
+        <div class="orders-list" id="ordersList"></div>
+      </div>
+
+      <div class="account-panel" id="panel-informacao">
+        <div class="panel-title">Informação Pessoal</div>
+        <div class="info-card">
+          <div class="info-card-header">
+            <div class="info-card-title">Dados Pessoais</div>
+            <button class="btn-edit" onclick="toggleEditMode('personal')">Editar</button>
+          </div>
+          <div id="personal-view">
+            <div class="info-grid">
+              <div class="info-field">
+                <div class="info-field-label">Primeiro Nome</div>
+                <div class="info-field-value placeholder" id="view-firstName">—</div>
+              </div>
+              <div class="info-field">
+                <div class="info-field-label">Apelido</div>
+                <div class="info-field-value placeholder" id="view-lastName">—</div>
+              </div>
+              <div class="info-field">
+                <div class="info-field-label">Email</div>
+                <div class="info-field-value placeholder" id="view-email">—</div>
+              </div>
+              <div class="info-field">
+                <div class="info-field-label">Telemóvel</div>
+                <div class="info-field-value placeholder" id="view-phone">—</div>
+              </div>
+              <div class="info-field">
+                <div class="info-field-label">Data de Nascimento</div>
+                <div class="info-field-value placeholder" id="view-dob">Não definida</div>
+              </div>
+              <div class="info-field">
+                <div class="info-field-label">NIF</div>
+                <div class="info-field-value placeholder" id="view-nif">Não definido</div>
+              </div>
+            </div>
+          </div>
+          <div id="personal-edit" style="display:none">
+            <div class="form-row-2">
+              <div class="form-group"><label>Primeiro Nome</label><input type="text" id="edit-firstName"
+                  placeholder="Primeiro nome"></div>
+              <div class="form-group"><label>Apelido</label><input type="text" id="edit-lastName" placeholder="Apelido">
+              </div>
+            </div>
+            <div class="form-group"><label>Email</label><input type="email" id="edit-email"
+                placeholder="email@exemplo.pt"></div>
+            <div class="form-row-2">
+              <div class="form-group"><label>Telemóvel</label><input type="tel" id="edit-phone"
+                  placeholder="9XX XXX XXX"></div>
+              <div class="form-group"><label>Data de Nascimento</label><input type="date" id="edit-dob"></div>
+            </div>
+            <div class="form-group"><label>NIF</label><input type="text" id="edit-nif" placeholder="000 000 000"></div>
+            <div style="margin-top:.5rem">
+              <button class="btn-save" onclick="saveSection('personal')">Guardar Alterações</button>
+              <button class="btn-cancel" onclick="cancelEdit('personal')">Cancelar</button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-  </main>
-</div>
+      <div class="account-panel" id="panel-moradas">
+        <div class="panel-title">As Minhas Moradas</div>
+        <div class="address-grid" id="addressGrid">
+          <button class="btn-add-address" onclick="showNotif('Funcionalidade disponível após login.')">
+            <svg viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Adicionar Morada
+          </button>
+        </div>
+      </div>
 
-<footer>
-  <div class="footer-main">
-    <div class="footer-col">
-      <div class="footer-col-title">Aplicações</div>
-      <ul>
-        <li><a href="https://formafantasia.pt/content/2-aplicar-papel-de-parede">Aplicar Papel De Parede</a></li>
-        <li><a href="https://formafantasia.pt/7934-paineis-decorativos">Aplicar Painéis Decorativos</a></li>
-        <li><a href="https://formafantasia.pt/content/3-aplicar-vinil-decorativo">Aplicar Vinil Decorativo</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Informação</div>
-      <ul>
-        <li><a href="https://formafantasia.pt/content/1-comprar">Condições</a></li>
-        <li><a href="https://formafantasia.pt/content/1-comprar">Condições De Uso</a></li>
-        <li><a href="https://formafantasia.pt/content/4-sobre-nos">Sobre Nós</a></li>
-        <li><a href="https://formafantasia.pt/content/1-comprar">Pagamento Seguro</a></li>
-        <li><a href="https://formafantasia.pt/content/6-contactos">Contactos</a></li>
-        <li><a href="https://formafantasia.pt/content/1-comprar">Devoluções</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=complaint">Livro De Reclamações</a></li>
-        <li><a href="https://formafantasia.pt/content/6-contactos">Contate-Nos</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Área De Cliente</div>
-      <ul>
-        <li><a href="conta.html">Informação Pessoal</a></li>
-        <li><a href="conta.html#encomendas">Encomendas</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=order-slip">Notas De Crédito</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=address">Endereços</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=discount">Vales De Desconto</a></li>
-        <li><a href="https://formafantasia.pt/index.php?controller=my-account">Meus Alertas</a></li>
-        <li><a href="https://formafantasia.pt/module/eugeneraldatapro/informations">Política De Cookies</a></li>
-      </ul>
-    </div>
-    <div class="footer-col footer-contact">
-      <div class="footer-col-title">Contacte-Nos</div>
-      <p>FormaFantasia<br>Rua Calouste Gulbenkian, Loja 28 Rch/Dirt<br>3080-084 Figueira Da Foz<br>Portugal — Coimbra</p>
-      <p style="margin-top:.75rem">
-        <a href="tel:233429608">233 429 608</a> (Rede Fixa)<br>
-        <a href="tel:966092180">966 092 180</a> (Rede Móvel)<br>
-        <a href="mailto:Geral@Formafantasia.Pt">Geral@Formafantasia.Pt</a>
-      </p>
-    </div>
+      <div class="account-panel" id="panel-vales">
+        <div class="panel-title">Vales de Desconto</div>
+        <div class="empty-panel">
+          <svg viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+          <h3>Nenhum vale de desconto ativo</h3>
+          <p>Os teus vales aparecerão aqui. Consulta a nossa <a href="index.html#newsletter">newsletter</a> para
+            receberes ofertas exclusivas.</p>
+        </div>
+      </div>
+
+      <div class="account-panel" id="panel-seguranca">
+        <div class="panel-title">Segurança</div>
+        <div class="info-card">
+          <div class="info-card-header">
+            <div class="info-card-title">Alterar Password</div>
+          </div>
+          <div class="form-group"><label>Password Atual</label><input type="password" placeholder="••••••••"></div>
+          <div class="form-group"><label>Nova Password</label><input type="password" placeholder="••••••••"></div>
+          <div class="form-group"><label>Confirmar Nova Password</label><input type="password" placeholder="••••••••">
+          </div>
+          <div style="margin-top:.5rem">
+            <button class="btn-save" onclick="showNotif('Password alterada com sucesso.')">Alterar Password</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
   </div>
-  <div class="footer-bottom">
-    <span class="footer-bottom-left">&copy; 2025 FormaFantasia. Todos os direitos reservados.</span>
-    <div class="payment-icons">
-      <span class="payment-icon">MB WAY</span>
-      <span class="payment-icon">Multibanco</span>
-      <span class="payment-icon">Transf. Bancária</span>
-      <span class="payment-icon">PayPal</span>
+
+  <footer>
+    <div class="footer-main">
+      <div class="footer-col">
+        <div class="footer-col-title">Aplicações</div>
+        <ul>
+          <li><a href="aplicar-papel.html">Aplicar Papel De Parede</a></li>
+          <li><a href="aplicar-paineis.html">Aplicar Painéis Decorativos</a></li>
+          <li><a href="aplicar-vinil.html">Aplicar Vinil Decorativo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Informação</div>
+        <ul>
+          <li><a href="condicoes.html">Condições De Uso</a></li>
+          <li><a href="sobre-nos.html">Sobre Nós</a></li>
+          <li><a href="pagamento-seguro.html">Pagamento Seguro</a></li>
+          <li><a href="contactos.html">Contactos</a></li>
+          <li><a href="devolucoes.html">Devoluções</a></li>
+          <li><a href="reclamacoes.html">Livro De Reclamações</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Área De Cliente</div>
+        <ul>
+          <li><a href="conta.html#informacao">Informação Pessoal</a></li>
+          <li><a href="conta.html#encomendas">Encomendas</a></li>
+          <li><a href="conta.html#moradas">Endereços</a></li>
+          <li><a href="conta.html#vales">Vales De Desconto</a></li>
+          <li><a href="cookies.html">Política De Cookies</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <div class="footer-col-title">Contacte-Nos</div>
+        <p>FormaFantasia<br>Rua Calouste Gulbenkian, Loja 28 Rch/Dirt<br>3080-084 Figueira Da Foz<br>Portugal — Coimbra
+        </p>
+        <p style="margin-top:.75rem">
+          <a href="tel:233429608">233 429 608</a> (Rede Fixa)<br>
+          <a href="tel:966092180">966 092 180</a> (Rede Móvel)<br>
+          <a href="mailto:Geral@Formafantasia.Pt">Geral@Formafantasia.Pt</a>
+        </p>
+      </div>
     </div>
-    <div class="secure-badges">
-      <span class="secure-badge">Loja Protegida SSL</span>
-      <span class="secure-badge">Comodo Secure</span>
+    <div class="footer-bottom">
+      <span class="footer-bottom-left">&copy; 2025 FormaFantasia. Todos os direitos reservados.</span>
+      <div class="payment-icons">
+        <span class="payment-icon">MB WAY</span>
+        <span class="payment-icon">Multibanco</span>
+        <span class="payment-icon">Transf. Bancária</span>
+        <span class="payment-icon">PayPal</span>
+      </div>
+      <div class="secure-badges">
+        <span class="secure-badge">Loja Protegida SSL</span>
+        <span class="secure-badge">Comodo Secure</span>
+      </div>
     </div>
-  </div>
-  <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
-</footer>
+    <div class="footer-credits">Website criado por Diogo Martins e Rafael Vieira</div>
+  </footer>
 
-<script src="../js/products.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/cart.js"></script>
-<script>
-const PROFILE_KEY = 'ff_profile';
-const ORDERS_KEY  = 'ff_orders';
+  <script src="../js/products.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/cart.js"></script>
+  <script>
+    const PROFILE_KEY = 'ff_profile';
+    const ORDERS_KEY = 'ff_orders';
 
-// Auth verificada via API no DOMContentLoaded
+    // Auth verificada via API no DOMContentLoaded
 
-// Cache local do perfil (preenchido pela API no DOMContentLoaded)
-let _profileCache = {};
-function loadProfile(){ return _profileCache; }
-function saveProfile(p){ _profileCache = p; }
-async function loadOrders(){
-  try {
-    const response = await fetch('/api/Encomendas/minhas', {credentials:'include'});
-    if(!response.ok) return [];
-    const encomendas = await response.json();
-    // Converter formato da API para o formato que o renderOrders espera
-    return encomendas.map(e => ({
-      number: '#FF-' + String(e.id).padStart(5,'0'),
-      date: new Date(e.data).toLocaleDateString('pt-PT', {day:'numeric', month:'long', year:'numeric'}),
-      status: e.estado === 'Pendente' ? 'processing' : e.estado === 'Enviado' ? 'shipped' : 'delivered',
-      total: e.itensEncomenda.reduce((s,i) => s + i.precoUnitario * i.quantidade, 0),
-      items: e.itensEncomenda.map(i => ({
-        name: i.produto?.nome || 'Produto',
-        ref: i.produto?.id || '',
-        qty: i.quantidade,
-        price: i.precoUnitario,
-        pattern: 'plain'
-      }))
-    }));
-  } catch(e) {
-    return [];
-  }
-}
-
-function fmt(n){ return Number(n).toFixed(2).replace('.',',') + ' €'; }
-
-async function initPage(){
-  // Buscar dados frescos à API
-  try {
-    const resp = await fetch('/api/Utilizadores/me', {credentials:'include'});
-    if(resp.ok){
-      const u = await resp.json();
-      _profileCache = {
-        firstName: u.nome || '',
-        lastName: u.apelido || '',
-        email: u.email || '',
-        phone: u.phoneNumber || '',
-        nif: u.nif || '',
-        address: u.morada ? {line: u.morada} : null
-      };
+    // Cache local do perfil (preenchido pela API no DOMContentLoaded)
+    let _profileCache = {};
+    function loadProfile() { return _profileCache; }
+    function saveProfile(p) { _profileCache = p; }
+    async function loadOrders() {
+      try {
+        const response = await fetch('/api/Encomendas/minhas', { credentials: 'include' });
+        if (!response.ok) return [];
+        const encomendas = await response.json();
+        // Converter formato da API para o formato que o renderOrders espera
+        return encomendas.map(e => ({
+          number: '#FF-' + String(e.id).padStart(5, '0'),
+          date: new Date(e.data).toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' }),
+          status: e.estado === 'Pendente' ? 'processing' : e.estado === 'Enviado' ? 'shipped' : 'delivered',
+          total: e.itensEncomenda.reduce((s, i) => s + i.precoUnitario * i.quantidade, 0),
+          items: e.itensEncomenda.map(i => ({
+            name: i.produto?.nome || 'Produto',
+            ref: i.produto?.id || '',
+            qty: i.quantidade,
+            price: i.precoUnitario,
+            pattern: 'plain'
+          }))
+        }));
+      } catch (e) {
+        return [];
+      }
     }
-  } catch(e) {}
 
-  const profile = loadProfile();
+    function fmt(n) { return Number(n).toFixed(2).replace('.', ',') + ' €'; }
 
-  // Popular hero com nome real
-  const heroName = document.getElementById('heroName');
-  const heroEmail = document.getElementById('heroEmail');
-  if(heroName){
-    const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(' ');
-    heroName.textContent = fullName || profile.email || 'A minha conta';
-  }
-  if(heroEmail) heroEmail.textContent = profile.email || '';
+    async function initPage() {
+      // Buscar dados frescos à API
+      try {
+        const resp = await fetch('/api/Utilizadores/me', { credentials: 'include' });
+        if (resp.ok) {
+          const u = await resp.json();
+          _profileCache = {
+            firstName: u.nome || '',
+            lastName: u.apelido || '',
+            email: u.email || '',
+            phone: u.phoneNumber || '',
+            nif: u.nif || '',
+            address: u.morada ? { line: u.morada } : null
+          };
+        }
+      } catch (e) { }
 
-  // Popular campos view e edit
-  const fields = ['firstName','lastName','email','phone','nif'];
-  fields.forEach(f => {
-    const el = document.getElementById('view-' + f);
-    const editEl = document.getElementById('edit-' + f);
-    if(el){ 
-      if(profile[f]){ el.textContent = profile[f]; el.classList.remove('placeholder'); }
-      else { el.textContent = '—'; }
+      const profile = loadProfile();
+
+      // Popular hero com nome real
+      const heroName = document.getElementById('heroName');
+      const heroEmail = document.getElementById('heroEmail');
+      if (heroName) {
+        const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(' ');
+        heroName.textContent = fullName || profile.email || 'A minha conta';
+      }
+      if (heroEmail) heroEmail.textContent = profile.email || '';
+
+      // Popular campos view e edit
+      const fields = ['firstName', 'lastName', 'email', 'phone', 'nif'];
+      fields.forEach(f => {
+        const el = document.getElementById('view-' + f);
+        const editEl = document.getElementById('edit-' + f);
+        if (el) {
+          if (profile[f]) { el.textContent = profile[f]; el.classList.remove('placeholder'); }
+          else { el.textContent = '—'; }
+        }
+        if (editEl && profile[f]) editEl.value = profile[f];
+      });
+      renderOrders();
+      renderAddress();
     }
-    if(editEl && profile[f]) editEl.value = profile[f];
-  });
-  renderOrders();
-  renderAddress();
-}
 
-async function renderOrders(){
-  const orders = await loadOrders();
-  const list = document.getElementById('ordersList');
-  if(!list) return;
-  if(orders.length === 0){
-    list.innerHTML = `<div class="empty-panel">
+    async function renderOrders() {
+      const orders = await loadOrders();
+      const list = document.getElementById('ordersList');
+      if (!list) return;
+      if (orders.length === 0) {
+        list.innerHTML = `<div class="empty-panel">
       <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
       <h3>Sem encomendas ainda</h3>
       <p>Depois de confirmares uma encomenda no checkout, ela aparece aqui. <a href="catalogo-hub.html" style="color:var(--gold)">Ver catálogo</a></p>
     </div>`;
-    return;
-  }
-  list.innerHTML = orders.map(o => {
-    const statusLabel = {processing:'Em processamento', shipped:'Em envio', delivered:'Entregue', cancelled:'Cancelada'}[o.status] || 'Em processamento';
-    const statusClass = {processing:'status-processing', shipped:'status-shipped', delivered:'status-delivered', cancelled:'status-cancelled'}[o.status] || 'status-processing';
-    const steps = ['Confirmada','Em Preparação','Em Envio','Entregue'];
-    const stepIdx = {processing:1, shipped:2, delivered:3, cancelled:0}[o.status] || 0;
-    return `
+        return;
+      }
+      list.innerHTML = orders.map(o => {
+        const statusLabel = { processing: 'Em processamento', shipped: 'Em envio', delivered: 'Entregue', cancelled: 'Cancelada' }[o.status] || 'Em processamento';
+        const statusClass = { processing: 'status-processing', shipped: 'status-shipped', delivered: 'status-delivered', cancelled: 'status-cancelled' }[o.status] || 'status-processing';
+        const steps = ['Confirmada', 'Em Preparação', 'Em Envio', 'Entregue'];
+        const stepIdx = { processing: 1, shipped: 2, delivered: 3, cancelled: 0 }[o.status] || 0;
+        return `
       <div class="order-card">
         <div class="order-card-header">
           <span class="order-num">${o.number}</span>
@@ -531,7 +1587,7 @@ async function renderOrders(){
         </div>
         <div class="tracking-bar">
           <div class="tracking-steps">
-            ${steps.map((s,i) => `
+            ${steps.map((s, i) => `
               <div class="tracking-step">
                 <div class="tracking-dot ${i < stepIdx ? 'done' : i === stepIdx ? 'current' : ''}">
                   ${i < stepIdx ? '<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>' : ''}
@@ -543,7 +1599,7 @@ async function renderOrders(){
         <div class="order-card-items">
           ${o.items.map(item => `
             <div class="order-item-row">
-              <div class="order-item-thumb" style="background:${patternStyles[item.pattern]||patternStyles.plain};background-size:cover"></div>
+              <div class="order-item-thumb" style="background:${patternStyles[item.pattern] || patternStyles.plain};background-size:cover"></div>
               <div class="order-item-info">
                 <div class="order-item-name">${item.name}</div>
                 <div class="order-item-ref">Ref. ${item.ref} · Qtd: ${item.qty}</div>
@@ -555,15 +1611,15 @@ async function renderOrders(){
           <button class="btn-reorder" onclick="showNotif('Produtos adicionados ao carrinho.')">Encomendar de novo</button>
         </div>
       </div>`;
-  }).join('');
-}
+      }).join('');
+    }
 
-function renderAddress(){
-  const profile = loadProfile();
-  const grid = document.getElementById('addressGrid');
-  if(!grid) return;
-  if(profile.address){
-    grid.innerHTML = `
+    function renderAddress() {
+      const profile = loadProfile();
+      const grid = document.getElementById('addressGrid');
+      if (!grid) return;
+      if (profile.address) {
+        grid.innerHTML = `
       <div class="address-card default">
         <span class="address-default-badge">Predefinida</span>
         <div class="address-name">${profile.firstName || ''} ${profile.lastName || ''}</div>
@@ -577,120 +1633,121 @@ function renderAddress(){
         <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
         Adicionar Morada
       </button>`;
-  }
-}
-
-function clearAddress(){
-  const p = loadProfile();
-  delete p.address;
-  saveProfile(p);
-  renderAddress();
-  showNotif('Morada removida.');
-}
-
-function showPanel(id){
-  document.querySelectorAll('.account-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.account-nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  const labels = ['encomendas','informacao','moradas','vales','seguranca'];
-  const idx = labels.indexOf(id);
-  const navItems = document.querySelectorAll('.account-nav-item');
-  if(idx > -1 && navItems[idx]) navItems[idx].classList.add('active');
-  if(id === 'encomendas') window.location.hash = 'encomendas';
-}
-
-function toggleEditMode(section){
-  document.getElementById(section + '-view').style.display = 'none';
-  document.getElementById(section + '-edit').style.display = 'block';
-}
-
-function cancelEdit(section){
-  document.getElementById(section + '-view').style.display = 'block';
-  document.getElementById(section + '-edit').style.display = 'none';
-}
-
-async function saveSection(section){
-  if(section === 'personal'){
-    const nome = document.getElementById('edit-firstName')?.value.trim() || '';
-    const apelido = document.getElementById('edit-lastName')?.value.trim() || '';
-    const phone = document.getElementById('edit-phone')?.value.trim() || '';
-    const nif = document.getElementById('edit-nif')?.value.trim() || '';
-    const morada = _profileCache.address?.line || '';
-    try {
-      const resp = await fetch('/api/Utilizadores/me', {
-        method: 'PUT',
-        headers: {'Content-Type':'application/json'},
-        credentials: 'include',
-        body: JSON.stringify({nome, apelido, phoneNumber: phone, nif, morada})
-      });
-      if(!resp.ok) throw new Error('Erro ao guardar');
-    } catch(e) {
-      showNotif('Erro ao guardar. Tenta novamente.');
-      return;
+      }
     }
-    await initPage();
-  }
-  cancelEdit(section);
-  showNotif('Informação guardada com sucesso.');
-}
 
-async function handleLogout(){
-  sessionStorage.removeItem(PROFILE_KEY);
-  // Fazer POST ao endpoint de logout do ASP.NET Identity
-  try {
-    const tokenResp = await fetch('/Identity/Account/Logout', {credentials:'include'});
-    const html = await tokenResp.text();
-    const match = html.match(/name="__RequestVerificationToken"[^>]*value="([^"]+)"/);
-    if(match){
-      const fd = new FormData();
-      fd.append('__RequestVerificationToken', match[1]);
-      await fetch('/Identity/Account/Logout?returnUrl=%2Fpages%2Findex.html', {
-        method:'POST', body:fd, credentials:'include', redirect:'manual'
-      });
+    function clearAddress() {
+      const p = loadProfile();
+      delete p.address;
+      saveProfile(p);
+      renderAddress();
+      showNotif('Morada removida.');
     }
-  } catch(e){}
-  showNotif('Sessão terminada.');
-  setTimeout(() => { window.location.href = '/pages/index.html'; }, 1200);
-}
 
-let notifTimer;
-function showNotif(msg){
-  clearTimeout(notifTimer);
-  const t = document.getElementById('notifToast');
-  document.getElementById('notifMsg').textContent = msg;
-  t.classList.add('show');
-  notifTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-document.addEventListener('DOMContentLoaded', async function(){
-  // Verificar se está logado via API
-  let authData = null;
-  try {
-    const auth = await fetch('/api/Utilizadores/auth', {credentials:'include'});
-    authData = await auth.json();
-    if(!authData.isAuthenticated) {
-      window.location.href = '/pages/login.html?redirect=conta.html';
-      return;
+    function showPanel(id) {
+      document.querySelectorAll('.account-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.account-nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      const labels = ['encomendas', 'informacao', 'moradas', 'vales', 'seguranca'];
+      const idx = labels.indexOf(id);
+      const navItems = document.querySelectorAll('.account-nav-item');
+      if (idx > -1 && navItems[idx]) navItems[idx].classList.add('active');
+      if (id === 'encomendas') window.location.hash = 'encomendas';
     }
-  } catch(e) {
-    window.location.href = '/pages/login.html?redirect=conta.html';
-    return;
-  }
 
-  // Popular o hero com o nome vindo da API (atualizado depois pelo initPage)
-  if(authData){
-    const heroName = document.getElementById('heroName');
-    const heroEmail = document.getElementById('heroEmail');
-    const fullName = [authData.nome, authData.apelido].filter(Boolean).join(' ');
-    if(heroName) heroName.textContent = fullName || authData.email || 'A minha conta';
-    if(heroEmail) heroEmail.textContent = authData.email || '';
-  }
+    function toggleEditMode(section) {
+      document.getElementById(section + '-view').style.display = 'none';
+      document.getElementById(section + '-edit').style.display = 'block';
+    }
 
-  if(window.location.hash === '#encomendas') showPanel('encomendas');
-  initPage();
-  updateCartUI();
-  updateWishlistUI();
-});
-</script>
+    function cancelEdit(section) {
+      document.getElementById(section + '-view').style.display = 'block';
+      document.getElementById(section + '-edit').style.display = 'none';
+    }
+
+    async function saveSection(section) {
+      if (section === 'personal') {
+        const nome = document.getElementById('edit-firstName')?.value.trim() || '';
+        const apelido = document.getElementById('edit-lastName')?.value.trim() || '';
+        const phone = document.getElementById('edit-phone')?.value.trim() || '';
+        const nif = document.getElementById('edit-nif')?.value.trim() || '';
+        const morada = _profileCache.address?.line || '';
+        try {
+          const resp = await fetch('/api/Utilizadores/me', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ nome, apelido, phoneNumber: phone, nif, morada })
+          });
+          if (!resp.ok) throw new Error('Erro ao guardar');
+        } catch (e) {
+          showNotif('Erro ao guardar. Tenta novamente.');
+          return;
+        }
+        await initPage();
+      }
+      cancelEdit(section);
+      showNotif('Informação guardada com sucesso.');
+    }
+
+    async function handleLogout() {
+      sessionStorage.removeItem(PROFILE_KEY);
+      // Fazer POST ao endpoint de logout do ASP.NET Identity
+      try {
+        const tokenResp = await fetch('/Identity/Account/Logout', { credentials: 'include' });
+        const html = await tokenResp.text();
+        const match = html.match(/name="__RequestVerificationToken"[^>]*value="([^"]+)"/);
+        if (match) {
+          const fd = new FormData();
+          fd.append('__RequestVerificationToken', match[1]);
+          await fetch('/Identity/Account/Logout?returnUrl=%2Fpages%2Findex.html', {
+            method: 'POST', body: fd, credentials: 'include', redirect: 'manual'
+          });
+        }
+      } catch (e) { }
+      showNotif('Sessão terminada.');
+      setTimeout(() => { window.location.href = '/pages/index.html'; }, 1200);
+    }
+
+    let notifTimer;
+    function showNotif(msg) {
+      clearTimeout(notifTimer);
+      const t = document.getElementById('notifToast');
+      document.getElementById('notifMsg').textContent = msg;
+      t.classList.add('show');
+      notifTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', async function () {
+      // Verificar se está logado via API
+      let authData = null;
+      try {
+        const auth = await fetch('/api/Utilizadores/auth', { credentials: 'include' });
+        authData = await auth.json();
+        if (!authData.isAuthenticated) {
+          window.location.href = '/pages/login.html?redirect=conta.html';
+          return;
+        }
+      } catch (e) {
+        window.location.href = '/pages/login.html?redirect=conta.html';
+        return;
+      }
+
+      // Popular o hero com o nome vindo da API (atualizado depois pelo initPage)
+      if (authData) {
+        const heroName = document.getElementById('heroName');
+        const heroEmail = document.getElementById('heroEmail');
+        const fullName = [authData.nome, authData.apelido].filter(Boolean).join(' ');
+        if (heroName) heroName.textContent = fullName || authData.email || 'A minha conta';
+        if (heroEmail) heroEmail.textContent = authData.email || '';
+      }
+
+      if (window.location.hash === '#encomendas') showPanel('encomendas');
+      initPage();
+      updateCartUI();
+      updateWishlistUI();
+    });
+  </script>
 </body>
+
 </html>
